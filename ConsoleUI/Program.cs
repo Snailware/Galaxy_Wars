@@ -38,10 +38,10 @@ namespace ConsoleUI
 				Galaxy.ActionStatement = "ONLY YOU CAN SAVE THE GALAXY!";
 				// set intro action statement. 
 
-				// TODO init new weapons list.
-				// TODO init new potions list.
-				// TODO init new treasures list.
-				// TODO init new items list.
+				// TODO fill weapons list.
+				// TODO fill potions list.
+				// TODO fill treasures list.
+				// TODO fill items list.
 				
 				RunGameplayLoop();
 			}
@@ -68,7 +68,8 @@ namespace ConsoleUI
 						break;
 					case "continue":
 						//RunLoadCharMenuLoop();
-						// TODO write this path.
+						// TODO write path to load a saved character and
+						// gamestate from storage.
 						break;
 					case "about":
 						CallAboutMenu();
@@ -106,20 +107,106 @@ namespace ConsoleUI
 
 			void RunGameplayLoop()
 			{
-
-				string input;
-				// vars.
+				string[] tokenized_input;
 
 				do
 				{
-					input = CallGameplayFrame();
+					string input = CallGameplayFrame();
 					// display frame & get input.
 
-					// TODO DECISION STRUCT.
+					tokenized_input = input.Split(null);
+					// seperate input into array, delimited by white space.
 
+					switch (tokenized_input[0])
+					{
+						case "go":
+							switch (tokenized_input[1])
+							{
+								case "north":
+									if (Galaxy.Player.Location < 4 &&
+										Galaxy.Planets[Galaxy.Player.Location].Alien.Health == 0)
+									{
+										Galaxy.ActionStatement = "YOU GO NORTH.";
+										Galaxy.Player.Location++;
+									} 
+									else if (Galaxy.Player.Location < 4)
+									{
+										Galaxy.ActionStatement = $"YOU CANT PROCEED UNTIL YOU LIBERATE {Galaxy.Planets[Galaxy.Player.Location].Name} FROM {Galaxy.Planets[Galaxy.Player.Location].Alien.Name}";
+									}
+									else if (Galaxy.Planets[Galaxy.Player.Location].Alien.Health == 0)
+									{
+										Galaxy.ActionStatement = "THERE ARE NO MORE PLANETS. GO SOUTH OR USE WARP TO TRAVEL FURTHER.";
+									}
+									break;
+								// move character north if able. update
+								// action statement accordingly.
 
+								case "south":
+									if (Galaxy.Player.Location > 0)
+									{
+										Galaxy.ActionStatement = "YOU GO SOUTH.";
+										Galaxy.Player.Location++;
+									}
+									else
+									{
+										Galaxy.ActionStatement = "THERE ARE NO MORE PLANETS. GO NORTH OR USE WARP TO TRAVEL FURTHER.";
+									}
+									break;
+								// move character south if able. update
+								// action statement accordingly.
 
-				} while (input != "exit");
+								case "east":
+									Galaxy.ActionStatement = "THERE IS ONLY EMPTY SPACE THAT WAY.";
+									break;
+								// update action statement for attempted
+								// eastward movement accordingly.
+
+								case "west":
+									Galaxy.ActionStatement = "THERE IS ONLY EMPTY SPACE THAT WAY.";
+									break;
+								// update action statement for attempted
+								// westward movement accordingly.
+
+								default:
+									Galaxy.ActionStatement = "INVALID DIRECTION COMMAND.";
+									break;
+								// alert user to invalid direction input.
+							}
+							break;
+						// handle GO commands.
+
+						case "attack":
+							if (Galaxy.Planets[Galaxy.Player.Location].Alien.Health > 0)
+							{
+								// TODO add combat call with player character & local alien.
+								// TODO add increment to player score if alien is dead after combat.
+							}
+							else
+							{
+								Galaxy.ActionStatement = "ITS ALREADY DEAD. ONWARD!";
+							}
+							break;
+						// handle ATTACK command.
+
+						// TODO add case for WARP command.
+						// TODO add case for LOOK command.
+						// TODO add case for USE command.
+						// TODO add case for PICKUP command.
+						// TODO add case for DROP command.
+						// TODO add case for HELP command.
+
+						case "exit":
+							break;
+						// handle EXIT command.
+
+						default:
+							Galaxy.ActionStatement = "INVALID COMMAND.";
+							break;
+						// handle invalid commands.
+					}
+					// decision struct.
+
+				} while (tokenized_input[0] != "exit");
 			}
 			// main gameplay loop & decision struct.
 
@@ -358,56 +445,55 @@ namespace ConsoleUI
 				}
 				// set position for course display. 
 
-				score = String.Format("{0, 3}", score);
-				planetName = String.Format("{0, -30}", planetName);
-				planetPopulation = String.Format("{0, -30}", planetPopulation);
-				planetItems = String.Format("{0, -30}", planetItems);
-				planetWeapons = String.Format("{0, -30}", planetWeapons);
-				planetTreasures = String.Format("{0, -30}", planetTreasures);
-				planetPotions = String.Format("{0, -30}", planetPotions);
-				actionStatement = String.Format("{0, -75}", actionStatement);
-				playerName = String.Format("{0, -75}", playerName);
-				playerClass = String.Format("{0, -18}", playerClass);
-				playerHealth = String.Format("{0, -14}", playerHealth);
-				pos1 = String.Format("{0, -6}", $"  {pos1}");
-				pos2 = String.Format("{0, -6}", $"  {pos2}");
-				pos3 = String.Format("{0, -6}", $"  {pos3}");
-				pos4 = String.Format("{0, -6}", $"  {pos4}");
-				pos5 = String.Format("{0, -6}", $"  {pos5}");
-				alienHealth = String.Format("{0, 30}", alienHealth);
-				alienName = String.Format("{0, 30}", alienName);
+				score = String.Format("{0, 3}", score);							//
+				planetName = String.Format("{0, -30}", planetName);				//
+				planetPopulation = String.Format("{0, -18}", planetPopulation);	//
+				planetItems = String.Format("{0, -30}", planetItems);			//
+				planetWeapons = String.Format("{0, -30}", planetWeapons);		//
+				planetTreasures = String.Format("{0, -30}", planetTreasures);	//
+				planetPotions = String.Format("{0, -30}", planetPotions);		//
+				actionStatement = String.Format("{0, -75}", actionStatement);	//
+				playerName = String.Format("{0, -75}", playerName);				//
+				playerClass = String.Format("{0, -18}", playerClass);			//
+				playerHealth = String.Format("{0, -14}", playerHealth);			//
+				pos1 = String.Format("{0, -6}", $"  {pos1}");					//
+				pos2 = String.Format("{0, -6}", $"  {pos2}");					//
+				pos3 = String.Format("{0, -6}", $"  {pos3}");					//
+				pos4 = String.Format("{0, -6}", $"  {pos4}");					//
+				pos5 = String.Format("{0, -6}", $"  {pos5}");					//
+				alienHealth = String.Format("{0, 13}", alienHealth);			//
+				alienName = String.Format("{0, 30}", alienName);				//
 				// format strings for proper display. 
-				// TODO adjust these for proper display.
 
 				string[] mainGameFrame =
 				{
-					@"                                GALAXY WARS                                ",
+					@"                                GALAXY WARS                                ",		// 1
 					$"     .                           SCORE: {score}       ,                        ",
 					@"            *                          ,                      .            ",
 					@"PLANET    ,              .                      .                     ALIEN",
-					$"{planetName}                         ,                          {alienName}",
+					$"{planetName}       ,       {alienName}",											// 5
 					$"{planetPopulation}    ,                            *          {alienHealth}",
 					@"   .                                                      .                ",
 					@"LOCAL ITEMS    ,                               .                        ,  ",
-					$"{planetItems}                                                        COURSE",
-					$"                        *                                ,           {pos5}",
+					$"{planetItems}                                       COURSE",
+					$"                        *                                ,           {pos5}",		// 10
 					@"LOCAL WEAPONS    .                  .                                , |   ",
-					$"{planetWeapons}                                                      {pos4}",
+					$"{planetWeapons}                                       {pos4}",
 					@" ,                                       ,      .                      |   ",
 					$"LOCAL TREASURES          .                                 .         {pos3}",
-					$"{planetTreasures}                                                      |   ",
+					$"{planetTreasures}                                         |   ",					// 15
 					$"          .                        .             *                   {pos2}",
 					@"LOCAL POTIONS               ,                         .                |   ",
-					$"{planetPotions}                                                      {pos1}",
+					$"{planetPotions}                                       {pos1}",
 					@".                                 *                             ,          ",
-					@"               ,                             .         .                   ",
+					@"               ,                             .         .                   ",		// 20
 					@"---------------------------------------------------------------------------",
-					$"{actionStatement}                                                          ",
+					$"{actionStatement}",
 					@"---------------------------------------------------------------------------",
-					$"{playerName}                                                               ",
-					$"{playerClass}       ENTER A COMMAND, OR 'HELP' FOR INFO                    ",
+					$"{playerName}",
+					$"{playerClass}  ENTER A COMMAND, OR 'HELP' FOR INFO                    ",			// 25
 					$"{playerHealth}                                                             ",
-					@"---------------------------------------------------------------------------"
+					@"---------------------------------------------------------------------------"		// 27
 				};
 				// main gameplay frame.
 
