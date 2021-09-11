@@ -17,7 +17,7 @@ namespace GalaxyWarsClassLibrary
 		private static List<Potion> _potions = new List<Potion>();
 		private static List<Treasure> _treasures = new List<Treasure>();
 		private static List<Item> _items = new List<Item>();
-		private static List<Alien> _aliens;
+		private static List<Alien> _aliens = new List<Alien>();
 		private static string _actionStatement;
 		// fields. 
 
