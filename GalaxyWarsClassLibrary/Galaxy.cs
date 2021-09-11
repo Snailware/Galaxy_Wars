@@ -18,6 +18,7 @@ namespace GalaxyWarsClassLibrary
 		private static List<Treasure> _treasures;
 		private static List<Item> _items;
 		private static List<Alien> _aliens;
+		private static string _actionStatement;
 		// fields. 
 
 		/// <summary>
@@ -75,6 +76,15 @@ namespace GalaxyWarsClassLibrary
 		public static List<Alien> Aliens
 		{
 			get { return _aliens; }
+		}
+
+		/// <summary>
+		/// statement describing most recent occurance.
+		/// </summary>
+		public static string ActionStatement
+		{
+			get { return _actionStatement; }
+			set { _actionStatement = value; }
 		}
 		// props.
 
