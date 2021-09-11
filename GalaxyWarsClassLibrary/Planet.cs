@@ -13,6 +13,15 @@ namespace GalaxyWarsClassLibrary
 	{
 		private string _name,
 					   _description;
+
+		private int _population;
+
+		private Alien _alien;
+
+		private List<Weapon> _weapons;
+		private List<Potion> _potions;
+		private List<Item> _items;
+		private List<Treasure> _treasures;
 		// fields.
 
 		/// <summary>
@@ -20,10 +29,22 @@ namespace GalaxyWarsClassLibrary
 		/// </summary>
 		/// <param name="planetName">name of planet.</param>
 		/// <param name="planetDescription">description of planet.</param>
-		public Planet(string planetName, string planetDescription)
+		/// <param name="population">population of planet.</param>
+		public Planet(string planetName, 
+					  string planetDescription, 
+					  int population,
+					  Alien alien)
 		{
 			_name = planetName;
 			_description = planetDescription;
+			_population = population;
+
+			_alien = alien;
+
+			_weapons = new List<Weapon>();
+			_potions = new List<Potion>();
+			_items = new List<Item>();
+			_treasures = new List<Treasure>();
 		}
 		// constructors.
 
@@ -41,6 +62,60 @@ namespace GalaxyWarsClassLibrary
 		public string Description
 		{
 			get { return _description; }
+		}
+
+		/// <summary>
+		/// polulation of planet.
+		/// </summary>
+		public int Population
+		{
+			get { return _population; }
+			set { _population = value; }
+		}
+
+		/// <summary>
+		/// hostile alien occupying the planet.
+		/// </summary>
+		public Alien Alien
+		{
+			get { return _alien; }
+			set { _alien = value; }
+		}
+
+		/// <summary>
+		/// list of local weapons.
+		/// </summary>
+		public List<Weapon> Weapons
+		{
+			get { return _weapons; }
+			set { _weapons = value; }
+		}
+
+		/// <summary>
+		/// list of local potions.
+		/// </summary>
+		public List<Potion> Potions
+		{
+			get { return _potions; }
+			set { _potions = value; }
+		}
+
+		/// <summary>
+		/// list of local items.
+		/// </summary>
+		public List<Item> Items
+		{
+			get { return _items; }
+			set { _items = value; }
+		}
+
+		/// <summary>
+		/// list of local treasures.
+		/// </summary>
+		public List<Treasure> Treasures
+		{
+			get { return _treasures; }
+			set { _treasures = value; }
 		}
 		// props.
 		
@@ -149,7 +224,11 @@ namespace GalaxyWarsClassLibrary
 			string secondaryName = secondaryNames[random.Next(0, secondaryNames.Length - 1)];
 			string generatedName = $"{primaryName}-{secondaryName}";
 			string description = descriptions[random.Next(0, descriptions.Length - 1)];
-			return new Planet(generatedName, description);
+			int population = random.Next(3, 999999999);
+			return new Planet(planetName: generatedName, 
+							  planetDescription: description,
+							  population: population,
+							  alien: Alien.Generate());
 			// create and return a random planet obj.
 		}
 		// methods.
