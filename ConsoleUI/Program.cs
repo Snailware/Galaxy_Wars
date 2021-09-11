@@ -382,7 +382,7 @@ namespace ConsoleUI
 				string[] mainGameFrame =
 				{
 					@"                                GALAXY WARS                                ",
-					$"     .                           SCORE: {score}       ,                    ",
+					$"     .                           SCORE: {score}       ,                        ",
 					@"            *                          ,                      .            ",
 					@"PLANET    ,              .                      .                     ALIEN",
 					$"{planetName}                         ,                          {alienName}",
