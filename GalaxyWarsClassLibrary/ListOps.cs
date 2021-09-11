@@ -29,7 +29,7 @@ namespace GalaxyWarsClassLibrary
 			}
 			// create and fill list with weapon names.
 
-			return GetElements(nameList, delimiter, maxLength);
+			return GetStrings(nameList, delimiter, maxLength);
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace GalaxyWarsClassLibrary
 			}
 			// create and fill list with potion names.
 
-			return GetElements(nameList, delimiter, maxLength);
+			return GetStrings(nameList, delimiter, maxLength);
 		}
 
 		/// <summary>
@@ -71,7 +71,7 @@ namespace GalaxyWarsClassLibrary
 			}
 			// create and fill list with treasure names.
 
-			return GetElements(nameList, delimiter, maxLength);
+			return GetStrings(nameList, delimiter, maxLength);
 		}
 
 		/// <summary>
@@ -92,7 +92,7 @@ namespace GalaxyWarsClassLibrary
 			}
 			// create and fill list with item names.
 
-			return GetElements(nameList, delimiter, maxLength);
+			return GetStrings(nameList, delimiter, maxLength);
 		}
 
 		/// <summary>
