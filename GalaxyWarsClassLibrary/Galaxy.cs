@@ -12,12 +12,13 @@ namespace GalaxyWarsClassLibrary
 	public static class Galaxy
 	{
 		private static Player _player;
-		private static List<Planet> _planets;
-		private static List<Weapon> _weapons;
-		private static List<Potion> _potions;
-		private static List<Treasure> _treasures;
-		private static List<Item> _items;
-		private static List<Alien> _aliens;
+		private static List<Planet> _planets = new List<Planet>();
+		private static List<Weapon> _weapons = new List<Weapon>();
+		private static List<Potion> _potions = new List<Potion>();
+		private static List<Treasure> _treasures = new List<Treasure>();
+		private static List<Item> _items = new List<Item>();
+		private static List<Alien> _aliens = new List<Alien>();
+		private static string _actionStatement;
 		// fields. 
 
 		/// <summary>
@@ -26,6 +27,7 @@ namespace GalaxyWarsClassLibrary
 		public static Player Player
 		{
 			get { return _player; }
+			set { _player = value; }
 		}
 
 		/// <summary>
@@ -42,6 +44,7 @@ namespace GalaxyWarsClassLibrary
 		public static List<Weapon> Weapons
 		{
 			get { return _weapons; }
+			set { _weapons = value; }
 		}
 
 		/// <summary>
@@ -74,6 +77,15 @@ namespace GalaxyWarsClassLibrary
 		public static List<Alien> Aliens
 		{
 			get { return _aliens; }
+		}
+
+		/// <summary>
+		/// statement describing most recent occurance.
+		/// </summary>
+		public static string ActionStatement
+		{
+			get { return _actionStatement; }
+			set { _actionStatement = value; }
 		}
 		// props.
 

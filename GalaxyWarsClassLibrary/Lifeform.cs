@@ -12,8 +12,7 @@ namespace GalaxyWarsClassLibrary
 	public abstract class Lifeform
 	{
 		protected string _name;
-		protected int _health,
-					  _location;
+		protected int _health;
 		protected Weapon _weapon;
 		protected List<Potion> _potionInventory;
 		protected List<Treasure> _treasureInventory;
@@ -35,16 +34,6 @@ namespace GalaxyWarsClassLibrary
 		{
 			get { return _health; }
 			set { _health = value; }
-		}
-
-		/// <summary>
-		/// location of life form. should refer to planets list subscript in
-		/// Galaxy.
-		/// </summary>
-		public int Location
-		{
-			get { return _location; }
-			set { _location = value; }
 		}
 
 		/// <summary>
