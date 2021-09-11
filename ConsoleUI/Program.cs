@@ -411,6 +411,20 @@ namespace ConsoleUI
 				};
 				// main gameplay frame.
 
+				foreach (string line in mainGameFrame)
+				{
+					foreach (char character in line)
+					{
+						if (character == '*')
+						{
+							Console.ForegroundColor = ConsoleColor.DarkYellow;
+						}
+						Console.Write(character);
+						Console.ResetColor();
+					}
+				}
+				// display frame with styling.
+
 				return Console.ReadLine().ToLower();
 				// get input and convert to lowercase. 
 			}
