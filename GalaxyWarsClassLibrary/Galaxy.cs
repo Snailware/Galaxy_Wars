@@ -26,6 +26,7 @@ namespace GalaxyWarsClassLibrary
 		public static Player Player
 		{
 			get { return _player; }
+			set { _player = value; }
 		}
 
 		/// <summary>
@@ -89,6 +90,7 @@ namespace GalaxyWarsClassLibrary
 			}
 			Player.Location = 0;
 		}
+		// TODO move this.
 		// methods.
 	}
 }
