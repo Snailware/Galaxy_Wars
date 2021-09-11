@@ -84,122 +84,13 @@ namespace ConsoleUI
 
 			void RunGameplayLoop()
 			{
-				const int MaxLength = 30;
-				const char Delimiter = ',';
-				// consts.
 
-				string input,
-					   actionStatement = "ONLY YOU CAN SAVE THE GALAXY!";
+				string input;
 				// vars.
 
 				do
 				{
-					string pos1 = "O",
-						   pos2 = "O",
-						   pos3 = "O",
-						   pos4 = "O",
-						   pos5 = "O",
-						   planetName = Galaxy.Planets[Galaxy.Player.Location].Name,
-						   playerName = Galaxy.Player.Name,
-						   playerClass = Galaxy.Player.PlayerClass,
-						   alienName = Galaxy.Aliens[Galaxy.Player.Location].Name,
-						   score = Galaxy.Player.Score.ToString(),
-						   planetPopulation = Galaxy.Planets[Galaxy.Player.Location].Population.ToString(),
-						   playerHealth = Galaxy.Player.Health.ToString(),
-						   alienHealth = Galaxy.Planets[Galaxy.Player.Location].Alien.Health.ToString(),
-					// get state info and convert to string if needed.
-
-						   planetItems = ListOps.GetLimitedElements(items: Galaxy.Planets[Galaxy.Player.Location].Items,
-																	delimiter: Delimiter,
-																	maxLength: MaxLength),
-
-					       planetWeapons = ListOps.GetLimitedElements(weapons: Galaxy.Planets[Galaxy.Player.Location].Weapons,
-																      delimiter: Delimiter,
-																      maxLength: MaxLength),
-
-					       planetTreasures = ListOps.GetLimitedElements(treasures: Galaxy.Planets[Galaxy.Player.Location].Treasures,
-																		delimiter: Delimiter,
-																		maxLength: MaxLength),
-
-						   planetPotions = ListOps.GetLimitedElements(potions: Galaxy.Planets[Galaxy.Player.Location].Potions,
-																	  delimiter: Delimiter,
-																	  maxLength: MaxLength);
-					// get display-ready lists.
-
-					switch (Galaxy.Player.Location)
-					{
-						case 0:
-							pos1 = "X";
-							break;
-						case 1:
-							pos2 = "X";
-							break;
-						case 2:
-							pos3 = "X";
-							break;
-						case 3:
-							pos4 = "X";
-							break;
-						case 4:
-							pos5 = "X";
-							break;
-					}
-					// set position for course display. 
-
-					score = String.Format("{0, 3}", score);
-					planetName = String.Format("{0, -30}", planetName);
-					planetPopulation = String.Format("{0, -30}", planetPopulation);
-					planetItems = String.Format("{0, -30}", planetItems);
-					planetWeapons = String.Format("{0, -30}", planetWeapons);
-					planetTreasures = String.Format("{0, -30}", planetTreasures);
-					planetPotions = String.Format("{0, -30}", planetPotions);
-					actionStatement = String.Format("{0, -75}", actionStatement);
-					playerName = String.Format("{0, -75}", playerName);
-					playerClass = String.Format("{0, -18}", playerClass);
-					playerHealth = String.Format("{0, -14}", playerHealth);
-					pos1 = String.Format("{0, -6}", $"  {pos1}");
-					pos2 = String.Format("{0, -6}", $"  {pos2}");
-					pos3 = String.Format("{0, -6}", $"  {pos3}");
-					pos4 = String.Format("{0, -6}", $"  {pos4}");
-					pos5 = String.Format("{0, -6}", $"  {pos5}");
-					alienHealth = String.Format("{0, 30}", alienHealth);
-					alienName = String.Format("{0, 30}", alienName);
-					// format strings for proper display. 
-
-					string[] mainGameFrame =
-					{
-						@"                                GALAXY WARS                                ",
-						$"     .                           SCORE: {score}       ,                    ",
-						@"            *                          ,                      .            ",
-						@"PLANET    ,              .                      .                     ALIEN",
-						$"{planetName}                         ,                          {alienName}",
-						$"{planetPopulation}    ,                            *          {alienHealth}",
-						@"   .                                                      .                ",
-						@"LOCAL ITEMS    ,                               .                        ,  ",
-						$"{planetItems}                                                        COURSE",
-						$"                        *                                ,           {pos5}",
-						@"LOCAL WEAPONS    .                  .                                , |   ",
-						$"{planetWeapons}                                                      {pos4}",
-						@" ,                                       ,      .                      |   ",
-						$"LOCAL TREASURES          .                                 .         {pos3}",
-						$"{planetTreasures}                                                      |   ",
-						$"          .                        .             *                   {pos2}",
-						@"LOCAL POTIONS               ,                         .                |   ",
-						$"{planetPotions}                                                      {pos1}",
-						@".                                 *                             ,          ",
-						@"               ,                             .         .                   ",
-						@"---------------------------------------------------------------------------",
-						$"{actionStatement}                                                          ",
-						@"---------------------------------------------------------------------------",
-						$"{playerName}                                                               ",
-						$"{playerClass}       ENTER A COMMAND, OR 'HELP' FOR INFO                    ",
-						$"{playerHealth}                                                             ",
-						@"---------------------------------------------------------------------------"
-					};
-
-
-					input = Console.ReadLine().ToLower();
-					// get input and convert to lowercase. 
+					input = CallGameplayFrame();
 
 
 					// TODO DECISION STRUCT
@@ -208,6 +99,7 @@ namespace ConsoleUI
 
 				} while (input != "exit");
 			}
+			// main gameplay loop & decision struct.
 
 			void CallAboutMenu()
 			{
@@ -227,6 +119,86 @@ namespace ConsoleUI
 				// return to start menu.
 			}
 			// display about menu & wait for response.
+
+			void CallCharCreationSequenceMenu()
+			{
+				string charName = "",
+					   charPassword = "",
+					   charRace = "",
+					   charClass = "";
+				// character attribute vars.
+
+				bool containsCapital = false,
+					 containsLowercase = false,
+					 containsSpecialChar = false;
+				// valid password flags.
+
+				charName = CallDynamicMenu(line1: $"NAME: {charName}",
+										   line2: $"PASSWORD: {charPassword}",
+										   line3: $"RACE: {charRace}",
+										   line4: $"CLASS: {charClass}",
+										   prompt: "enter NAME");
+				// get name input.
+
+				do
+				{
+					charPassword = CallDynamicMenu(line1: $"NAME: {charName}",
+												   line2: $"PASSWORD: {charPassword}",
+												   line3: $"RACE: {charRace}",
+												   line4: $"CLASS: {charClass}",
+												   prompt: "enter PASSWORD with atleast 1 cap, 1 lowercase, & 1 special.");
+					// get password input.
+
+					foreach (char character in charPassword)
+					{
+						if (char.IsUpper(character))
+						{
+							containsCapital = true;
+						}
+						else if (char.IsLower(character))
+						{
+							containsLowercase = true;
+						}
+						else if (!char.IsLetterOrDigit(character))
+						{
+							containsSpecialChar = true;
+						}
+					}
+					// check password for validity and set flags accordingly.
+
+				} while (!containsCapital ||
+						 !containsLowercase ||
+						 !containsSpecialChar);
+				// get validated password input.
+
+				charRace = CallDynamicMenu(line1: $"NAME: {charName}",
+										   line2: $"PASSWORD: {charPassword}",
+										   line3: $"RACE: {charRace}",
+										   line4: $"CLASS: {charClass}",
+										   prompt: "enter RACE");
+				// get race input.
+
+				charClass = CallDynamicMenu(line1: $"NAME: {charName}",
+											line2: $"PASSWORD: {charPassword}",
+											line3: $"RACE: {charRace}",
+											line4: $"CLASS: {charClass}",
+											prompt: "enter CLASS");
+				// get class input.
+
+				Galaxy.Player = new Player(name: charName,
+										   race: charRace,
+										   playerClass: charClass,
+										   password: charPassword,
+										   health: 50,
+										   location: 0,
+										   score: 0,
+										   weaponInventory: new List<Weapon> { Galaxy.Weapons[0] },
+										   potionInventory: new List<Potion> { Galaxy.Potions[0] },
+										   treasureInventory: new List<Treasure>(),
+										   itemInventory: new List<Item>());
+				// create and store character object based on user input.
+			}
+			// display character creation menu & store created character.
 
 			string CallStartMenu()
 			{
@@ -305,86 +277,123 @@ namespace ConsoleUI
 			}
 			// display start menu & return user input.
 
-			void CallCharCreationSequenceMenu()
+			string CallGameplayFrame()
 			{
-				string charName = "",
-					   charPassword = "",
-					   charRace = "",
-					   charClass = "";
-				// character attribute vars.
+				const int MaxLength = 30;
+				const char Delimiter = ',';
+				// consts.
 
-				bool containsCapital = false,
-					 containsLowercase = false,
-					 containsSpecialChar = false;
-				// valid password flags.
+				string pos1 = "O",
+					   pos2 = "O",
+					   pos3 = "O",
+					   pos4 = "O",
+					   pos5 = "O",
+					   planetName = Galaxy.Planets[Galaxy.Player.Location].Name,
+					   playerName = Galaxy.Player.Name,
+					   playerClass = Galaxy.Player.PlayerClass,
+					   alienName = Galaxy.Aliens[Galaxy.Player.Location].Name,
+					   score = Galaxy.Player.Score.ToString(),
+					   planetPopulation = Galaxy.Planets[Galaxy.Player.Location].Population.ToString(),
+					   playerHealth = Galaxy.Player.Health.ToString(),
+					   alienHealth = Galaxy.Planets[Galaxy.Player.Location].Alien.Health.ToString(),
+					   actionStatement = Galaxy.ActionStatement,
+				// get state info and convert to string if needed.
 
-				charName = CallDynamicMenu(line1: $"NAME: {charName}",
-										   line2: $"PASSWORD: {charPassword}",
-										   line3: $"RACE: {charRace}",
-										   line4: $"CLASS: {charClass}",
-										   prompt: "enter NAME");
-				// get name input.
+			           planetItems = ListOps.GetLimitedElements(items: Galaxy.Planets[Galaxy.Player.Location].Items,
+																delimiter: Delimiter,
+																maxLength: MaxLength),
 
-				do
+					   planetWeapons = ListOps.GetLimitedElements(weapons: Galaxy.Planets[Galaxy.Player.Location].Weapons,
+																  delimiter: Delimiter,
+																  maxLength: MaxLength),
+
+					   planetTreasures = ListOps.GetLimitedElements(treasures: Galaxy.Planets[Galaxy.Player.Location].Treasures,
+																	delimiter: Delimiter,
+																	maxLength: MaxLength),
+
+					   planetPotions = ListOps.GetLimitedElements(potions: Galaxy.Planets[Galaxy.Player.Location].Potions,
+															      delimiter: Delimiter,
+															      maxLength: MaxLength);
+				// get display-ready lists.
+
+				switch (Galaxy.Player.Location)
 				{
-					charPassword = CallDynamicMenu(line1: $"NAME: {charName}",
-												   line2: $"PASSWORD: {charPassword}",
-												   line3: $"RACE: {charRace}",
-												   line4: $"CLASS: {charClass}",
-												   prompt: "enter PASSWORD with atleast 1 cap, 1 lowercase, & 1 special.");
-					// get password input.
+					case 0:
+						pos1 = "X";
+						break;
+					case 1:
+						pos2 = "X";
+						break;
+					case 2:
+						pos3 = "X";
+						break;
+					case 3:
+						pos4 = "X";
+						break;
+					case 4:
+						pos5 = "X";
+						break;
+				}
+				// set position for course display. 
 
-					foreach (char character in charPassword)
-					{
-						if (char.IsUpper(character))
-						{
-							containsCapital = true;
-						}
-						else if (char.IsLower(character))
-						{
-							containsLowercase = true;
-						}
-						else if (!char.IsLetterOrDigit(character))
-						{
-							containsSpecialChar = true;
-						}
-					}
-					// check password for validity and set flags accordingly.
+				score = String.Format("{0, 3}", score);
+				planetName = String.Format("{0, -30}", planetName);
+				planetPopulation = String.Format("{0, -30}", planetPopulation);
+				planetItems = String.Format("{0, -30}", planetItems);
+				planetWeapons = String.Format("{0, -30}", planetWeapons);
+				planetTreasures = String.Format("{0, -30}", planetTreasures);
+				planetPotions = String.Format("{0, -30}", planetPotions);
+				actionStatement = String.Format("{0, -75}", actionStatement);
+				playerName = String.Format("{0, -75}", playerName);
+				playerClass = String.Format("{0, -18}", playerClass);
+				playerHealth = String.Format("{0, -14}", playerHealth);
+				pos1 = String.Format("{0, -6}", $"  {pos1}");
+				pos2 = String.Format("{0, -6}", $"  {pos2}");
+				pos3 = String.Format("{0, -6}", $"  {pos3}");
+				pos4 = String.Format("{0, -6}", $"  {pos4}");
+				pos5 = String.Format("{0, -6}", $"  {pos5}");
+				alienHealth = String.Format("{0, 30}", alienHealth);
+				alienName = String.Format("{0, 30}", alienName);
+				// format strings for proper display. 
+				// TODO adjust these for proper display.
 
-				} while (!containsCapital ||
-						 !containsLowercase ||
-						 !containsSpecialChar);
-				// get validated password input.
+				string[] mainGameFrame =
+				{
+					@"                                GALAXY WARS                                ",
+					$"     .                           SCORE: {score}       ,                    ",
+					@"            *                          ,                      .            ",
+					@"PLANET    ,              .                      .                     ALIEN",
+					$"{planetName}                         ,                          {alienName}",
+					$"{planetPopulation}    ,                            *          {alienHealth}",
+					@"   .                                                      .                ",
+					@"LOCAL ITEMS    ,                               .                        ,  ",
+					$"{planetItems}                                                        COURSE",
+					$"                        *                                ,           {pos5}",
+					@"LOCAL WEAPONS    .                  .                                , |   ",
+					$"{planetWeapons}                                                      {pos4}",
+					@" ,                                       ,      .                      |   ",
+					$"LOCAL TREASURES          .                                 .         {pos3}",
+					$"{planetTreasures}                                                      |   ",
+					$"          .                        .             *                   {pos2}",
+					@"LOCAL POTIONS               ,                         .                |   ",
+					$"{planetPotions}                                                      {pos1}",
+					@".                                 *                             ,          ",
+					@"               ,                             .         .                   ",
+					@"---------------------------------------------------------------------------",
+					$"{actionStatement}                                                          ",
+					@"---------------------------------------------------------------------------",
+					$"{playerName}                                                               ",
+					$"{playerClass}       ENTER A COMMAND, OR 'HELP' FOR INFO                    ",
+					$"{playerHealth}                                                             ",
+					@"---------------------------------------------------------------------------"
+				};
+				// main gameplay frame.
 
-				charRace = CallDynamicMenu(line1: $"NAME: {charName}",
-										   line2: $"PASSWORD: {charPassword}",
-						                   line3: $"RACE: {charRace}",
-						                   line4: $"CLASS: {charClass}",
-						                   prompt: "enter RACE");
-				// get race input.
-
-				charClass = CallDynamicMenu(line1: $"NAME: {charName}",
-											line2: $"PASSWORD: {charPassword}",
-											line3: $"RACE: {charRace}",
-											line4: $"CLASS: {charClass}",
-											prompt: "enter CLASS");
-				// get class input.
-
-				Galaxy.Player = new Player(name: charName,
-										   race: charRace,
-										   playerClass: charClass,
-										   password: charPassword,
-										   health: 50,
-										   location: 0,
-										   score: 0,
-										   weaponInventory:  new List<Weapon> { Galaxy.Weapons[0] },
-										   potionInventory: new List<Potion> { Galaxy.Potions[0]},
-										   treasureInventory: new List<Treasure>(),
-										   itemInventory: new List<Item>());
-				// create and store character object based on user input.
+				return Console.ReadLine().ToLower();
+				// get input and convert to lowercase. 
 			}
-			// display character creation menu and store created character.
-
+			// display gameplay frame & get user input.
+			
 			string CallDynamicMenu(string line1 = "",
 								   string line2 = "",
 								   string line3 = "",
@@ -407,14 +416,14 @@ namespace ConsoleUI
 				}
 				// throw exception if any args exceed intended length.
 
-				line1 = string.Format("{0, -57}", line1);
-				line2 = string.Format("{0, -57}", line2);
-				line3 = string.Format("{0, -57}", line3);
-				line4 = string.Format("{0, -57}", line4);
-				line5 = string.Format("{0, -57}", line5);
-				line6 = string.Format("{0, -57}", line6);
-				line7 = string.Format("{0, -57}", line7);
-				prompt = string.Format("{0, -57}", prompt);
+				line1 = String.Format("{0, -57}", line1);
+				line2 = String.Format("{0, -57}", line2);
+				line3 = String.Format("{0, -57}", line3);
+				line4 = String.Format("{0, -57}", line4);
+				line5 = String.Format("{0, -57}", line5);
+				line6 = String.Format("{0, -57}", line6);
+				line7 = String.Format("{0, -57}", line7);
+				prompt = String.Format("{0, -57}", prompt);
 				// format all strings for appropriate viewing.
 
 				string[] dynamicMenu =
