@@ -24,6 +24,28 @@ namespace ConsoleUI
 				RunStartMenuLoop();
 			}
 			// setup console window & start game.
+
+			void CreateNewGameState()
+			{
+				Galaxy.DiscoverPlanets();
+				foreach (Planet planet in Galaxy.Planets)
+				{
+					Galaxy.Aliens.Add(planet.Alien);
+				}
+				// TODO remove this if alien master list not required.
+				// load fresh planets with aliens, while also filling list.
+
+				Galaxy.ActionStatement = "ONLY YOU CAN SAVE THE GALAXY!";
+				// set intro action statement. 
+
+				// TODO init new weapons list.
+				// TODO init new potions list.
+				// TODO init new treasures list.
+				// TODO init new items list.
+				
+				RunGameplayLoop();
+			}
+			// generate game objects for new game.
 			
 			void RunStartMenuLoop()
 			{
@@ -78,9 +100,9 @@ namespace ConsoleUI
 				} while (!valid);
 				// call menu and validate user input. 
 
-				RunGameplayLoop();
+				CreateNewGameState();
 			}
-			// char creation menu loop & decision struct.
+			// char creation menu loop.
 
 			void RunGameplayLoop()
 			{
@@ -91,9 +113,9 @@ namespace ConsoleUI
 				do
 				{
 					input = CallGameplayFrame();
+					// display frame & get input.
 
-
-					// TODO DECISION STRUCT
+					// TODO DECISION STRUCT.
 
 
 
@@ -194,8 +216,8 @@ namespace ConsoleUI
 										   score: 0,
 										   weaponInventory: new List<Weapon> { Galaxy.Weapons[0] },
 										   potionInventory: new List<Potion> { Galaxy.Potions[0] },
-										   treasureInventory: new List<Treasure>(),
-										   itemInventory: new List<Item>());
+										   treasureInventory: new List<Treasure> {Galaxy.Treasures[0] },
+										   itemInventory: new List<Item> { Galaxy.Items[0]});
 				// create and store character object based on user input.
 			}
 			// display character creation menu & store created character.
