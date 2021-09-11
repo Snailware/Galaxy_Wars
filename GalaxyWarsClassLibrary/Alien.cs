@@ -29,7 +29,6 @@ namespace GalaxyWarsClassLibrary
 		public Alien(string name,
 					 string description, 
 					 int health,
-					 int location,
 					 Weapon weapon,
 					 List<Potion> potionInventory,
 					 List<Treasure> treasureInventory,
@@ -38,7 +37,6 @@ namespace GalaxyWarsClassLibrary
 			_name = name;
 			_description = description;
 			_health = health;
-			_location = location;
 			_weapon = weapon;
 			_potionInventory = potionInventory;
 			_treasureInventory = treasureInventory;
@@ -56,11 +54,10 @@ namespace GalaxyWarsClassLibrary
 		// props.
 
 		/// <summary>
-		/// generate a semi random alien obj at the desired location.
+		/// generate & return a semi random alien obj.
 		/// </summary>
-		/// <param name="location">location to give generated alien.</param>
 		/// <returns>randomized alien obj.</returns>
-		public static Alien GenerateAt(int location)
+		public static Alien Generate()
 		{
 			const int MinHealth = 8,
 					  MaxHealth = 13;
@@ -149,14 +146,13 @@ namespace GalaxyWarsClassLibrary
 			}
 			// randomly add 1 piece of loot to inventory.
 
-			return new Alien(names[random.Next(0, names.Length - 1)],
-							 descriptions[random.Next(0, descriptions.Length - 1)],
-							 random.Next(MinHealth, MaxHealth),
-							 location,
-							 Galaxy.Weapons[random.Next(0, Galaxy.Weapons.Count - 1)],
-							 potionLoot,
-							 treasureLoot,
-							 itemLoot);
+			return new Alien(name: names[random.Next(0, names.Length - 1)],
+							 description: descriptions[random.Next(0, descriptions.Length - 1)],
+							 health: random.Next(MinHealth, MaxHealth),
+							 weapon: Galaxy.Weapons[random.Next(0, Galaxy.Weapons.Count - 1)],
+							 potionInventory: potionLoot,
+							 treasureInventory: treasureLoot,
+							 itemInventory: itemLoot);
 			// create new alien according to constraints and return obj.
 		}
 		// methods.
