@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GalaxyWarsClassLibrary;
 
 namespace ConsoleUI
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main()
 		{
 			void StartGame()
 			{
@@ -36,7 +37,7 @@ namespace ConsoleUI
 						 choice != "continue" &&
 						 choice != "about" &&
 						 choice != "exit");
-				// call main menu and validate use input. 
+				// call main menu and get valid use input. 
 
 				switch (choice)
 				{
@@ -51,6 +52,7 @@ namespace ConsoleUI
 						CallAboutMenu();
 						break;
 					case "exit":
+						Environment.Exit(0);
 						break;
 				}
 				// proceed according to user input.
@@ -59,20 +61,157 @@ namespace ConsoleUI
 
 			void RunCharCreationMenuLoop()
 			{
-				bool choice;
+				bool valid = false;
 				// var for user input. 
 
 				do
 				{
-					choice = CallCharCreationMenu();
-				} while (!choice);
+					try
+					{
+						CallCharCreationSequenceMenu();
+						valid = true;
+					}
+					catch
+					{
+						continue;
+					}
+				} while (!valid);
 				// call menu and validate user input. 
+
+				RunGameplayLoop();
 			}
 			// char creation menu loop & decision struct.
 
+			void RunGameplayLoop()
+			{
+				const int MaxLength = 30;
+				const char Delimiter = ',';
+				// consts.
+
+				string input,
+					   actionStatement = "ONLY YOU CAN SAVE THE GALAXY!";
+				// vars.
+
+				do
+				{
+					string pos1 = "O",
+						   pos2 = "O",
+						   pos3 = "O",
+						   pos4 = "O",
+						   pos5 = "O",
+						   planetName = Galaxy.Planets[Galaxy.Player.Location].Name,
+						   playerName = Galaxy.Player.Name,
+						   playerClass = Galaxy.Player.PlayerClass,
+						   alienName = Galaxy.Aliens[Galaxy.Player.Location].Name,
+						   score = Galaxy.Player.Score.ToString(),
+						   planetPopulation = Galaxy.Planets[Galaxy.Player.Location].Population.ToString(),
+						   playerHealth = Galaxy.Player.Health.ToString(),
+						   alienHealth = Galaxy.Planets[Galaxy.Player.Location].Alien.Health.ToString(),
+					// get state info and convert to string if needed.
+
+						   planetItems = ListOps.GetLimitedElements(items: Galaxy.Planets[Galaxy.Player.Location].Items,
+																	delimiter: Delimiter,
+																	maxLength: MaxLength),
+
+					       planetWeapons = ListOps.GetLimitedElements(weapons: Galaxy.Planets[Galaxy.Player.Location].Weapons,
+																      delimiter: Delimiter,
+																      maxLength: MaxLength),
+
+					       planetTreasures = ListOps.GetLimitedElements(treasures: Galaxy.Planets[Galaxy.Player.Location].Treasures,
+																		delimiter: Delimiter,
+																		maxLength: MaxLength),
+
+						   planetPotions = ListOps.GetLimitedElements(potions: Galaxy.Planets[Galaxy.Player.Location].Potions,
+																	  delimiter: Delimiter,
+																	  maxLength: MaxLength);
+					// get display-ready lists.
+
+					switch (Galaxy.Player.Location)
+					{
+						case 0:
+							pos1 = "X";
+							break;
+						case 1:
+							pos2 = "X";
+							break;
+						case 2:
+							pos3 = "X";
+							break;
+						case 3:
+							pos4 = "X";
+							break;
+						case 4:
+							pos5 = "X";
+							break;
+					}
+					// set position for course display. 
+
+					score = String.Format("{0, 3}", score);
+					planetName = String.Format("{0, -30}", planetName);
+					planetPopulation = String.Format("{0, -30}", planetPopulation);
+					planetItems = String.Format("{0, -30}", planetItems);
+					planetWeapons = String.Format("{0, -30}", planetWeapons);
+					planetTreasures = String.Format("{0, -30}", planetTreasures);
+					planetPotions = String.Format("{0, -30}", planetPotions);
+					actionStatement = String.Format("{0, -75}", actionStatement);
+					playerName = String.Format("{0, -75}", playerName);
+					playerClass = String.Format("{0, -18}", playerClass);
+					playerHealth = String.Format("{0, -14}", playerHealth);
+					pos1 = String.Format("{0, -6}", $"  {pos1}");
+					pos2 = String.Format("{0, -6}", $"  {pos2}");
+					pos3 = String.Format("{0, -6}", $"  {pos3}");
+					pos4 = String.Format("{0, -6}", $"  {pos4}");
+					pos5 = String.Format("{0, -6}", $"  {pos5}");
+					alienHealth = String.Format("{0, 30}", alienHealth);
+					alienName = String.Format("{0, 30}", alienName);
+					// format strings for proper display. 
+
+					string[] mainGameFrame =
+					{
+						@"                                GALAXY WARS                                ",
+						$"     .                           SCORE: {score}       ,                    ",
+						@"            *                          ,                      .            ",
+						@"PLANET    ,              .                      .                     ALIEN",
+						$"{planetName}                         ,                          {alienName}",
+						$"{planetPopulation}    ,                            *          {alienHealth}",
+						@"   .                                                      .                ",
+						@"LOCAL ITEMS    ,                               .                        ,  ",
+						$"{planetItems}                                                        COURSE",
+						$"                        *                                ,           {pos5}",
+						@"LOCAL WEAPONS    .                  .                                , |   ",
+						$"{planetWeapons}                                                      {pos4}",
+						@" ,                                       ,      .                      |   ",
+						$"LOCAL TREASURES          .                                 .         {pos3}",
+						$"{planetTreasures}                                                      |   ",
+						$"          .                        .             *                   {pos2}",
+						@"LOCAL POTIONS               ,                         .                |   ",
+						$"{planetPotions}                                                      {pos1}",
+						@".                                 *                             ,          ",
+						@"               ,                             .         .                   ",
+						@"---------------------------------------------------------------------------",
+						$"{actionStatement}                                                          ",
+						@"---------------------------------------------------------------------------",
+						$"{playerName}                                                               ",
+						$"{playerClass}       ENTER A COMMAND, OR 'HELP' FOR INFO                    ",
+						$"{playerHealth}                                                             ",
+						@"---------------------------------------------------------------------------"
+					};
+
+
+					input = Console.ReadLine().ToLower();
+					// get input and convert to lowercase. 
+
+
+					// TODO DECISION STRUCT
+
+
+
+				} while (input != "exit");
+			}
+
 			void CallAboutMenu()
 			{
-				string line1 = "Fight hostile aliens to liberate occupied planets. Save                     ",
+				string line1 = "Fight hostile aliens to liberate occupied planets. Save",
 					   line2 = "as many worlds as possible to earn a high score!",
 					   line6 = "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
 					   prompt = "press [ENTER] to return";
@@ -166,7 +305,7 @@ namespace ConsoleUI
 			}
 			// display start menu & return user input.
 
-			string CallCharCreationMenu()
+			void CallCharCreationSequenceMenu()
 			{
 				string charName = "",
 					   charPassword = "",
@@ -230,8 +369,21 @@ namespace ConsoleUI
 											line4: $"CLASS: {charClass}",
 											prompt: "enter CLASS");
 				// get class input.
+
+				Galaxy.Player = new Player(name: charName,
+										   race: charRace,
+										   playerClass: charClass,
+										   password: charPassword,
+										   health: 50,
+										   location: 0,
+										   score: 0,
+										   weaponInventory:  new List<Weapon> { Galaxy.Weapons[0] },
+										   potionInventory: new List<Potion> { Galaxy.Potions[0]},
+										   treasureInventory: new List<Treasure>(),
+										   itemInventory: new List<Item>());
+				// create and store character object based on user input.
 			}
-			// display character creation menu and return user input.
+			// display character creation menu and store created character.
 
 			string CallDynamicMenu(string line1 = "",
 								   string line2 = "",
@@ -255,14 +407,14 @@ namespace ConsoleUI
 				}
 				// throw exception if any args exceed intended length.
 
-				line1 = String.Format("{0, -57}", line1);
-				line2 = String.Format("{0, -57}", line2);
-				line3 = String.Format("{0, -57}", line3);
-				line4 = String.Format("{0, -57}", line4);
-				line5 = String.Format("{0, -57}", line5);
-				line6 = String.Format("{0, -57}", line6);
-				line7 = String.Format("{0, -57}", line7);
-				prompt = String.Format("{0, -57}", prompt);
+				line1 = string.Format("{0, -57}", line1);
+				line2 = string.Format("{0, -57}", line2);
+				line3 = string.Format("{0, -57}", line3);
+				line4 = string.Format("{0, -57}", line4);
+				line5 = string.Format("{0, -57}", line5);
+				line6 = string.Format("{0, -57}", line6);
+				line7 = string.Format("{0, -57}", line7);
+				prompt = string.Format("{0, -57}", prompt);
 				// format all strings for appropriate viewing.
 
 				string[] dynamicMenu =
