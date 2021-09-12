@@ -39,8 +39,24 @@ namespace ConsoleUI
 				// set intro action statement. 
 
 				// TODO fill weapons list.
+				Galaxy.Weapon.Add(new Weapon("Phasers");
+				Galaxy.Weapon.Add(new Weapon("Pulse Cannons");
+				Galaxy.Weapon.Add(new Weapon("Disruptors")
+				Galaxy.Weapon.Add(new Weapon("Assault Rifles");
+				Galaxy.Weapon.Add(new Weapon("Carbines");
+				Galaxy.Weapon.Add(new Weapon("Rocket Launchers");
+				Galaxy.Weapon.Add(new Weapon("Raikous");
+				Galaxy.Weapon.Add(new Weapon("Stingers");
 				// TODO fill potions list.
+				Galaxy.Potion.Add(new Potion("Kryptonite");
+				Galaxy.Potion.Add(new Potion("Agent Yellow");
+				Galaxy.Potion.Add(new Potion("Cynochrin");
+				Galaxy.Potion.Add(new Potion("Soltoxin");
 				// TODO fill treasures list.
+				Galaxy.Treasure.Add(new Treasure("Silver Star");
+				Galaxy.Treasure.Add(new Treasure("Black Star");
+				
+						    
 				// TODO fill items list.
 				
 				RunGameplayLoop();
