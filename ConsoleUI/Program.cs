@@ -68,8 +68,7 @@ namespace ConsoleUI
 						break;
 					case "continue":
 						//RunLoadCharMenuLoop();
-						// TODO write path to load a saved character and
-						// gamestate from storage.
+						// TODO write path to load a saved character and gamestate from storage.
 						break;
 					case "about":
 						CallAboutMenu();
