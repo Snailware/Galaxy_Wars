@@ -28,12 +28,23 @@ namespace GalaxyWarsClassLibrary
 		}
 
 		/// <summary>
-		/// health points of life form.
+		/// health points of life form. cant go below 0.
 		/// </summary>
 		public int Health
 		{
 			get { return _health; }
-			set { _health = value; }
+			set 
+			{ 
+				if (value >= 0)
+				{
+					_health = value;
+				}
+				else
+				{
+					_health = 0;
+				}
+				// dont allow health to go below 0.
+			}
 		}
 
 		/// <summary>
