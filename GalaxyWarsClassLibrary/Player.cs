@@ -17,8 +17,6 @@ namespace GalaxyWarsClassLibrary
 
 		private int _location,
 					_score;
-
-		private List<Weapon> _weaponInventory;
 		// fields.
 
 		/// <summary>
@@ -105,15 +103,6 @@ namespace GalaxyWarsClassLibrary
 		{
 			get { return _score; }
 			set { _score = value; }
-		}
-
-		/// <summary>
-		/// weapon inventory of character.
-		/// </summary>
-		public List<Weapon> WeaponInventory
-		{
-			get { return _weaponInventory; }
-			set { _weaponInventory = value; }
 		}
 		// props.
 	}

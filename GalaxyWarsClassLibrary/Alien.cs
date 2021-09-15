@@ -29,7 +29,7 @@ namespace GalaxyWarsClassLibrary
 		public Alien(string name,
 					 string description, 
 					 int health,
-					 Weapon weapon,
+					 List<Weapon> weaponInventory,
 					 List<Potion> potionInventory,
 					 List<Treasure> treasureInventory,
 					 List<Item> itemInventory)
@@ -37,7 +37,8 @@ namespace GalaxyWarsClassLibrary
 			_name = name;
 			_description = description;
 			_health = health;
-			_weapon = weapon;
+			_weaponInventory = weaponInventory;
+			_weapon = _weaponInventory[0];
 			_potionInventory = potionInventory;
 			_treasureInventory = treasureInventory;
 			_itemInventory = itemInventory;
@@ -149,7 +150,7 @@ namespace GalaxyWarsClassLibrary
 			return new Alien(name: names[random.Next(0, names.Length - 1)],
 							 description: descriptions[random.Next(0, descriptions.Length - 1)],
 							 health: random.Next(MinHealth, MaxHealth),
-							 weapon: Galaxy.Weapons[random.Next(0, Galaxy.Weapons.Count - 1)],
+							 weaponInventory: new List<Weapon> { Galaxy.Weapons[random.Next(0, Galaxy.Weapons.Count - 1)] },
 							 potionInventory: potionLoot,
 							 treasureInventory: treasureLoot,
 							 itemInventory: itemLoot);

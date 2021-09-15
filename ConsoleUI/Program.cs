@@ -39,26 +39,10 @@ namespace ConsoleUI
 				// set intro action statement. 
 
 				// TODO fill weapons list.
-				Galaxy.Weapon.Add(new Weapon("Phasers"));
-				Galaxy.Weapon.Add(new Weapon("Pulse Cannons"));
-				Galaxy.Weapon.Add(new Weapon("Disruptors"));
-				Galaxy.Weapon.Add(new Weapon("Assault Rifles"));
-				Galaxy.Weapon.Add(new Weapon("Carbines"));
-				Galaxy.Weapon.Add(new Weapon("Rocket Launchers"));
-				Galaxy.Weapon.Add(new Weapon("Raikous"));
-				Galaxy.Weapon.Add(new Weapon("Stingers"));
 				
 				// TODO fill potions list.
-				Galaxy.Potion.Add(new Potion("Kryptonite"));
-				Galaxy.Potion.Add(new Potion("Agent Yellow"));
-				Galaxy.Potion.Add(new Potion("Cynochrin"));
-				Galaxy.Potion.Add(new Potion("Soltoxin"));
 				
-				// TODO fill treasures list.
-				Galaxy.Treasure.Add(new Treasure("Silver Star"));
-				Galaxy.Treasure.Add(new Treasure("Black Star"));
-				Galaxy.Treasure.Add(new Treasure("Iron Cross"));
-				
+				// TODO fill treasures list.		
 						    
 				// TODO fill items list.
 				
@@ -231,17 +215,13 @@ namespace ConsoleUI
 
 			void CallAboutMenu()
 			{
-				string line1 = "Fight hostile aliens to liberate occupied planets. Save",
-					   line2 = "as many worlds as possible to earn a high score!",
-					   line6 = "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
-					   prompt = "press [ENTER] to return";
-				// info to display.
-
-				CallDynamicMenu(line1: line1,
-								line2: line2,
-								line6: line6,
-								prompt: prompt);
-				// display dynamic menu and wait for ENTER.
+				CallDynamicMenu(line1: "Fight hostile aliens to liberate occupied planets. Save",
+								line2: "as many worlds as possible to earn a high score! Locate",
+								line3: "the Warp Drive to travel to new galaxies. Beware, new",
+								line4: "galaxies hold more dangerous threats.",
+								line6: "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
+								prompt: "press [ENTER] to return");
+				// display dynamic about menu and wait for ENTER.
 
 				RunStartMenuLoop();
 				// return to start menu.

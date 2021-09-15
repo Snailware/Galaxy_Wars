@@ -14,6 +14,7 @@ namespace GalaxyWarsClassLibrary
 		protected string _name;
 		protected int _health;
 		protected Weapon _weapon;
+		protected List<Weapon> _weaponInventory;
 		protected List<Potion> _potionInventory;
 		protected List<Treasure> _treasureInventory;
 		protected List<Item> _itemInventory;
@@ -54,6 +55,14 @@ namespace GalaxyWarsClassLibrary
 		{
 			get { return _weapon; }
 			set { _weapon = value; }
+		}
+
+		/// <summary>
+		/// weapon inventory of character.
+		/// </summary>
+		public List<Weapon> WeaponInventory
+		{
+			get { return _weaponInventory; }
 		}
 
 		/// <summary>
