@@ -38,13 +38,61 @@ namespace ConsoleUI
 				Galaxy.ActionStatement = "ONLY YOU CAN SAVE THE GALAXY!";
 				// set intro action statement. 
 
-				// TODO fill weapons list.
+				Galaxy.Weapons.Add(new Weapon("Phasers",
+											  "handheld personal defense weapon", 
+											  2));
+
+				Galaxy.Weapons.Add(new Weapon("Pulse Cannons",
+											  "Cannon",
+											  3));
+
+				Galaxy.Weapons.Add(new Weapon("Disruptors", 
+											 "powerful weapon that destroys hulls",
+											 4));
+
+				Galaxy.Weapons.Add(new Weapon("Assault Rifles", 
+											  "A rifle capable of automatic fire.",
+											  5));
+				//Loaded weapons
 				
-				// TODO fill potions list.
 				
-				// TODO fill treasures list.		
-						    
-				// TODO fill items list.
+				
+				Galaxy.Potions.Add(new Potion("Kryptonite",
+											  "Glowing green potion that infigurates you.",
+											  5));
+
+				Galaxy.Potions.Add(new Potion("Health Potion",
+											  "A bright red potion that revitalizes you.",
+											  10));
+				//Loaded potions
+				
+				
+				Galaxy.Treasures.Add(new Treasure("Silver Star",
+												  "A valuable star made of pure silver.",
+												  100));
+
+				Galaxy.Treasures.Add(new Treasure("Black Star",
+												  "A beautiful black star made of titanium.",
+												  150));
+
+				Galaxy.Treasures.Add(new Treasure("Iron Cross",
+												  "A cross made of iron.",
+												  200));
+				//Loaded treasures
+
+				
+				Galaxy.Items.Add(new Item("Rusty Coin",
+										  "An old coin with no value."));
+
+				Galaxy.Items.Add(new Item("Childs Doll",
+										  "A doll that reminds you of home."));
+
+				Galaxy.Items.Add(new Item("Old Ring",
+										  "A simple ring tarnished by time."));
+
+				Galaxy.Items.Add(new Item("Strange Key",
+										  "A key  to an unknown lock."));
+				//Loaded items
 				
 				
 				RunGameplayLoop();
@@ -215,13 +263,17 @@ namespace ConsoleUI
 
 			void CallAboutMenu()
 			{
-				CallDynamicMenu(line1: "Fight hostile aliens to liberate occupied planets. Save",
-								line2: "as many worlds as possible to earn a high score! Locate",
-								line3: "the Warp Drive to travel to new galaxies. Beware, new",
-								line4: "galaxies hold more dangerous threats.",
-								line6: "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
-								prompt: "press [ENTER] to return");
-				// display dynamic about menu and wait for ENTER.
+				string line1 = "Fight hostile aliens to liberate occupied planets. Save",
+					   line2 = "as many worlds as possible to earn a high score!",
+					   line6 = "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
+					   prompt = "press [ENTER] to return";
+				// info to display.
+
+				CallDynamicMenu(line1: line1,
+								line2: line2,
+								line6: line6,
+								prompt: prompt);
+				// display dynamic menu and wait for ENTER.
 
 				RunStartMenuLoop();
 				// return to start menu.
