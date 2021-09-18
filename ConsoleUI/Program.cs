@@ -263,16 +263,10 @@ namespace ConsoleUI
 
 			void CallAboutMenu()
 			{
-				string line1 = "Fight hostile aliens to liberate occupied planets. Save",
-					   line2 = "as many worlds as possible to earn a high score!",
-					   line6 = "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
-					   prompt = "press [ENTER] to return";
-				// info to display.
-
-				CallDynamicMenu(line1: line1,
-								line2: line2,
-								line6: line6,
-								prompt: prompt);
+				CallDynamicMenu(line1: "Fight hostile aliens to liberate occupied planets. Save",
+								line2: "as many worlds as possible to earn a high score!",
+								line6: "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
+								prompt: "press [ENTER] to return");
 				// display dynamic menu and wait for ENTER.
 
 				RunStartMenuLoop();
