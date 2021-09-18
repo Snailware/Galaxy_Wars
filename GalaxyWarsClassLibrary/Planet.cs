@@ -220,16 +220,34 @@ namespace GalaxyWarsClassLibrary
 			Random random = new Random();
 			// random nubmer generator.
 
-			string primaryName = primaryNames[random.Next(0, primaryNames.Length - 1)];
-			string secondaryName = secondaryNames[random.Next(0, secondaryNames.Length - 1)];
+			string primaryName = primaryNames[random.Next(0, primaryNames.GetUpperBound(0))];
+			string secondaryName = secondaryNames[random.Next(0, secondaryNames.GetUpperBound(0))];
 			string generatedName = $"{primaryName}-{secondaryName}";
-			string description = descriptions[random.Next(0, descriptions.Length - 1)];
+			string description = descriptions[random.Next(0, descriptions.GetUpperBound(0))];
 			int population = random.Next(3, 999999999);
 			return new Planet(planetName: generatedName, 
 							  planetDescription: description,
 							  population: population,
 							  alien: Alien.Generate());
 			// create and return a random planet obj.
+		}
+
+		/// <summary>
+		/// create empty space planet obj.
+		/// </summary>
+		/// <returns>empty space planet obj.</returns>
+		public static Planet Space()
+		{
+			return new Planet("Space",
+							  "A welcome respite from your adventures.",
+							  0,
+							  new Alien("None",
+										"None",
+										0,
+										new List<Weapon>(),
+										new List<Potion>(),
+										new List<Treasure>(),
+										new List<Item>()));
 		}
 		// methods.
 	}
