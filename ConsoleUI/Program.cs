@@ -27,14 +27,6 @@ namespace ConsoleUI
 
 			void CreateNewGameState()
 			{
-				Galaxy.DiscoverPlanets();
-				foreach (Planet planet in Galaxy.Planets)
-				{
-					Galaxy.Aliens.Add(planet.Alien);
-				}
-				// TODO remove this if alien master list not required.
-				// load fresh planets with aliens, while also filling list.
-
 				Galaxy.ActionStatement = "ONLY YOU CAN SAVE THE GALAXY!";
 				// set intro action statement. 
 
@@ -93,9 +85,17 @@ namespace ConsoleUI
 				Galaxy.Items.Add(new Item("Strange Key",
 										  "A key  to an unknown lock."));
 				//Loaded items
-				
-				
-				RunGameplayLoop();
+
+				RunCharCreationMenuLoop();
+				// create new character.
+
+				Galaxy.LoadNewPlanets();
+				foreach (Planet planet in Galaxy.Planets)
+				{
+					Galaxy.Aliens.Add(planet.Alien);
+				}
+				// TODO remove this if alien master list not required.
+				// load fresh planets with aliens, while also filling list.
 			}
 			// generate game objects for new game.
 			
@@ -106,7 +106,7 @@ namespace ConsoleUI
 
 				do
 				{
-					choice = CallStartMenu();
+					choice = CallStartMenu().ToLower();
 				} while (choice != "new game" &&
 						 choice != "continue" &&
 						 choice != "about" &&
@@ -116,18 +116,27 @@ namespace ConsoleUI
 				switch (choice)
 				{
 					case "new game":
-						RunCharCreationMenuLoop();
+						CreateNewGameState();
+						RunGameplayLoop();
 						break;
+						// create new game state, create character and start playing.
+
 					case "continue":
 						//RunLoadCharMenuLoop();
-						// TODO write path to load a saved character and gamestate from storage.
+						// TODO write path to load a saved character & gamestate from storage.
 						break;
+						// load character & game state from storage & start playing.
+
 					case "about":
 						CallAboutMenu();
+						RunStartMenuLoop();
 						break;
+						// display about menu then return here.
+
 					case "exit":
 						Environment.Exit(0);
 						break;
+						// exit program.
 				}
 				// proceed according to user input.
 			}
@@ -151,8 +160,6 @@ namespace ConsoleUI
 					}
 				} while (!valid);
 				// call menu and validate user input. 
-
-				CreateNewGameState();
 			}
 			// char creation menu loop.
 
@@ -274,9 +281,6 @@ namespace ConsoleUI
 								line6: line6,
 								prompt: prompt);
 				// display dynamic menu and wait for ENTER.
-
-				RunStartMenuLoop();
-				// return to start menu.
 			}
 			// display about menu & wait for response.
 
@@ -306,7 +310,7 @@ namespace ConsoleUI
 												   line2: $"PASSWORD: {charPassword}",
 												   line3: $"RACE: {charRace}",
 												   line4: $"CLASS: {charClass}",
-												   prompt: "enter PASSWORD with atleast 1 cap, 1 lowercase, & 1 special.");
+												   prompt: "enter PASSWORD with 1 cap, 1 lowercase, & 1 special.");
 					// get password input.
 
 					foreach (char character in charPassword)
@@ -448,32 +452,37 @@ namespace ConsoleUI
 					   pos3 = "O",
 					   pos4 = "O",
 					   pos5 = "O",
-					   planetName = Galaxy.Planets[Galaxy.Player.Location].Name,
+
+
+
+
+
+					   planetName = Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Name,
 					   playerName = Galaxy.Player.Name,
 					   playerClass = Galaxy.Player.PlayerClass,
-					   alienName = Galaxy.Aliens[Galaxy.Player.Location].Name,
+					   alienName = Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Name,
 					   score = Galaxy.Player.Score.ToString(),
-					   planetPopulation = Galaxy.Planets[Galaxy.Player.Location].Population.ToString(),
+					   planetPopulation = Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Population.ToString(),
 					   playerHealth = Galaxy.Player.Health.ToString(),
-					   alienHealth = Galaxy.Planets[Galaxy.Player.Location].Alien.Health.ToString(),
+					   alienHealth = Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Health.ToString(),
 					   actionStatement = Galaxy.ActionStatement,
 				// get state info and convert to string if needed.
 
-			           planetItems = ListOps.GetLimitedElements(items: Galaxy.Planets[Galaxy.Player.Location].Items,
-																delimiter: Delimiter,
-																maxLength: MaxLength),
+				planetItems = ListOps.GetLimitedElements(items: Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Items,
+														 delimiter: Delimiter,
+														 maxLength: MaxLength),
 
-					   planetWeapons = ListOps.GetLimitedElements(weapons: Galaxy.Planets[Galaxy.Player.Location].Weapons,
-																  delimiter: Delimiter,
-																  maxLength: MaxLength),
+				planetWeapons = ListOps.GetLimitedElements(weapons: Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Weapons,
+													       delimiter: Delimiter,
+													       maxLength: MaxLength),
 
-					   planetTreasures = ListOps.GetLimitedElements(treasures: Galaxy.Planets[Galaxy.Player.Location].Treasures,
-																	delimiter: Delimiter,
-																	maxLength: MaxLength),
+				planetTreasures = ListOps.GetLimitedElements(treasures: Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Treasures,
+															 delimiter: Delimiter,
+															 maxLength: MaxLength),
 
-					   planetPotions = ListOps.GetLimitedElements(potions: Galaxy.Planets[Galaxy.Player.Location].Potions,
-															      delimiter: Delimiter,
-															      maxLength: MaxLength);
+				planetPotions = ListOps.GetLimitedElements(potions: Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Potions,
+														   delimiter: Delimiter,
+														   maxLength: MaxLength);
 				// get display-ready lists.
 
 				switch (Galaxy.Player.Location)
@@ -559,6 +568,7 @@ namespace ConsoleUI
 						Console.Write(character);
 						Console.ResetColor();
 					}
+					Console.WriteLine();
 				}
 				// display frame with styling.
 
@@ -656,7 +666,7 @@ namespace ConsoleUI
 				}
 				// display dynamic menu with styling.
 
-				return Console.ReadLine().ToLower();
+				return Console.ReadLine();
 				// get input, format as lowercase and return.
 			}
 			// display dynamic menu with desired info and prompt.
