@@ -12,12 +12,12 @@ namespace GalaxyWarsClassLibrary
 	public static class Galaxy
 	{
 		private static Player _player;
-		private static List<Planet> _planets = new List<Planet>();
 		private static List<Weapon> _weapons = new List<Weapon>();
 		private static List<Potion> _potions = new List<Potion>();
 		private static List<Treasure> _treasures = new List<Treasure>();
 		private static List<Item> _items = new List<Item>();
 		private static List<Alien> _aliens = new List<Alien>();
+		private static Planet[,] _planets = new Planet[9, 7]; // 9 rows, 7 columns
 		private static string _actionStatement;
 		// fields. 
 
@@ -28,14 +28,6 @@ namespace GalaxyWarsClassLibrary
 		{
 			get { return _player; }
 			set { _player = value; }
-		}
-
-		/// <summary>
-		/// Planets in current system.
-		/// </summary>
-		public static List<Planet> Planets
-		{
-			get { return _planets; }
 		}
 
 		/// <summary>
@@ -80,6 +72,14 @@ namespace GalaxyWarsClassLibrary
 		}
 
 		/// <summary>
+		/// planets in current system.
+		/// </summary>
+		public static Planet[,] Planets
+		{
+			get { return _planets; }
+		}
+
+		/// <summary>
 		/// statement describing most recent occurance.
 		/// </summary>
 		public static string ActionStatement
@@ -90,16 +90,44 @@ namespace GalaxyWarsClassLibrary
 		// props.
 
 		/// <summary>
-		/// load 5 freshly generated planets into planet list and reset player position.
+		/// fill planet array with new planets. 
 		/// </summary>
-		public static void DiscoverPlanets()
+		public static void LoadNewPlanets()
 		{
-			_planets.Clear();
-			for(int index = 0; index < 5; index++)
+			/*		MAP STRUCTURE
+			 *		
+			 *		0 2 4 6
+			 *	
+			 *		O O O O		0
+			 * 
+			 *		O O O O		2
+			 *		       
+			 *		O O O O		4
+			 *		       
+			 *		O O O O		6
+			 *		       
+			 *		O O O O		8
+			 *		
+			 *		O = planet
+			 *		otherwise empty Space is created. 
+			*/
+
+			for (int rowIndex = 0; rowIndex < _planets.GetUpperBound(0); rowIndex++)
 			{
-				_planets.Add(Planet.Generate());
+				for (int columnIndex = 0; columnIndex < _planets.GetUpperBound(1); columnIndex++)
+				{
+					if (rowIndex % 2 == 0 &&
+						columnIndex % 2 == 0)
+					{
+						_planets[rowIndex, columnIndex] = Planet.Generate();
+					}
+					else
+					{
+						_planets[rowIndex, columnIndex] = Planet.Space();
+					}
+				}
 			}
-			Player.Location = 0;
+			// fill planet array with generated planets.
 		}
 		// methods.
 	}
