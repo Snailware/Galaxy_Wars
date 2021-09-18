@@ -270,16 +270,10 @@ namespace ConsoleUI
 
 			void CallAboutMenu()
 			{
-				string line1 = "Fight hostile aliens to liberate occupied planets. Save",
-					   line2 = "as many worlds as possible to earn a high score!",
-					   line6 = "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
-					   prompt = "press [ENTER] to return";
-				// info to display.
-
-				CallDynamicMenu(line1: line1,
-								line2: line2,
-								line6: line6,
-								prompt: prompt);
+				CallDynamicMenu(line1: "Fight hostile aliens to liberate occupied planets. Save",
+								line2: "as many worlds as possible to earn a high score!",
+								line6: "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
+								prompt: "press [ENTER] to return");
 				// display dynamic menu and wait for ENTER.
 			}
 			// display about menu & wait for response.
@@ -409,25 +403,18 @@ namespace ConsoleUI
 							titleChars.Contains(character))
 						{
 							Console.ForegroundColor = ConsoleColor.DarkRed;
-							Console.Write(character);
-							Console.ResetColor();
 						}
 						else if (character == '#') 
 						{
 							Console.ForegroundColor = ConsoleColor.DarkYellow;
-							Console.Write(character);
-							Console.ResetColor();
 						}
 						else if (character == '^')
 						{
-							Console.ForegroundColor = ConsoleColor.Green;
-							Console.Write(character);
-							Console.ResetColor();
+							Console.ForegroundColor = ConsoleColor.Magenta;
 						}
-						else
-						{
-							Console.Write(character);
-						}
+
+						Console.Write(character);
+						Console.ResetColor();
 					}
 					// display characters in different colors.
 
@@ -452,12 +439,7 @@ namespace ConsoleUI
 					   pos3 = "O",
 					   pos4 = "O",
 					   pos5 = "O",
-
-
-
-
-
-					   planetName = Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Name,
+					   planetName = Galaxy.Planets[Galaxy.Player.Location].Name,
 					   playerName = Galaxy.Player.Name,
 					   playerClass = Galaxy.Player.PlayerClass,
 					   alienName = Galaxy.Planets[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Name,
@@ -485,25 +467,38 @@ namespace ConsoleUI
 														   maxLength: MaxLength);
 				// get display-ready lists.
 
-				switch (Galaxy.Player.Location)
+
+				for (int rowIndex = 0; rowIndex < Galaxy.Planets.GetUpperBound(0); rowIndex++)
 				{
-					case 0:
-						pos1 = "X";
-						break;
-					case 1:
-						pos2 = "X";
-						break;
-					case 2:
-						pos3 = "X";
-						break;
-					case 3:
-						pos4 = "X";
-						break;
-					case 4:
-						pos5 = "X";
-						break;
+					string result = "";
+					// var for resulting string of symbols.
+
+					for (int columnIndex = 0; columnIndex < Galaxy.Planets.GetUpperBound(1); columnIndex++)
+					{
+						if (Galaxy.Planets[rowIndex, columnIndex].Name == "Space")
+						{
+							result = $"{result} ";
+						}
+						else if (Galaxy.Planets[rowIndex, columnIndex].Alien.Health > 0)
+						{
+							result = $"{result}O";
+						}
+						else if (Galaxy.Planets[rowIndex, columnIndex].Alien.Health == 0)
+						{
+							result = $"{result}0";
+						}
+						else if (Galaxy.Player.LocationX == columnIndex && 
+								 Galaxy.Player.LocationY == rowIndex)
+						{
+							result = $"{result}^";
+						}
+					}
+					// create string of symbols representing object positions.
+
+					map[rowIndex] = result;
+					// insert resulting string into map array at correct position.
 				}
-				// set position for course display. 
+				// fill map array with appropriate symbols.
 
 				score = String.Format("{0, 3}", score);							//
 				planetName = String.Format("{0, -30}", planetName);				//
@@ -515,12 +510,7 @@ namespace ConsoleUI
 				actionStatement = String.Format("{0, -75}", actionStatement);	//
 				playerName = String.Format("{0, -75}", playerName);				//
 				playerClass = String.Format("{0, -18}", playerClass);			//
-				playerHealth = String.Format("{0, -14}", playerHealth);			//
-				pos1 = String.Format("{0, -6}", $"  {pos1}");					//
-				pos2 = String.Format("{0, -6}", $"  {pos2}");					//
-				pos3 = String.Format("{0, -6}", $"  {pos3}");					//
-				pos4 = String.Format("{0, -6}", $"  {pos4}");					//
-				pos5 = String.Format("{0, -6}", $"  {pos5}");					//
+				playerHealth = String.Format("{0, -14}", playerHealth);			//					
 				alienHealth = String.Format("{0, 13}", alienHealth);			//
 				alienName = String.Format("{0, 30}", alienName);				//
 				// format strings for proper display. 
@@ -536,15 +526,15 @@ namespace ConsoleUI
 					@"   .                                                      .                ",
 					@"LOCAL ITEMS    ,                               .                        ,  ",
 					$"{planetItems}                                       COURSE",
-					$"                        *                                ,           {pos5}",		// 10
-					@"LOCAL WEAPONS    .                  .                                , |   ",
-					$"{planetWeapons}                                       {pos4}",
-					@" ,                                       ,      .                      |   ",
-					$"LOCAL TREASURES          .                                 .         {pos3}",
-					$"{planetTreasures}                                         |   ",					// 15
-					$"          .                        .             *                   {pos2}",
-					@"LOCAL POTIONS               ,                         .                |   ",
-					$"{planetPotions}                                       {pos1}",
+					$"                        *                                ,          {map[8]}",	// 10
+					$"LOCAL WEAPONS    .                  .                               {map[7]}",
+					$"{planetWeapons}                                       {map[6]}",
+					$" ,                                       ,      .                   {map[5]}",
+					$"LOCAL TREASURES          .                                 .        {map[4]}",
+					$"{planetTreasures}                                      {map[3]}",					// 15
+					$"          .                        .             *                  {map[2]}",
+					$"LOCAL POTIONS               ,                         .             {map[1]}",
+					$"{planetPotions}                                      {map[0]}",
 					@".                                 *                             ,          ",
 					@"               ,                             .         .                   ",		// 20
 					@"---------------------------------------------------------------------------",
@@ -564,6 +554,10 @@ namespace ConsoleUI
 						if (character == '*')
 						{
 							Console.ForegroundColor = ConsoleColor.DarkYellow;
+						}
+						else if (character == '^')
+						{
+							Console.ForegroundColor = ConsoleColor.Green;
 						}
 						Console.Write(character);
 						Console.ResetColor();

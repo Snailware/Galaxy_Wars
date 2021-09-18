@@ -13,6 +13,8 @@ namespace GalaxyWarsClassLibrary
 	{
 		protected string _name;
 		protected int _health;
+		protected int _armor;
+		protected int _money;
 		protected Weapon _weapon;
 		protected List<Weapon> _weaponInventory;
 		protected List<Potion> _potionInventory;
@@ -46,6 +48,24 @@ namespace GalaxyWarsClassLibrary
 				}
 				// dont allow health to go below 0.
 			}
+		}
+
+		/// <summary>
+		/// armor rating of life form.
+		/// </summary>
+		public int Armor
+		{
+			get { return _armor; }
+			set { _armor = value; }
+		}
+
+		/// <summary>
+		/// amount of money lifeform has.
+		/// </summary>
+		public int Money
+		{
+			get { return _money; }
+			set { _money = value; }
 		}
 
 		/// <summary>
