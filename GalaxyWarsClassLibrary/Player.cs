@@ -15,8 +15,9 @@ namespace GalaxyWarsClassLibrary
 					   _playerClass,
 					   _password;
 
-		private int _location,
-					_score;
+		private int _score,
+					_locationX,
+					_locationY;
 		// fields.
 
 		/// <summary>
@@ -27,9 +28,11 @@ namespace GalaxyWarsClassLibrary
 		/// <param name="playerClass">in-game class of player.</param>
 		/// <param name="password">password for character.</param>
 		/// <param name="health">health points of character.</param>
-		/// <param name="location">location of character. should refer to 
-		/// planets list subscript in Galaxy.</param>
 		/// <param name="score">current score of character.</param>
+		/// <param name="locationX">location of character on X axis. should refer to
+		/// planets array subscript in Galaxy.</param>
+		/// <param name="locationY">location of character on X axis. should refer to
+		/// planets array subscript in Galaxy.</param>
 		/// <param name="weaponInventory">weapon inventory of character. equipped 
 		/// weapon defaults to first weapon in this list.</param>
 		/// <param name="potionInventory">potion inventory of character.</param>
@@ -40,8 +43,9 @@ namespace GalaxyWarsClassLibrary
 					  string playerClass,
 					  string password,
 					  int health,
-					  int location,
 					  int score,
+					  int locationX,
+					  int locationY,
 					  List<Weapon> weaponInventory,
 					  List<Potion> potionInventory,
 					  List<Treasure> treasureInventory,
@@ -52,8 +56,9 @@ namespace GalaxyWarsClassLibrary
 			_playerClass = playerClass;
 			_password = password;
 			_health = health;
-			_location = location;
 			_score = score;
+			_locationX = locationX;
+			_locationY = locationY;
 			_weaponInventory = weaponInventory;
 			_potionInventory = potionInventory;
 			_treasureInventory = treasureInventory;
@@ -87,22 +92,32 @@ namespace GalaxyWarsClassLibrary
 		}
 
 		/// <summary>
-		/// current location of player. should correlate to subscript of 
-		/// Galaxy.Planets.
-		/// </summary>
-		public int Location
-		{
-			get { return _location; }
-			set { _location = value; }
-		}
-
-		/// <summary>
 		/// current score of character.
 		/// </summary>
 		public int Score
 		{
 			get { return _score; }
 			set { _score = value; }
+		}
+
+		/// <summary>
+		/// current X axis location of player. should correlate to subscript of
+		/// Galaxy.Planets.
+		/// </summary>
+		public int LocationX
+		{
+			get { return _locationX; }
+			set { _locationX = value; }
+		}
+
+		/// <summary>
+		/// current Y axis location of player. should correlate to subscript of
+		/// Galaxy.Planets.
+		/// </summary>
+		public int LocationY
+		{
+			get { return _locationY; }
+			set { _locationY = value; }
 		}
 		// props.
 	}
