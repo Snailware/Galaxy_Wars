@@ -22,8 +22,7 @@ namespace GalaxyWarsClassLibrary
         {
             _name = name;
             _description = description;
-            _damage = damage;
-            
+            _damage = damage;  
         }
         /// <summary>
         /// Amount of damage
