@@ -54,5 +54,13 @@
     <Compile Include="Treasure.cs" />
     <Compile Include="Weapon.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ObjectData\Aliens.csv" />
+    <None Include="ObjectData\Items.csv" />
+    <None Include="ObjectData\Planets.csv" />
+    <None Include="ObjectData\Potions.csv" />
+    <None Include="ObjectData\Treasures.csv" />
+    <None Include="ObjectData\Weapons.csv" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
