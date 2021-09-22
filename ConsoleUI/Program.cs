@@ -36,6 +36,7 @@ namespace ConsoleUI
                 Galaxy.Weapons = FileOps.ReadWeapons(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Weapons.csv");
                 Galaxy.Aliens = FileOps.ReadAliens(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Aliens.csv");
                 Galaxy.Planets = FileOps.ReadPlanets(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Planets.csv");
+                // TODO refactor file paths.
                 // load object data from csv files.
 
                 RunCharCreationMenuLoop();
