@@ -156,6 +156,7 @@ namespace GalaxyWarsClassLibrary
                 Weapon weapon = new Weapon(name: weaponTokens[0],
                                            description: weaponTokens[1],
                                            damage: int.Parse(weaponTokens[2]));
+                // TODO add new weapon attribute to constructor.
                 // create weapon from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
                 // and thus can be trusted to be accurate.  
@@ -210,6 +211,7 @@ namespace GalaxyWarsClassLibrary
                 Potion potion = new Potion(name: potionTokens[0],
                                            description: potionTokens[1],
                                            effect: int.Parse(potionTokens[2]));
+                // TODO add new potion attribute to constructor.
                 // create potion from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
                 // and thus can be trusted to be accurate.  
@@ -317,6 +319,7 @@ namespace GalaxyWarsClassLibrary
 
                 Item item = new Item(name: itemTokens[0],
                                      description: itemTokens[1]);
+                // TODO add new item attributes to constructor.
                 // create item from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
                 // and thus can be trusted to be accurate.  
