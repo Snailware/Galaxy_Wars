@@ -129,9 +129,9 @@ namespace GalaxyWarsClassLibrary
              *		otherwise empty Space is created. 
             */
 
-            for (int rowIndex = 0; rowIndex < _currentSystem.GetUpperBound(0); rowIndex++)
+            for (int rowIndex = 0; rowIndex < _currentSystem.GetLength(0); rowIndex++)
             {
-                for (int columnIndex = 0; columnIndex < _currentSystem.GetUpperBound(1); columnIndex++)
+                for (int columnIndex = 0; columnIndex < _currentSystem.GetLength(1); columnIndex++)
                 {
                     if (rowIndex % 2 == 0 &&
                         columnIndex % 2 == 0)
