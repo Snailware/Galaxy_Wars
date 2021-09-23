@@ -118,6 +118,11 @@ namespace GalaxyWarsClassLibrary
         {
             get { return _description; }
         }
+
+        /// <summary>
+        /// random number generator. placed here to initialize with seed and avoid repeating 1 value.
+        /// </summary>
+        private static Random LocalRandom { get; } = new Random();
         // props.
 
         /// <summary>
@@ -126,10 +131,7 @@ namespace GalaxyWarsClassLibrary
         /// <returns>randomized alien obj.</returns>
         public static Alien Generate()
         {
-            Random random = new Random();
-            // random number generator.
-
-            return Galaxy.Aliens[random.Next(0, Galaxy.Aliens.Count - 1)];
+            return Galaxy.Aliens[LocalRandom.Next(0, Galaxy.Aliens.Count - 1)];
             // select random alien from Galaxy.Aliens and return.
         }
         // methods.

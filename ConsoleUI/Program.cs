@@ -128,11 +128,17 @@ namespace ConsoleUI
                             switch (tokenized_input[1])
                             {
                                 case "north":
-                                    if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0))
+                                    if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
                                     {
                                         Galaxy.ActionStatement = "YOU GO NORTH.";
                                         Galaxy.Player.LocationY++;
                                     } 
+                                    else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
+                                             Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
+									{
+                                        Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
+                                    }
                                     else
                                     {
                                         Galaxy.ActionStatement = "NO MORE PLANETS. GO SOUTH OR USE WARP TO TRAVEL FURTHER.";
@@ -142,10 +148,16 @@ namespace ConsoleUI
                                 // action statement accordingly.
 
                                 case "south":
-                                    if (Galaxy.Player.LocationY > Galaxy.CurrentSystem.GetLowerBound(0))
+                                    if (Galaxy.Player.LocationY > Galaxy.CurrentSystem.GetLowerBound(0) &&
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
                                     {
                                         Galaxy.ActionStatement = "YOU GO SOUTH.";
                                         Galaxy.Player.LocationY--;
+                                    }
+                                    else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
+                                             Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
+                                    {
+                                        Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
                                     }
                                     else
                                     {
@@ -156,10 +168,16 @@ namespace ConsoleUI
                                 // action statement accordingly.
 
                                 case "east":
-                                    if (Galaxy.Player.LocationX < Galaxy.CurrentSystem.GetUpperBound(1))
+                                    if (Galaxy.Player.LocationX < Galaxy.CurrentSystem.GetUpperBound(1) &&
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
                                     {
                                         Galaxy.ActionStatement = "YOU GO EAST.";
                                         Galaxy.Player.LocationX++;
+                                    }
+                                    else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
+                                             Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
+                                    {
+                                        Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
                                     }
                                     else
                                     {
@@ -170,10 +188,16 @@ namespace ConsoleUI
                                 // action statement accordingly.
 
                                 case "west":
-                                    if (Galaxy.Player.LocationX > Galaxy.CurrentSystem.GetLowerBound(1))
+                                    if (Galaxy.Player.LocationX > Galaxy.CurrentSystem.GetLowerBound(1) &&
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
                                     {
                                         Galaxy.ActionStatement = "YOU GO WEST.";
                                         Galaxy.Player.LocationX--;
+                                    }
+                                    else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
+                                             Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
+									{
+                                        Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
                                     }
                                     else
                                     {
@@ -194,9 +218,45 @@ namespace ConsoleUI
                         case "attack":
                             if (Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Health > 0)
                             {
-                                // TODO add combat call with player character & local alien.
-                                // TODO add increment to player score if alien is dead after combat.
-                                // TODO if alien dies, transfer loot in its inventory to planet inventory.
+                                Galaxy.ActionStatement = Combat.StandardCombat();
+                                // perform combat.
+
+                                if (Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Health == 0)
+								{
+                                    Galaxy.Player.Score++;
+                                    // increment score if player defeats alien.
+
+                                    foreach (Item item in Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.ItemInventory)
+									{
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Items.Add(item);
+                                    }
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.ItemInventory.Clear();
+                                    // copy alien items to planet items then clear aliens item list.
+
+                                    foreach (Potion potion in Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.PotionInventory)
+									{
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Potions.Add(potion);
+                                    }
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.PotionInventory.Clear();
+                                    // copy alien potions to planet potions then clear aliens potions list.
+
+                                    foreach (Treasure treasure in Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.TreasureInventory)
+									{
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Treasures.Add(treasure);
+                                    }
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.TreasureInventory.Clear();
+                                    // copy alien treasures to planet treasures then clear aliens treasures list.
+
+                                    foreach (Weapon weapon in Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.WeaponInventory)
+                                    {
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Weapons.Add(weapon);
+                                    }
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Weapon = new Weapon(name: "none",
+                                                                                                                                     description: "unarmed",
+                                                                                                                                     0);
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.WeaponInventory.Clear();
+                                    // copy alien weapons to planet weapons then clear aliens weapon list and equipped weapon.
+                                }
                             }
                             else
                             {

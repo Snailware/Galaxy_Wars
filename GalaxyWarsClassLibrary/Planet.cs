@@ -117,6 +117,11 @@ namespace GalaxyWarsClassLibrary
             get { return _treasures; }
             set { _treasures = value; }
         }
+
+        /// <summary>
+        /// random number generator. placed here to initialize with seed and avoid repeating 1 value.
+        /// </summary>
+        private static Random LocalRandom { get; } = new Random();
         // props.
         
         /// <summary>
@@ -125,10 +130,7 @@ namespace GalaxyWarsClassLibrary
         /// <returns>random planet.</returns>
         public static Planet Generate()
         {
-            Random random = new Random();
-            // random nubmer generator.
-
-            return Galaxy.Planets[random.Next(0, Galaxy.Planets.Count - 1)];
+            return Galaxy.Planets[LocalRandom.Next(0, Galaxy.Planets.Count - 1)];
             // return a random planet from list.
         }
 
