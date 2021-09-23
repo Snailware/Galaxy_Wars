@@ -13,7 +13,7 @@ namespace ConsoleUI
         {
             void StartGame()
             {
-                const int Width = 76,
+                const int Width = 79,
                           Height = 28;
                 // console width and height, measured in characters.
 
@@ -196,6 +196,7 @@ namespace ConsoleUI
                             {
                                 // TODO add combat call with player character & local alien.
                                 // TODO add increment to player score if alien is dead after combat.
+                                // TODO if alien dies, transfer loot in its inventory to planet inventory.
                             }
                             else
                             {
@@ -307,7 +308,7 @@ namespace ConsoleUI
                                            password: charPassword,
                                            health: 50,
                                            armor: 5,
-                                           locationX: 0,
+                                           locationX: 3,
                                            locationY: 0,
                                            money: 0,
                                            score: 0,
@@ -323,33 +324,33 @@ namespace ConsoleUI
             {
                 string[] startMenu =
                 {
-                    @"                ___      _          .     __      __       .               ",
-                    @"   *   .       / __|__ _| |__ ___ ___  _  \ \    / /_ _ _ _ ___   .        ",
-                    @".         .   | (_ / _` | / _` \ \ / || |  \ \/\/ / _` | '_(_-<            ",
-                    @"        o      \___\__,_|_\__,_/_\_\\_, |   \_/\_/\__,_|_| /__/      .     ",
-                    @"         .              .           |__/           .                       ",
-                    @"          0     .                                                          ",
-                    @"    ,      .                 ,                ,    .             ,         ",
-                    @" .          \          .                         .                         ",
-                    @"     .       \   ,                                                         ",
-                    @"   .          o     .                 .                   .            .   ",
-                    @"          .    \                 ,             .                .          ",
-                    @"               #\##\#      .                              .        .       ",
-                    @"             #  #O##\###                .                        .         ",
-                    @"   .        #*#  #\##\###                       .                     ,    ",
-                    @"        .   ##*#  #\##\##               .                     .            ",
-                    @"      .      ##*#  #o##\#         .                             ,       .  ",
-                    @"          .     *#  #\#     .                    .             .          ,",
-                    @"                      \          .                         .               ",
-                    @"____^/\___^--____/\____O______________/\/\---/\___________---______________",
-                    @"   /\^   ^  ^    ^                  ^^ ^  '\ ^          ^       ---        ",
-                    @"       --           -            --  -      -         ---  __       ^      ",
-                    @"   --  __                      ___--  ^  ^                         --  __  ",
-                    @"+-------------------------------------------------------------------------+",
-                    @"|                                                                         |",
-                    @"|      NEW GAME            CONTINUE            ABOUT            EXIT      |",
-                    @"|                                                                         |",
-                    @"+-------------------------------------------------------------------------+"
+                    @"                   ___      _          .     __      __       .               ",
+                    @"      *   .       / __|__ _| |__ ___ ___  _  \ \    / /_ _ _ _ ___   .        ",
+                    @"   .         .   | (_ / _` | / _` \ \ / || |  \ \/\/ / _` | '_(_-<            ",
+                    @"           o      \___\__,_|_\__,_/_\_\\_, |   \_/\_/\__,_|_| /__/      .     ",
+                    @"            .              .           |__/           .                       ",
+                    @"             0     .                                                          ",
+                    @"       ,      .                 ,                ,    .             ,         ",
+                    @"    .          \          .                         .                         ",
+                    @"        .       \   ,                                                         ",
+                    @"      .          o     .                 .                   .            .   ",
+                    @"             .    \                 ,             .                .          ",
+                    @"                  #\##\#      .                              .        .       ",
+                    @"                #  #O##\###                .                        .         ",
+                    @"      .        #*#  #\##\###                       .                     ,    ",
+                    @"           .   ##*#  #\##\##               .                     .            ",
+                    @"         .      ##*#  #o##\#         .                             ,       .  ",
+                    @"             .     *#  #\#     .                    .             .          ,",
+                    @"                         \          .                         .               ",
+                    @"   ____^/\___^--____/\____O______________/\/\---/\___________---______________",
+                    @"      /\^   ^  ^    ^                  ^^ ^  '\ ^          ^       ---        ",
+                    @"          --           -            --  -      -         ---  __       ^      ",
+                    @"      --  __                      ___--  ^  ^                         --  __  ",
+                    @"   +-------------------------------------------------------------------------+",
+                    @"   |                                                                         |",
+                    @"   |      NEW GAME            CONTINUE            ABOUT            EXIT      |",
+                    @"   |                                                                         |",
+                    @"   +-------------------------------------------------------------------------+"
                 };
                 // menu to display.
 
@@ -398,58 +399,59 @@ namespace ConsoleUI
                 string[] map = new string[9];
                 // map array for course visualization.
 
-                string planetName = Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Name,
+                string planetName = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Name,
                        playerName = Galaxy.Player.Name,
                        playerClass = Galaxy.Player.PlayerClass,
-                       alienName = Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Name,
+                       alienName = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name,
                        score = Galaxy.Player.Score.ToString(),
-                       planetPopulation = Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Population.ToString(),
+                       planetPopulation = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Population.ToString(),
                        playerHealth = Galaxy.Player.Health.ToString(),
-                       alienHealth = Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Health.ToString(),
+                       alienHealth = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health.ToString(),
                        actionStatement = Galaxy.ActionStatement,
                 // get state info and convert to string if needed.
 
-                planetItems = ListOps.GetLimitedElements(items: Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Items,
+                planetItems = ListOps.GetLimitedElements(items: Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Items,
                                                          delimiter: Delimiter,
                                                          maxLength: MaxLength),
 
-                planetWeapons = ListOps.GetLimitedElements(weapons: Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Weapons,
+                planetWeapons = ListOps.GetLimitedElements(weapons: Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Weapons,
                                                            delimiter: Delimiter,
                                                            maxLength: MaxLength),
 
-                planetTreasures = ListOps.GetLimitedElements(treasures: Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Treasures,
+                planetTreasures = ListOps.GetLimitedElements(treasures: Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Treasures,
                                                              delimiter: Delimiter,
                                                              maxLength: MaxLength),
 
-                planetPotions = ListOps.GetLimitedElements(potions: Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Potions,
+                planetPotions = ListOps.GetLimitedElements(potions: Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Potions,
                                                            delimiter: Delimiter,
                                                            maxLength: MaxLength);
                 // get display-ready lists.
 
 
-                for (int rowIndex = 0; rowIndex < Galaxy.CurrentSystem.GetUpperBound(0); rowIndex++)
+                for (int rowIndex = 0; rowIndex < Galaxy.CurrentSystem.GetLength(0); rowIndex++)
                 {
                     string result = "";
                     // var for resulting string of symbols.
 
-                    for (int columnIndex = 0; columnIndex < Galaxy.CurrentSystem.GetUpperBound(1); columnIndex++)
+                    for (int columnIndex = 0; columnIndex < Galaxy.CurrentSystem.GetLength(1); columnIndex++)
                     {
-                        if (Galaxy.CurrentSystem[rowIndex, columnIndex].Name == "Space")
-                        {
-                            result = $"{result} ";
-                        }
-                        else if (Galaxy.CurrentSystem[rowIndex, columnIndex].Alien.Health > 0)
-                        {
-                            result = $"{result}O";
-                        }
-                        else if (Galaxy.CurrentSystem[rowIndex, columnIndex].Alien.Health == 0)
-                        {
-                            result = $"{result}0";
-                        }
-                        else if (Galaxy.Player.LocationX == columnIndex && 
+
+                        if (Galaxy.Player.LocationX == columnIndex &&
                                  Galaxy.Player.LocationY == rowIndex)
                         {
                             result = $"{result}^";
+                        }
+                        else if (Galaxy.CurrentSystem[rowIndex, columnIndex].Name == "Space")
+                        {
+                            result = $"{result} ";
+                        }
+                        else if (Galaxy.CurrentSystem[rowIndex, columnIndex].Alien.Health > 0) 
+                        {
+                            result = $"{result}O";
+                        }
+                        else if (Galaxy.CurrentSystem[rowIndex, columnIndex].Alien.Health == 0) 
+                        {
+                            result = $"{result}0";
                         }
                         // display appropriate character based on object locations.
                     }
@@ -477,33 +479,33 @@ namespace ConsoleUI
 
                 string[] mainGameFrame =
                 {
-                    @"                                GALAXY WARS                                ",		// 1
-                    $"     .                           SCORE: {score}       ,                        ",
-                    @"            *                          ,                      .            ",
-                    @"PLANET    ,              .                      .                     ALIEN",
-                    $"{planetName}       ,       {alienName}",											// 5
-                    $"{planetPopulation}    ,                            *          {alienHealth}",
-                    @"   .                                                      .                ",
-                    @"LOCAL ITEMS    ,                               .                        ,  ",
-                    $"{planetItems}                                       COURSE",
-                    $"                        *                                ,          {map[8]}",	// 10
-                    $"LOCAL WEAPONS    .                  .                               {map[7]}",
-                    $"{planetWeapons}                                       {map[6]}",
-                    $" ,                                       ,      .                   {map[5]}",
-                    $"LOCAL TREASURES          .                                 .        {map[4]}",
-                    $"{planetTreasures}                                      {map[3]}",					// 15
-                    $"          .                        .             *                  {map[2]}",
-                    $"LOCAL POTIONS               ,                         .             {map[1]}",
-                    $"{planetPotions}                                      {map[0]}",
-                    @".                                 *                             ,          ",
-                    @"               ,                             .         .                   ",		// 20
-                    @"---------------------------------------------------------------------------",
-                    $"{actionStatement}",
-                    @"---------------------------------------------------------------------------",
-                    $"{playerName}",
-                    $"{playerClass}  ENTER A COMMAND, OR 'HELP' FOR INFO                    ",			// 25
-                    $"{playerHealth}                                                             ",
-                    @"---------------------------------------------------------------------------"		// 27
+                    @"                                   GALAXY WARS                                ",		// 1
+                    $"        .                           SCORE: {score}       ,                        ",
+                    @"               *                          ,                      .            ",
+                    @"   PLANET    ,              .                      .                     ALIEN",
+                    $"   {planetName}       ,       {alienName}",											// 5
+                    $"   {planetPopulation}    ,                            *          {alienHealth}",
+                    @"      .                                                      .                ",
+                    @"   LOCAL ITEMS    ,                               .                        ,  ",
+                    $"   {planetItems}                                        MAP",
+                    $"                           *                                ,          {map[8]}",	// 10
+                    $"   LOCAL WEAPONS    .                  .                               {map[7]}",
+                    $"   {planetWeapons}                                      {map[6]}",
+                    $"    ,                                       ,      .                   {map[5]}",
+                    $"   LOCAL TREASURES          .                                 .        {map[4]}",
+                    $"   {planetTreasures}                                      {map[3]}",					// 15
+                    $"             .                        .             *                  {map[2]}",
+                    $"   LOCAL POTIONS               ,                         .             {map[1]}",
+                    $"   {planetPotions}                                      {map[0]}",
+                    @"   .                                 *                             ,          ",
+                    @"                  ,                             .         .                   ",		// 20
+                    @"   ---------------------------------------------------------------------------",
+                    $"   {actionStatement}",
+                    @"   ---------------------------------------------------------------------------",
+                    $"   {playerName}",
+                    $"   {playerClass}  ENTER A COMMAND, OR 'HELP' FOR INFO                    ",			// 25
+                    $"   {playerHealth}                                                             ",
+                    @"   ---------------------------------------------------------------------------"		// 27
                 };
                 // main gameplay frame.
 
@@ -565,33 +567,33 @@ namespace ConsoleUI
 
                 string[] dynamicMenu =
                 {
-                    @"                       .                                           ,       ", // 1
-                    @"        .                         ,            .              .            ",
-                    @" ,                .                 .                                      ",
-                    @"         .                 *                ,          .                   ",
-                    @"              ,                                                     .      ", // 5
-                    $"    *    {line1}         ",
-                    @"  .                   .       ,                 .                     .    ",
-                    $"      .  {line2}         ",
-                    @"       ,                                 ,                       .         ",
-                    $"         {line3}      *  ",													// 10
-                    @"    .                    .         .                   ,             ,     ",
-                    $"         {line4}         ",
-                    @",                .                    ,                     .           .  ",
-                    $"         {line5}         ",
-                    @"        .                         ,            .       *      .            ", // 15
-                    $" ,       {line6}   ,     ",
-                    @"         .                 *                ,          .                   ",
-                    $"         {line7}     ,   ",
-                    @"       .                                           ,                       ",
-                    @"                                .                            .             ", // 20
-                    @"             .        ,                    .                               ",
-                    @"    ,                                             ,                  ,     ",
-                    @"+-------------------------------------------------------------------------+",
-                    @"|                                                                         |",
-                    $"|        {prompt}        |",													// 25
-                    @"|                                                                         |",
-                    @"+-------------------------------------------------------------------------+"  // 27
+                    @"                          .                                           ,       ", // 1
+                    @"           .                         ,            .              .            ",
+                    @"    ,                .                 .                                      ",
+                    @"            .                 *                ,          .                   ",
+                    @"                 ,                                                     .      ", // 5
+                    $"       *    {line1}         ",
+                    @"     .                   .       ,                 .                     .    ",
+                    $"         .  {line2}         ",
+                    @"          ,                                 ,                       .         ",
+                    $"            {line3}      *  ",													// 10
+                    @"       .                    .         .                   ,             ,     ",
+                    $"            {line4}         ",
+                    @"   ,                .                    ,                     .           .  ",
+                    $"            {line5}         ",
+                    @"           .                         ,            .       *      .            ", // 15
+                    $"    ,       {line6}   ,     ",
+                    @"            .                 *                ,          .                   ",
+                    $"            {line7}     ,   ",
+                    @"          .                                           ,                       ",
+                    @"                                   .                            .             ", // 20
+                    @"                .        ,                    .                               ",
+                    @"       ,                                             ,                  ,     ",
+                    @"   +-------------------------------------------------------------------------+",
+                    @"   |                                                                         |",
+                    $"   |        {prompt}        |",													// 25
+                    @"   |                                                                         |",
+                    @"   +-------------------------------------------------------------------------+"  // 27
                 };
                 // menu to display. 
 
