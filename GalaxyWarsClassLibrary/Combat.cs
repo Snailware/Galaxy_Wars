@@ -17,6 +17,7 @@ namespace GalaxyWarsClassLibrary
 		{
 			int playerStartingHealth = Galaxy.Player.Health,
 				alienStartingHealth = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health;
+			// get player and alien starting health for value return. 
 
 			Random random = new Random();
 			// random number generator.
