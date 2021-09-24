@@ -17,6 +17,7 @@ namespace GalaxyWarsClassLibrary
             _description = description;
             _effect = effect;
         }
+
         public int Effect
         {
             get { return _effect; }

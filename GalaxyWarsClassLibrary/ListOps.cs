@@ -111,10 +111,10 @@ namespace GalaxyWarsClassLibrary
             {
                 if (output.Length + names[index].Length + 7 <= maxLength)
                 {
-                    output = output.Insert(-1, names[index]);
+                    output = $"{output}{names[index]}";
                     if (index != names.Count - 1)
                     {
-                        output = output.Insert(-1, $"{delimiter} ");
+                        output = $"{output}{delimiter} ";
                     }
                     else
                     {
@@ -123,7 +123,7 @@ namespace GalaxyWarsClassLibrary
                 }
                 else
                 {
-                    output = output.Insert(-1, "...");
+                    output = $"{output}...";
                     break;
                 }
             }

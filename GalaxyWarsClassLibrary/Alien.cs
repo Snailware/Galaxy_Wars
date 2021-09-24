@@ -74,31 +74,28 @@ namespace GalaxyWarsClassLibrary
             _itemInventory = new List<Item>();
             // create default lists.
 
-            Random random = new Random();
-            // random number generator.
-
-            int weaponSeed = random.Next(0, Galaxy.Weapons.Count);
+            int weaponSeed = LocalRandom.Next(0, Galaxy.Weapons.Count);
             _weaponInventory.Add(Galaxy.Weapons[weaponSeed]);
             _weapon = _weaponInventory[0];
             // give alien random weapon and equip it.
 
-            int lootSeed = random.Next(0, 4);
+            int lootSeed = LocalRandom.Next(0, 4);
             switch (lootSeed)
             {
                 case 0:
-                    lootSeed = random.Next(0, Galaxy.Potions.Count);
+                    lootSeed = LocalRandom.Next(0, Galaxy.Potions.Count);
                     _potionInventory.Add(Galaxy.Potions[lootSeed]);
                     break;
                     // generate a random potion and add to inventory.
 
                 case 1:
-                    lootSeed = random.Next(0, Galaxy.Treasures.Count);
+                    lootSeed = LocalRandom.Next(0, Galaxy.Treasures.Count);
                     _treasureInventory.Add(Galaxy.Treasures[lootSeed]);
                     break;
                     // generate a random treasure and add to inventory.
 
                 case 2:
-                    lootSeed = random.Next(0, Galaxy.Items.Count);
+                    lootSeed = LocalRandom.Next(0, Galaxy.Items.Count);
                     _itemInventory.Add(Galaxy.Items[lootSeed]);
                     break;
                     // generate a random item and add to inventory.
@@ -118,6 +115,11 @@ namespace GalaxyWarsClassLibrary
         {
             get { return _description; }
         }
+
+        /// <summary>
+        /// random number generator. placed here to initialize with seed and avoid repeating 1 value.
+        /// </summary>
+        private static Random LocalRandom { get; } = new Random();
         // props.
 
         /// <summary>
@@ -126,10 +128,7 @@ namespace GalaxyWarsClassLibrary
         /// <returns>randomized alien obj.</returns>
         public static Alien Generate()
         {
-            Random random = new Random();
-            // random number generator.
-
-            return Galaxy.Aliens[random.Next(0, Galaxy.Aliens.Count - 1)];
+            return Galaxy.Aliens[LocalRandom.Next(0, Galaxy.Aliens.Count - 1)];
             // select random alien from Galaxy.Aliens and return.
         }
         // methods.
