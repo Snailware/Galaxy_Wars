@@ -17,9 +17,10 @@ namespace ConsoleUI
                           Height = 28;
                 // console width and height, measured in characters.
 
+                Console.Title = "Galaxy Wars";
                 Console.SetWindowSize(Width, Height);
                 Console.SetBufferSize(Width, Height);
-                // set console window size for proper viewing. 
+                // set console title & window size for proper viewing. 
 
                 RunStartMenuLoop();
             }
@@ -265,6 +266,7 @@ namespace ConsoleUI
                                     Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory.Clear();
                                     // copy alien weapons to planet weapons then clear aliens weapon list and equipped weapon.
                                 }
+                                // transfer alien inventory to planet and icrement score if alien dies during combat.
                             }
                             else
                             {
@@ -279,7 +281,11 @@ namespace ConsoleUI
                         // TODO add case for PICKUP command.
                         // TODO add case for DROP command.
                         // TODO add case for SAVE command.
-                        // TODO add case for HELP command.
+
+                        case "help":
+                            CallHelpMenu();
+                            break;
+                        // handle HELP command.
 
                         case "exit":
                             break;
@@ -315,6 +321,7 @@ namespace ConsoleUI
                                 line5: "WARP (if player has warp drive): 'warp'",
                                 line7: "SAVE: 'save'          EXIT: 'exit'          HELP: 'help'",
                                 prompt: "press [ENTER] to return");
+                // display dynamic menu and wait for ENTER.
             }
             // display help menu & wait for response.
 
