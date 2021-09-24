@@ -55,25 +55,32 @@ namespace ConsoleUI
                 do
                 {
                     choice = CallStartMenu().ToLower();
-                } while (choice != "new game" &&
-                         choice != "continue" &&
+                } while (choice != "new" &&
+                         choice != "load" &&
+                         choice != "help" &&
                          choice != "about" &&
                          choice != "exit");
                 // call main menu and get valid use input. 
 
                 switch (choice)
                 {
-                    case "new game":
+                    case "new":
                         CreateNewGameState();
                         RunGameplayLoop();
                         break;
                         // create new game state, create character and start playing.
 
-                    case "continue":
+                    case "load":
                         //RunLoadCharMenuLoop();
                         // TODO write path to load a saved character & gamestate from storage.
                         break;
                         // load character & game state from storage & start playing.
+
+                    case "help":
+                        CallHelpMenu();
+                        RunStartMenuLoop();
+                        break;
+                        // display help menu then return here.
 
                     case "about":
                         CallAboutMenu();
@@ -137,7 +144,7 @@ namespace ConsoleUI
                                     } 
                                     else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
                                              Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
-									{
+                                    {
                                         Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
                                     }
                                     else
@@ -197,7 +204,7 @@ namespace ConsoleUI
                                     }
                                     else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
                                              Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
-									{
+                                    {
                                         Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
                                     }
                                     else
@@ -223,26 +230,26 @@ namespace ConsoleUI
                                 // perform combat.
 
                                 if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
-								{
+                                {
                                     Galaxy.Player.Score++;
                                     // increment score if player defeats alien.
 
                                     foreach (Item item in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory)
-									{
+                                    {
                                         Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Items.Add(item);
                                     }
                                     Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory.Clear();
                                     // copy alien items to planet items then clear aliens item list.
 
                                     foreach (Potion potion in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory)
-									{
+                                    {
                                         Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Potions.Add(potion);
                                     }
                                     Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory.Clear();
                                     // copy alien potions to planet potions then clear aliens potions list.
 
                                     foreach (Treasure treasure in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory)
-									{
+                                    {
                                         Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Treasures.Add(treasure);
                                     }
                                     Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory.Clear();
@@ -271,6 +278,7 @@ namespace ConsoleUI
                         // TODO add case for USE command.
                         // TODO add case for PICKUP command.
                         // TODO add case for DROP command.
+                        // TODO add case for SAVE command.
                         // TODO add case for HELP command.
 
                         case "exit":
@@ -297,6 +305,18 @@ namespace ConsoleUI
                 // display dynamic menu and wait for ENTER.
             }
             // display about menu & wait for response.
+
+            void CallHelpMenu()
+            {
+                CallDynamicMenu(line1: "NAVIGATION: 'go <north/east/south/west>'",
+                                line2: "INSPECT OBJECT: 'look <object name>'",
+                                line3: "USE/PICKUP/DROP OBJECT: '<use/pickup/drop> <object name>'",
+                                line4: "ATTACK: 'attack'",
+                                line5: "WARP (if player has warp drive): 'warp'",
+                                line7: "SAVE: 'save'          EXIT: 'exit'          HELP: 'help'",
+                                prompt: "press [ENTER] to return");
+            }
+            // display help menu & wait for response.
 
             void CallCharCreationSequenceMenu()
             {
@@ -409,7 +429,7 @@ namespace ConsoleUI
                     @"      --  __                      ___--  ^  ^                         --  __  ",
                     @"   +-------------------------------------------------------------------------+",
                     @"   |                                                                         |",
-                    @"   |      NEW GAME            CONTINUE            ABOUT            EXIT      |",
+                    @"   |      NEW           LOAD          HELP          ABOUT          EXIT      |",
                     @"   |                                                                         |",
                     @"   +-------------------------------------------------------------------------+"
                 };
