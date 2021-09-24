@@ -74,31 +74,28 @@ namespace GalaxyWarsClassLibrary
             _itemInventory = new List<Item>();
             // create default lists.
 
-            Random random = new Random();
-            // random number generator.
-
-            int weaponSeed = random.Next(0, Galaxy.Weapons.Count);
+            int weaponSeed = LocalRandom.Next(0, Galaxy.Weapons.Count);
             _weaponInventory.Add(Galaxy.Weapons[weaponSeed]);
             _weapon = _weaponInventory[0];
             // give alien random weapon and equip it.
 
-            int lootSeed = random.Next(0, 4);
+            int lootSeed = LocalRandom.Next(0, 4);
             switch (lootSeed)
             {
                 case 0:
-                    lootSeed = random.Next(0, Galaxy.Potions.Count);
+                    lootSeed = LocalRandom.Next(0, Galaxy.Potions.Count);
                     _potionInventory.Add(Galaxy.Potions[lootSeed]);
                     break;
                     // generate a random potion and add to inventory.
 
                 case 1:
-                    lootSeed = random.Next(0, Galaxy.Treasures.Count);
+                    lootSeed = LocalRandom.Next(0, Galaxy.Treasures.Count);
                     _treasureInventory.Add(Galaxy.Treasures[lootSeed]);
                     break;
                     // generate a random treasure and add to inventory.
 
                 case 2:
-                    lootSeed = random.Next(0, Galaxy.Items.Count);
+                    lootSeed = LocalRandom.Next(0, Galaxy.Items.Count);
                     _itemInventory.Add(Galaxy.Items[lootSeed]);
                     break;
                     // generate a random item and add to inventory.

@@ -216,45 +216,45 @@ namespace ConsoleUI
                         // handle GO commands.
 
                         case "attack":
-                            if (Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Health > 0)
+                            if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health > 0)
                             {
                                 Galaxy.ActionStatement = Combat.StandardCombat();
                                 // perform combat.
 
-                                if (Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Health == 0)
+                                if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
 								{
                                     Galaxy.Player.Score++;
                                     // increment score if player defeats alien.
 
-                                    foreach (Item item in Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.ItemInventory)
+                                    foreach (Item item in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory)
 									{
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Items.Add(item);
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Items.Add(item);
                                     }
-                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.ItemInventory.Clear();
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory.Clear();
                                     // copy alien items to planet items then clear aliens item list.
 
-                                    foreach (Potion potion in Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.PotionInventory)
+                                    foreach (Potion potion in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory)
 									{
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Potions.Add(potion);
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Potions.Add(potion);
                                     }
-                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.PotionInventory.Clear();
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory.Clear();
                                     // copy alien potions to planet potions then clear aliens potions list.
 
-                                    foreach (Treasure treasure in Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.TreasureInventory)
+                                    foreach (Treasure treasure in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory)
 									{
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Treasures.Add(treasure);
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Treasures.Add(treasure);
                                     }
-                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.TreasureInventory.Clear();
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory.Clear();
                                     // copy alien treasures to planet treasures then clear aliens treasures list.
 
-                                    foreach (Weapon weapon in Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.WeaponInventory)
+                                    foreach (Weapon weapon in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory)
                                     {
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Weapons.Add(weapon);
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Weapons.Add(weapon);
                                     }
-                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.Weapon = new Weapon(name: "none",
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon = new Weapon(name: "none",
                                                                                                                                      description: "unarmed",
                                                                                                                                      0);
-                                    Galaxy.CurrentSystem[Galaxy.Player.LocationX, Galaxy.Player.LocationY].Alien.WeaponInventory.Clear();
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory.Clear();
                                     // copy alien weapons to planet weapons then clear aliens weapon list and equipped weapon.
                                 }
                             }
