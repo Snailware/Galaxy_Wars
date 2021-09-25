@@ -40,7 +40,7 @@ namespace ConsoleUI
                 // TODO refactor file paths.
                 // load object data from csv files.
 
-                RunCharCreationMenuLoop();
+                // RunCharCreationMenuLoop();
                 // create new character.
 
                 Galaxy.LoadNewSystem();
@@ -67,15 +67,24 @@ namespace ConsoleUI
                 {
                     case "new":
                         CreateNewGameState();
+                        RunCharCreationMenuLoop();
                         RunGameplayLoop();
                         break;
                         // create new game state, create character and start playing.
 
                     case "load":
-                        //RunLoadCharMenuLoop();
-                        // TODO write path to load a saved character & gamestate from storage.
+                        CreateNewGameState();
+                        RunLoadCharMenuLoop();
+                        if (Galaxy.Player != null)
+						{
+                            RunGameplayLoop();
+                        }
+                        else
+						{
+                            RunStartMenuLoop();
+                        }
                         break;
-                        // load character & game state from storage & start playing.
+                        // load character from storage & start playing.
 
                     case "help":
                         CallHelpMenu();
@@ -118,6 +127,44 @@ namespace ConsoleUI
                 // call menu and validate user input. 
             }
             // char creation menu loop.
+
+            void RunLoadCharMenuLoop()
+			{
+
+                do
+                {
+                    string name = "NAME: ",
+                           password;
+
+                    name = CallDynamicMenu(line1: name,
+                                           prompt: "ENTER CHARACTER NAME OR 'EXIT'");
+                    // get name input.
+
+                    if (name.ToLower() == "exit")
+                    {
+                        return;
+                    }
+                    // exit load menu if player enters exit.
+
+                    password = CallDynamicMenu(line1: $"NAME: {name}",
+                                               prompt: "ENTER PASSWORD FOR CHARACTER OR 'EXIT'");
+                    // get password input.
+
+                    if (password.ToLower() == "exit")
+                    {
+                        return;
+                    }
+                    // exit load menu if player enters exit.
+
+                    Galaxy.ActionStatement = FileOps.AuthAndGetCharacter(directory: $@"..\..\..\GalaxyWarsClassLibrary\PlayerSaves",
+                                                                         name: name,
+                                                                         password: password);
+                    // look for save file with matching creds and load.
+                } 
+                while (Galaxy.Player == null);
+
+            }
+            // load char menu loop.
 
             void RunGameplayLoop()
             {
@@ -280,7 +327,11 @@ namespace ConsoleUI
                         // TODO add case for USE command.
                         // TODO add case for PICKUP command.
                         // TODO add case for DROP command.
-                        // TODO add case for SAVE command.
+
+                        case "save":
+                            Galaxy.ActionStatement = FileOps.SaveCharacter($@"..\..\..\GalaxyWarsClassLibrary\PlayerSaves\{Galaxy.Player.Name}.json");
+                            break;
+                        // handle SAVE command.
 
                         case "help":
                             CallHelpMenu();
@@ -288,6 +339,7 @@ namespace ConsoleUI
                         // handle HELP command.
 
                         case "exit":
+                            RunStartMenuLoop();
                             break;
                         // handle EXIT command.
 
