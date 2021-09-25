@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GalaxyWarsClassLibrary
@@ -339,6 +341,109 @@ namespace GalaxyWarsClassLibrary
 
             return results;
             // return list of items.
+        }
+
+        /// <summary>
+        /// save current character data to file.
+        /// </summary>
+        /// <param name="filePath">path to character file.</param>
+        /// <returns>save status message.</returns>
+        public static string SaveCharacter(string filePath)
+        {
+            string status;
+
+            try
+            {
+                string characterJson = JsonSerializer.Serialize(Galaxy.Player);
+                // convert player data to json.
+
+                File.WriteAllText(filePath, characterJson);
+                // create new file, write json char data then close.
+
+                status = "CHARACTER SAVED SUCCESSFULLY.";
+                // set status for success.
+            } 
+            catch (Exception ex)
+            {
+                status = ex.Message;
+                // set status for failure adding excpetion message.
+            }
+
+            return status;
+            // return save status. 
+        }
+
+        /// <summary>
+        /// load current character data from file.
+        /// </summary>
+        /// <param name="filePath">path to character file.</param>
+        /// <returns>load status message.</returns>
+        public static string LoadCharacter(string filePath)
+		{
+            string status;
+
+            try
+			{
+                string characterJson = File.ReadAllText(filePath);
+                // open file, read all json text, then close.
+
+                Galaxy.Player = JsonSerializer.Deserialize<Player>(characterJson);
+                // parse character from json and set to active player. 
+
+                status = "CHARACTER LOADED SUCCESSFULLY.";
+                // set status for success.
+            }
+            catch (Exception ex)
+			{
+                status = ex.Message;
+                // set status for failure adding excpetion message.
+            }
+
+            return status;
+            // return load status.
+		}
+
+        /// <summary>
+        ///  search directory for save file matching credentials.
+        /// </summary>
+        /// <param name="directory">directory to search for save files.</param>
+        /// <param name="name">name of charater.</param>
+        /// <param name="password">password of character.</param>
+        /// <returns>file path of authorized file, or error message.</returns>
+        public static string AuthAndGetCharacter(string directory, string name, string password)
+		{
+            string output = "NO SAVE MATCHING CREDENTIALS.";
+
+            try
+            {
+                string[] saveFiles = Directory.GetFiles(directory);
+
+                foreach (string file in saveFiles)
+                {
+                    string characterJson = File.ReadAllText(file);
+                    // open file, read all json text, then close.
+
+                    Player character = JsonSerializer.Deserialize<Player>(characterJson);
+                    // parse character from json.
+
+                    if (name == character.Name &&
+                        password == character.Password)
+                    {
+                        output = $"{name} FOUND!";
+                        LoadCharacter(file);
+                        break;
+                    }
+                    // if match is found, set file path and stop search.
+                }
+                // find character save file with matching creds.}
+            } 
+            catch (Exception ex)
+			{
+                output = ex.Message;
+			}
+
+            return output;
+            // return results.
         }
     }
 }
