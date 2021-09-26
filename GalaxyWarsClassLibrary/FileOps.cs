@@ -156,8 +156,11 @@ namespace GalaxyWarsClassLibrary
                 // tokenize line.
 
                 Weapon weapon = new Weapon(name: weaponTokens[0],
-                                           description: weaponTokens[1],
-                                           damage: int.Parse(weaponTokens[2]));
+                                          description: weaponTokens[1],
+                                          price: int.Parse(weaponTokens[2]),
+                                          quest: bool.Parse(weaponTokens[3]),
+                                          damageType: weaponTokens[4],
+                                          amtOfDamage: int.Parse(weaponTokens[5]));
                 // TODO add new weapon attribute to constructor.
                 // create weapon from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
@@ -211,8 +214,11 @@ namespace GalaxyWarsClassLibrary
                 // tokenize line.
 
                 Potion potion = new Potion(name: potionTokens[0],
-                                           description: potionTokens[1],
-                                           effect: int.Parse(potionTokens[2]));
+                                          description: potionTokens[1],
+                                          price: int.Parse(potionTokens[2]),
+                                          quest: bool.Parse(potionTokens[3]),
+                                          healthEffect: int.Parse(potionTokens[4]),
+                                          damageEffect: int.Parse(potionTokens[5]));
                 // TODO add new potion attribute to constructor.
                 // create potion from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
@@ -267,7 +273,8 @@ namespace GalaxyWarsClassLibrary
 
                 Treasure treasure = new Treasure(name: treasureTokens[0],
                                                  description: treasureTokens[1],
-                                                 value: int.Parse(treasureTokens[2]));
+                                                 price: int.Parse(treasureTokens[2]),
+                                                 quest: bool.Parse(treasureTokens[3]));
                 // create treasure from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
                 // and thus can be trusted to be accurate.  
@@ -320,7 +327,9 @@ namespace GalaxyWarsClassLibrary
                 // tokenize line.
 
                 Item item = new Item(name: itemTokens[0],
-                                     description: itemTokens[1]);
+                                     description: itemTokens[1],
+                                     price: int.Parse(itemTokens[2]),
+                                     quest: bool.Parse(itemTokens[3]));
                 // TODO add new item attributes to constructor.
                 // create item from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs

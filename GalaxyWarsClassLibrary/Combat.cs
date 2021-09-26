@@ -22,8 +22,48 @@ namespace GalaxyWarsClassLibrary
 			Random random = new Random();
 			// random number generator.
 
-			Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health -= Galaxy.Player.Weapon.Damage + random.Next(0, 3) - 
-																								   Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Armor;
+			int damagetotal = Galaxy.Player.Weapon.AmtOfDamage - Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Armor;
+
+			switch (Galaxy.Player.Weapon.DamageType)
+			{
+				case "Elemental":
+					damagetotal += random.Next(0, 2);
+					break;
+				case "Projectile":
+					damagetotal += random.Next(1, 3);
+					break;
+				case "Disintegrate":
+					damagetotal += random.Next(2, 4);
+					break;
+				case "Rifle":
+					damagetotal += random.Next(4, 6);
+					break;
+				case "Sword":
+					damagetotal += random.Next(6, 8);
+					break;
+				case "Blade":
+					damagetotal += random.Next(7, 10);
+					break;
+				case "Impale":
+					damagetotal += random.Next(8, 11);
+					break;
+				case "Chemical":
+					damagetotal += random.Next(9, 12);
+					break;
+				case "Fire":
+					damagetotal += random.Next(10, 12);
+					break;
+				case "Heavyduty":
+					damagetotal += random.Next(11, 14);
+					break;
+				case "Crystal":
+					damagetotal += random.Next(12, 14);
+					break;
+				case "SwordSpear":
+					damagetotal += random.Next(13, 15);
+					break;
+			}
+			Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health -= damagetotal;
 			// player attacks enemy. 
 
 			string combatSummary = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} TAKES {alienStartingHealth - Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health} DMG.";
@@ -31,7 +71,7 @@ namespace GalaxyWarsClassLibrary
 
 			if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health > 0)
 			{
-				Galaxy.Player.Health -= Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon.Damage + random.Next(0, 3) -
+				Galaxy.Player.Health -= Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon.AmtOfDamage + random.Next(0, 3) -
 										Galaxy.Player.Armor;
 				// alien attacks player.
 

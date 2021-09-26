@@ -1,5 +1,9 @@
-name,description
-Rusty Coin,An old coin with no value.
-Childs Doll,A doll that reminds you of home.
-Old Ring,A simple ring tarnished by time.
-Strange Key,A key to an unknown lock.
+name,description,price,quest
+Vision Goggles,To see in dark areas.,5,false
+Safety Ropes,For saftey.,3,false
+Pocket knives,For emergencies.,2,false
+Safety Gloves,To protect hans.,2.5,false
+Rusty Coin,An old coin with no value.,10,false
+Childs Doll,A doll that reminds you of home.,15,false
+Old Ring,A simple ring tarnished by time.,20,true
+Strange Key,A key to an unknown lock.,30,true
