@@ -8,18 +8,13 @@ namespace GalaxyWarsClassLibrary
 {
     public class Treasure : Item
     {
-        private int _value;
-
-        public Treasure(string name, string description, int value)
-            : base(name, description)
+        public Treasure(string name, string description,int price, bool quest)
+            : base(name, description, price, quest)
         {
             _name = name;
             _description = description;
-            _value = value;
-        }
-        public int Value
-        {
-            get { return _value; }
+            _price = price;
+            _quest = quest;
         }
     }
 }

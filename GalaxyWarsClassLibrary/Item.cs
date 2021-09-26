@@ -10,11 +10,15 @@ namespace GalaxyWarsClassLibrary
     {
         protected string _name,
                          _description;
+        protected int _price;
+        protected bool _quest;
 
-        public Item(string name, string description)
+        public Item(string name, string description, int price, bool quest)
         {
             _name = name;
             _description = description;
+            _price = price;
+            _quest = quest;
         }
         public string Name
         {
@@ -24,6 +28,14 @@ namespace GalaxyWarsClassLibrary
         public string Description
         {
             get { return _description; }
+        }
+        public int Price
+        {
+            get { return _price; }
+        }
+        public bool Quest
+        {
+            get { return _quest; }
         }
     }
 }
