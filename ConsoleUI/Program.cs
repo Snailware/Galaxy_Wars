@@ -308,8 +308,11 @@ namespace ConsoleUI
                                         Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Weapons.Add(weapon);
                                     }
                                     Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon = new Weapon(name: "none",
-                                                                                                                                     description: "unarmed",
-                                                                                                                                     0);
+                                                                                                                                     description: "unarmed", 
+                                                                                                                                     price: 0, 
+                                                                                                                                     quest: false, 
+                                                                                                                                     damageType: "none", 
+                                                                                                                                     amtOfDamage: 0);
                                     Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory.Clear();
                                     // copy alien weapons to planet weapons then clear aliens weapon list and equipped weapon.
                                 }

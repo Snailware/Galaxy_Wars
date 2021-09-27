@@ -1,5 +1,5 @@
-name,description,price,quest,damageType,amtOfDamage, 
-Phaser,A handheldpersonal defense weapon.,100,false,elemental,2 
+name,description,price,quest,damageType,amtOfDamage 
+Phaser,A handheld personal defense weapon.,100,false,elemental,9 
 Pulse Cannon,A large cannon that fires a tetryon pulse.,200,false,projectile,4
 Disruptor,A powerful weapon capable of destroying hulls.,300,false,disintegrate,6
 Assault Rifle,A rifle capable of automatic fire.,400,false,rifle,7
