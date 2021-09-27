@@ -130,8 +130,17 @@ namespace GalaxyWarsClassLibrary
         /// <returns>random planet.</returns>
         public static Planet Generate()
         {
-            return Galaxy.Planets[LocalRandom.Next(0, Galaxy.Planets.Count - 1)];
-            // return a random planet from list.
+            Planet basePlanet = Galaxy.Planets[LocalRandom.Next(0, Galaxy.Planets.Count - 1)];
+            // randomly select planet to copy.
+
+            Planet generatedPlanet = new Planet(planetName: basePlanet.Name,
+                                                planetDescription: basePlanet.Description,
+                                                population: basePlanet.Population,
+                                                alien: basePlanet.Alien);
+            // manually create copy of planet.
+
+            return generatedPlanet;
+            // return generated planet.
         }
 
         /// <summary>
