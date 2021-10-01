@@ -445,5 +445,22 @@ namespace GalaxyWarsClassLibrary
             return output;
             // return results.
         }
+
+        /// <summary>
+        /// get database connection string from file.
+        /// </summary>
+        /// <param name="filePath">path to connection string file.</param>
+        /// <returns>connection string.</returns>
+        public static string GetConnectionString(string filePath)
+		{
+            string ConnectionString = File.ReadAllText(filePath);
+            // read all text from file.
+
+            ConnectionString = ConnectionString.Replace("\n", "");
+            // remove newline chars.
+
+            return ConnectionString.Trim();
+            // remove whitespace and return connection string.
+		}
     }
 }
