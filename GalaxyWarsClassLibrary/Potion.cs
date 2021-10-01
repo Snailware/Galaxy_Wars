@@ -8,19 +8,25 @@ namespace GalaxyWarsClassLibrary
 {
     public class Potion : Item
     {
-        private int _effect;
+        private int _healthEffect;
+        private int _damageEffect;
 
-        public Potion(string name, string description, int effect)
-            :base(name, description)
+        public Potion(string name, string description, int price, bool quest, int healthEffect, int damageEffect)
+            : base(name, description, price, quest)
         {
             _name = name;
             _description = description;
-            _effect = effect;
+            _quest = quest;
+            _healthEffect = healthEffect;
+            _damageEffect = damageEffect;
         }
-
-        public int Effect
+        public int HealthEffect
         {
-            get { return _effect; }
+            get { return _healthEffect; }
+        }
+        public int DamageEffect
+        {
+            get { return _damageEffect; }
         }
     }
 }

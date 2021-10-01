@@ -75,9 +75,15 @@ namespace GalaxyWarsClassLibrary
             // create default lists.
 
             int weaponSeed = LocalRandom.Next(0, Galaxy.Weapons.Count);
-            _weaponInventory.Add(Galaxy.Weapons[weaponSeed]);
+            Weapon weaponCopy = new Weapon(name: Galaxy.Weapons[weaponSeed].Name,
+                                           description: Galaxy.Weapons[weaponSeed].Description,
+                                           price: Galaxy.Weapons[weaponSeed].Price,
+                                           quest: Galaxy.Weapons[weaponSeed].Quest,
+                                           damageType: Galaxy.Weapons[weaponSeed].DamageType,
+                                           amtOfDamage: Galaxy.Weapons[weaponSeed].AmtOfDamage);
+            _weaponInventory.Add(weaponCopy);
             _weapon = _weaponInventory[0];
-            // give alien random weapon and equip it.
+            // give alien copy of random weapon and equip it.
 
             int lootSeed = LocalRandom.Next(0, 4);
             switch (lootSeed)
@@ -128,8 +134,18 @@ namespace GalaxyWarsClassLibrary
         /// <returns>randomized alien obj.</returns>
         public static Alien Generate()
         {
-            return Galaxy.Aliens[LocalRandom.Next(0, Galaxy.Aliens.Count - 1)];
-            // select random alien from Galaxy.Aliens and return.
+            Alien baseAlien = Galaxy.Aliens[LocalRandom.Next(0, Galaxy.Aliens.Count - 1)];
+            // randomly select alien to copy.
+
+            Alien generatedAlien = new Alien(name: baseAlien.Name,
+                                             description: baseAlien.Description,
+                                             health: baseAlien.Health,
+                                             armor: baseAlien.Armor,
+                                             money: baseAlien.Money);
+            // manually create copy of base alien.
+
+            return generatedAlien;
+            // return randomly generated alien.
         }
         // methods.
     }
