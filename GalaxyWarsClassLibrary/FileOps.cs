@@ -465,8 +465,9 @@ namespace GalaxyWarsClassLibrary
             string ConnectionString = File.ReadAllText(filePath);
             // read all text from file.
 
-            ConnectionString = ConnectionString.Replace("\n", "");
+            // ConnectionString = ConnectionString.Replace("\n", "");
             // remove newline chars.
+            // TODO remove if not needed.
 
             return ConnectionString.Trim();
             // remove whitespace and return connection string.
