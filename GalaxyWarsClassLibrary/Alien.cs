@@ -90,19 +90,30 @@ namespace GalaxyWarsClassLibrary
             {
                 case 0:
                     lootSeed = LocalRandom.Next(0, Galaxy.Potions.Count);
-                    _potionInventory.Add(Galaxy.Potions[lootSeed]);
+                    _potionInventory.Add(new Potion(name: Galaxy.Potions[lootSeed].Name,
+                                                    description: Galaxy.Potions[lootSeed].Description,
+                                                    price: Galaxy.Potions[lootSeed].Price,
+                                                    quest: Galaxy.Potions[lootSeed].Quest,
+                                                    healthEffect: Galaxy.Potions[lootSeed].HealthEffect,
+                                                    damageEffect: Galaxy.Potions[lootSeed].DamageEffect));
                     break;
                     // generate a random potion and add to inventory.
 
                 case 1:
                     lootSeed = LocalRandom.Next(0, Galaxy.Treasures.Count);
-                    _treasureInventory.Add(Galaxy.Treasures[lootSeed]);
+                    _treasureInventory.Add(new Treasure(name: Galaxy.Treasures[lootSeed].Name,
+                                                        description: Galaxy.Treasures[lootSeed].Description,
+                                                        price: Galaxy.Potions[lootSeed].Price,
+                                                        quest: Galaxy.Potions[lootSeed].Quest));
                     break;
                     // generate a random treasure and add to inventory.
 
                 case 2:
                     lootSeed = LocalRandom.Next(0, Galaxy.Items.Count);
-                    _itemInventory.Add(Galaxy.Items[lootSeed]);
+                    _itemInventory.Add(new Item(name: Galaxy.Items[lootSeed].Name,
+                                                description: Galaxy.Potions[lootSeed].Description,
+                                                price: Galaxy.Potions[lootSeed].Price,
+                                                quest: Galaxy.Potions[lootSeed].Quest));
                     break;
                     // generate a random item and add to inventory.
 
