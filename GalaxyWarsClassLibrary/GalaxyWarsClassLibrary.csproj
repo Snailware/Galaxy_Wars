@@ -74,6 +74,7 @@
     <Compile Include="DatabaseOps.cs" />
     <Compile Include="FileOps.cs" />
     <Compile Include="Galaxy.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Lifeform.cs" />
     <Compile Include="ListOps.cs" />
