@@ -137,6 +137,7 @@ namespace GalaxyWarsClassLibrary
 				{
 					if (dataReader.GetString(0) == name &&
 						dataReader.GetString(1) == password)
+					// TODO might need to check these conditions depending on query output.
 					{
 						GameState output = JsonSerializer.Deserialize<GameState>(dataReader.GetString(2));
 						// deserialize obj.
@@ -149,9 +150,18 @@ namespace GalaxyWarsClassLibrary
 						Galaxy.Aliens = output.Aliens;
 						Galaxy.Planets = output.Planets;
 						Galaxy.CurrentSystem = output.CurrentSystem;
+						// load data to galaxy.
+
+						break;
+						// exit loop.
 					}
 				}
 				// iter over records. if match is found, deserialize & load state.
+
+				dataReader.Close();
+				command.Dispose();
+				connection.Close();
+				// close all objs.
 			} 
 			catch (Exception ex)
 			{
@@ -186,24 +196,54 @@ namespace GalaxyWarsClassLibrary
 				string gameStateJson = JsonSerializer.Serialize(saveState);
 				// data to store in db.
 
-				string query = $"INSERT INTO saves VALUES('{name}', '{password}', '{gameStateJson}')";
-				// SQL query to execute.
+				if (SaveAlreadyExists(name, password))
+				{
+					string query = $"UPDATE saves SET gamestate = '{gameStateJson}' WHERE name = '{name}' AND password = '{password}'";
+					// SQL query to execute.
 
-				SqlConnection connection = new SqlConnection(ConnectionString);
-				// create connection using connection string.
+					SqlConnection connection = new SqlConnection(ConnectionString);
+					// create connection using connection string.
 
-				connection.Open();
-				// open database connection. 
+					connection.Open();
+					// open database connection. 
 
-				SqlCommand command = new SqlCommand(query, connection);
-				SqlDataAdapter adapter = new SqlDataAdapter();
-				adapter.InsertCommand = new SqlCommand(query, connection);
-				adapter.InsertCommand.ExecuteNonQuery();
-				// create objs and execute sql query.
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataAdapter adapter = new SqlDataAdapter();
+					adapter.UpdateCommand = new SqlCommand(query, connection);
+					adapter.UpdateCommand.ExecuteNonQuery();
+					// create objs and execute sql query.
 
-				command.Dispose();
-				connection.Close();
-				// close all objects.
+					command.Dispose();
+					adapter.Dispose();
+					connection.Close();
+					// close all objects.
+				}
+				// update record if match is found.
+
+				else
+				{
+					string query = $"INSERT INTO saves VALUES ('{name}', '{password}', '{gameStateJson}')";
+					// SQL query to execute.
+					// TODO might need to change this depending on syntax.
+
+					SqlConnection connection = new SqlConnection(ConnectionString);
+					// create connection using connection string.
+
+					connection.Open();
+					// open database connection. 
+
+					SqlCommand command = new SqlCommand(query, connection);
+					SqlDataAdapter adapter = new SqlDataAdapter();
+					adapter.InsertCommand = new SqlCommand(query, connection);
+					adapter.InsertCommand.ExecuteNonQuery();
+					// create objs and execute sql query.
+
+					command.Dispose();
+					adapter.Dispose();
+					connection.Close();
+					// close all objects.
+				}
+				// create new record if no match found. 
 
 				return "success";
 			}
@@ -211,6 +251,55 @@ namespace GalaxyWarsClassLibrary
 			{
 				return ex.Message;
 			}
+		}
+
+		/// <summary>
+		/// check if save exists belonging to name and password.
+		/// </summary>
+		/// <param name="name">name of player.</param>
+		/// <param name="password">password of player.</param>
+		/// <returns>true if match is found, false otherwise.</returns>
+		public static bool SaveAlreadyExists(string name, string password)
+		{
+			const string Query = "SELECT name, password FROM saves";
+			// SQL query to execute.
+
+			bool saveExists = false;
+			// save exists flag.
+
+			SqlConnection connection = new SqlConnection(ConnectionString);
+			// create connection using connection string.
+
+			connection.Open();
+			// open database connection. 
+
+			SqlCommand command = new SqlCommand(Query, connection);
+			// create command object.
+
+			SqlDataReader dataReader = command.ExecuteReader();
+			// execute command & create reader obj.
+
+			while (dataReader.Read())
+			{
+				if (dataReader.GetString(0) == name &&
+					dataReader.GetString(1) == password)
+				// TODO might need to check these conditions depending on query output.
+				{
+					saveExists = true;
+
+					break;
+					// exit loop.
+				}
+			}
+			// iter over records. if match is found, set flag to true.
+
+			dataReader.Close();
+			command.Dispose();
+			connection.Close();
+			// close connection.
+
+			return saveExists;
+			// return flag status.
 		}
 		// methods.
 	}
