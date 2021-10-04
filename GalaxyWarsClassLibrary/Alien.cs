@@ -103,17 +103,17 @@ namespace GalaxyWarsClassLibrary
                     lootSeed = LocalRandom.Next(0, Galaxy.Treasures.Count);
                     _treasureInventory.Add(new Treasure(name: Galaxy.Treasures[lootSeed].Name,
                                                         description: Galaxy.Treasures[lootSeed].Description,
-                                                        price: Galaxy.Potions[lootSeed].Price,
-                                                        quest: Galaxy.Potions[lootSeed].Quest));
+                                                        price: Galaxy.Treasures[lootSeed].Price,
+                                                        quest: Galaxy.Treasures[lootSeed].Quest));
                     break;
                     // generate a random treasure and add to inventory.
 
                 case 2:
                     lootSeed = LocalRandom.Next(0, Galaxy.Items.Count);
                     _itemInventory.Add(new Item(name: Galaxy.Items[lootSeed].Name,
-                                                description: Galaxy.Potions[lootSeed].Description,
-                                                price: Galaxy.Potions[lootSeed].Price,
-                                                quest: Galaxy.Potions[lootSeed].Quest));
+                                                description: Galaxy.Items[lootSeed].Description,
+                                                price: Galaxy.Items[lootSeed].Price,
+                                                quest: Galaxy.Items[lootSeed].Quest));
                     break;
                     // generate a random item and add to inventory.
 
