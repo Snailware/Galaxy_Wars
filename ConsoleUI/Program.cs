@@ -40,9 +40,6 @@ namespace ConsoleUI
                 // TODO refactor file paths.
                 // load object data from csv files.
 
-                // RunCharCreationMenuLoop();
-                // create new character.
-
                 Galaxy.LoadNewSystem();
                 // load new system.
             }
