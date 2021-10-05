@@ -72,6 +72,7 @@
     <Compile Include="Alien.cs" />
     <Compile Include="Combat.cs" />
     <Compile Include="DatabaseOps.cs" />
+    <Compile Include="DataOps.cs" />
     <Compile Include="FileOps.cs" />
     <Compile Include="Galaxy.cs" />
     <Compile Include="GameState.cs" />

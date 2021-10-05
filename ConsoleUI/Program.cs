@@ -31,14 +31,13 @@ namespace ConsoleUI
                 Galaxy.ActionStatement = "ONLY YOU CAN SAVE THE GALAXY!";
                 // set intro action statement. 
 
-                Galaxy.Treasures = FileOps.ReadTreasures(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Treasures.csv");
-                Galaxy.Items = FileOps.ReadItems(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Items.csv");
-                Galaxy.Potions = FileOps.ReadPotions(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Potions.csv");
-                Galaxy.Weapons = FileOps.ReadWeapons(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Weapons.csv");
-                Galaxy.Aliens = FileOps.ReadAliens(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Aliens.csv");
-                Galaxy.Planets = FileOps.ReadPlanets(@"..\..\..\GalaxyWarsClassLibrary\ObjectData\Planets.csv");
-                // TODO refactor file paths.
-                // load object data from csv files.
+                Galaxy.Treasures = DataOps.GetTreasures();
+                Galaxy.Items = DataOps.GetItems();
+                Galaxy.Potions = DataOps.GetPotions();
+                Galaxy.Weapons = DataOps.GetWeapons();
+                Galaxy.Aliens = DataOps.GetAliens();
+                Galaxy.Planets = DataOps.GetPlanets();
+                // load object data.
 
                 Galaxy.LoadNewSystem();
                 // load new system.
