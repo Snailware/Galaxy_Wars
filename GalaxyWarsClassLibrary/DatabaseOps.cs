@@ -21,12 +21,12 @@ namespace GalaxyWarsClassLibrary
         // props.
     
         /// <summary>
-        /// read planets table in database and create objects.
+        /// read planets table in database and create planets.
         /// </summary>
-        /// <returns>list of constructed planets.</returns>
+        /// <returns>list of planets.</returns>
         public static List<Planet> ReadPlanets()
         {
-            const string Query = "SELECT name, description, population FROM planets";
+            const string Query = "SELECT name, description, population FROM planets;";
             // SQL query to execute.
 
             List<Planet> output = new List<Planet>();
@@ -63,12 +63,12 @@ namespace GalaxyWarsClassLibrary
         }
 
         /// <summary>
-        /// read aliens table in database and create objects.
+        /// read aliens table in database and create aliens.
         /// </summary>
-        /// <returns>list of constructed aliens.</returns>
+        /// <returns>list of aliens.</returns>
         public static List<Alien> ReadAliens()
         {
-            const string Query = "SELECT name, description, health, armor, money FROM aliens";
+            const string Query = "SELECT name, description, health, armor, money FROM aliens;";
             // SQL query to execute.
 
             List<Alien> output = new List<Alien>();
@@ -106,6 +106,42 @@ namespace GalaxyWarsClassLibrary
         }
 
         /// <summary>
+        /// read weapons table in database and create weapons.
+        /// </summary>
+        /// <returns>list of weapons.</returns>
+        public static List<Weapon> ReadWeapons()
+		{
+            // TODO write this method.
+		}
+
+        /// <summary>
+        /// read potions table in database and create potions.
+        /// </summary>
+        /// <returns>list of potions.</returns>
+        public static List<Potion> ReadPotions()
+		{
+            // TODO write this method.
+		}
+
+        /// <summary>
+        /// read treasures table in database and create treasures.
+        /// </summary>
+        /// <returns>list of treasures.</returns>
+        public static List<Treasure> ReadTreasures()
+		{
+            // TODO write this method.
+		}
+
+        /// <summary>
+        /// read items table in database and create items.
+        /// </summary>
+        /// <returns>list of items.</returns>
+        public static List<Item> ReadItems()
+		{
+            // TODO write this method.
+		}
+
+        /// <summary>
         /// check credentials against database records, and return gamestate 
         /// if match is found. 
         /// </summary>
@@ -114,7 +150,7 @@ namespace GalaxyWarsClassLibrary
         /// <returns>filled GameState if match found, empty GameState if not.</returns>
         public static string AuthAndLoadGame(string name, string password)
         {
-            const string Query = "SELECT * FROM saves";
+            const string Query = "SELECT * FROM saves;";
             // SQL query to execute.
 
             string status = "success";
@@ -198,7 +234,7 @@ namespace GalaxyWarsClassLibrary
 
                 if (SaveAlreadyExists(name, password))
                 {
-                    string query = $"UPDATE saves SET gamestate = '{gameStateJson}' WHERE name = '{name}' AND password = '{password}'";
+                    string query = $"UPDATE saves SET gamestate = '{gameStateJson}' WHERE name = '{name}' AND password = '{password}';";
                     // SQL query to execute.
 
                     SqlConnection connection = new SqlConnection(ConnectionString);
@@ -222,7 +258,7 @@ namespace GalaxyWarsClassLibrary
 
                 else
                 {
-                    string query = $"INSERT INTO saves VALUES ('{name}', '{password}', '{gameStateJson}')";
+                    string query = $"INSERT INTO saves VALUES ('{name}', '{password}', '{gameStateJson}');";
                     // SQL query to execute.
                     // TODO might need to change this depending on syntax.
 
@@ -261,7 +297,7 @@ namespace GalaxyWarsClassLibrary
         /// <returns>true if match is found, false otherwise.</returns>
         private static bool SaveAlreadyExists(string name, string password)
         {
-            const string Query = "SELECT name, password FROM saves";
+            const string Query = "SELECT name, password FROM saves;";
             // SQL query to execute.
 
             bool saveExists = false;
