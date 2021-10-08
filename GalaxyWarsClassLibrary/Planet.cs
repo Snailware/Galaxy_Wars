@@ -13,11 +13,8 @@ namespace GalaxyWarsClassLibrary
     {
         private string _name,
                        _description;
-
         private int _population;
-
         private Alien _alien;
-
         private List<Weapon> _weapons;
         private List<Potion> _potions;
         private List<Item> _items;

@@ -75,28 +75,45 @@ namespace GalaxyWarsClassLibrary
             // create default lists.
 
             int weaponSeed = LocalRandom.Next(0, Galaxy.Weapons.Count);
-            _weaponInventory.Add(Galaxy.Weapons[weaponSeed]);
+            Weapon weaponCopy = new Weapon(name: Galaxy.Weapons[weaponSeed].Name,
+                                           description: Galaxy.Weapons[weaponSeed].Description,
+                                           price: Galaxy.Weapons[weaponSeed].Price,
+                                           quest: Galaxy.Weapons[weaponSeed].Quest,
+                                           damageType: Galaxy.Weapons[weaponSeed].DamageType,
+                                           amtOfDamage: Galaxy.Weapons[weaponSeed].AmtOfDamage);
+            _weaponInventory.Add(weaponCopy);
             _weapon = _weaponInventory[0];
-            // give alien random weapon and equip it.
+            // give alien copy of random weapon and equip it.
 
             int lootSeed = LocalRandom.Next(0, 4);
             switch (lootSeed)
             {
                 case 0:
                     lootSeed = LocalRandom.Next(0, Galaxy.Potions.Count);
-                    _potionInventory.Add(Galaxy.Potions[lootSeed]);
+                    _potionInventory.Add(new Potion(name: Galaxy.Potions[lootSeed].Name,
+                                                    description: Galaxy.Potions[lootSeed].Description,
+                                                    price: Galaxy.Potions[lootSeed].Price,
+                                                    quest: Galaxy.Potions[lootSeed].Quest,
+                                                    healthEffect: Galaxy.Potions[lootSeed].HealthEffect,
+                                                    damageEffect: Galaxy.Potions[lootSeed].DamageEffect));
                     break;
                     // generate a random potion and add to inventory.
 
                 case 1:
                     lootSeed = LocalRandom.Next(0, Galaxy.Treasures.Count);
-                    _treasureInventory.Add(Galaxy.Treasures[lootSeed]);
+                    _treasureInventory.Add(new Treasure(name: Galaxy.Treasures[lootSeed].Name,
+                                                        description: Galaxy.Treasures[lootSeed].Description,
+                                                        price: Galaxy.Treasures[lootSeed].Price,
+                                                        quest: Galaxy.Treasures[lootSeed].Quest));
                     break;
                     // generate a random treasure and add to inventory.
 
                 case 2:
                     lootSeed = LocalRandom.Next(0, Galaxy.Items.Count);
-                    _itemInventory.Add(Galaxy.Items[lootSeed]);
+                    _itemInventory.Add(new Item(name: Galaxy.Items[lootSeed].Name,
+                                                description: Galaxy.Items[lootSeed].Description,
+                                                price: Galaxy.Items[lootSeed].Price,
+                                                quest: Galaxy.Items[lootSeed].Quest));
                     break;
                     // generate a random item and add to inventory.
 

@@ -161,7 +161,6 @@ namespace GalaxyWarsClassLibrary
                                           quest: bool.Parse(weaponTokens[3]),
                                           damageType: weaponTokens[4],
                                           amtOfDamage: int.Parse(weaponTokens[5]));
-                // TODO add new weapon attribute to constructor.
                 // create weapon from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
                 // and thus can be trusted to be accurate.  
@@ -219,7 +218,6 @@ namespace GalaxyWarsClassLibrary
                                           quest: bool.Parse(potionTokens[3]),
                                           healthEffect: int.Parse(potionTokens[4]),
                                           damageEffect: int.Parse(potionTokens[5]));
-                // TODO add new potion attribute to constructor.
                 // create potion from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
                 // and thus can be trusted to be accurate.  
@@ -330,7 +328,6 @@ namespace GalaxyWarsClassLibrary
                                      description: itemTokens[1],
                                      price: int.Parse(itemTokens[2]),
                                      quest: bool.Parse(itemTokens[3]));
-                // TODO add new item attributes to constructor.
                 // create item from tokens. int.Parse is used instead of
                 // int.TryParse because all values will be controlled by devs
                 // and thus can be trusted to be accurate.  
@@ -388,11 +385,11 @@ namespace GalaxyWarsClassLibrary
         /// <param name="filePath">path to character file.</param>
         /// <returns>load status message.</returns>
         public static string LoadCharacter(string filePath)
-		{
+        {
             string status;
 
             try
-			{
+            {
                 string characterJson = File.ReadAllText(filePath);
                 // open file, read all json text, then close.
 
@@ -403,14 +400,14 @@ namespace GalaxyWarsClassLibrary
                 // set status for success.
             }
             catch (Exception ex)
-			{
+            {
                 status = ex.Message;
                 // set status for failure adding excpetion message.
             }
 
             return status;
             // return load status.
-		}
+        }
 
         /// <summary>
         ///  search directory for save file matching credentials.
@@ -420,7 +417,7 @@ namespace GalaxyWarsClassLibrary
         /// <param name="password">password of character.</param>
         /// <returns>file path of authorized file, or error message.</returns>
         public static string AuthAndGetCharacter(string directory, string name, string password)
-		{
+        {
             string output = "NO SAVE MATCHING CREDENTIALS.";
 
             try
@@ -447,12 +444,26 @@ namespace GalaxyWarsClassLibrary
                 // find character save file with matching creds.}
             } 
             catch (Exception ex)
-			{
+            {
                 output = ex.Message;
-			}
+            }
 
             return output;
             // return results.
+        }
+
+        /// <summary>
+        /// get database connection string from file.
+        /// </summary>
+        /// <param name="filePath">path to connection string file.</param>
+        /// <returns>connection string.</returns>
+        public static string GetConnectionString(string filePath)
+        {
+            string ConnectionString = File.ReadAllText(filePath);
+            // read all text from file.
+
+            return ConnectionString.Trim();
+            // remove whitespace and return connection string.
         }
     }
 }
