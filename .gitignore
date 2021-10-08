@@ -6,6 +6,9 @@
 # json save files.
 *.json
 
+# connection string file used for database access.
+ConnectionString.txt
+
 # User-specific files
 *.rsuser
 *.suo
