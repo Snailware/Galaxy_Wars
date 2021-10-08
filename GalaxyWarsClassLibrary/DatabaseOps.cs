@@ -32,6 +32,12 @@ namespace GalaxyWarsClassLibrary
             List<Planet> output = new List<Planet>();
             // list to hold resulting objects.
 
+            if (ConnectionString is null)
+            {
+                ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+            }
+            // get connection string if needed.
+
             SqlConnection connection = new SqlConnection(ConnectionString);
             // create connection using connection string.
 
@@ -73,6 +79,12 @@ namespace GalaxyWarsClassLibrary
 
             List<Alien> output = new List<Alien>();
             // list to hold resulting objects.
+
+            if (ConnectionString is null)
+            {
+                ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+            }
+            // get connection string if needed.
 
             SqlConnection connection = new SqlConnection(ConnectionString);
             // create connection using connection string.
@@ -157,6 +169,12 @@ namespace GalaxyWarsClassLibrary
 
             try
             {
+                if (ConnectionString is null)
+                {
+                    ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+                }
+                // get connection string if needed.
+
                 SqlConnection connection = new SqlConnection(ConnectionString);
                 // create connection using connection string.
 
@@ -232,6 +250,12 @@ namespace GalaxyWarsClassLibrary
                 string gameStateJson = JsonSerializer.Serialize(saveState);
                 // data to store in db.
 
+                if (ConnectionString is null)
+                {
+                    ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+                }
+                // get connection string if needed.
+
                 if (SaveAlreadyExists(name, password))
                 {
                     string query = $"UPDATE saves SET gamestate = '{gameStateJson}' WHERE name = '{name}' AND password = '{password}';";
@@ -302,6 +326,12 @@ namespace GalaxyWarsClassLibrary
 
             bool saveExists = false;
             // save exists flag.
+
+            if (ConnectionString is null)
+            {
+                ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+            }
+            // get connection string if needed.
 
             SqlConnection connection = new SqlConnection(ConnectionString);
             // create connection using connection string.
