@@ -152,9 +152,7 @@ namespace ConsoleUI
                     }
                     // exit load menu if player enters exit.
 
-                    Galaxy.ActionStatement = FileOps.AuthAndGetCharacter(directory: $@"..\..\..\GalaxyWarsClassLibrary\PlayerSaves",
-                                                                         name: name,
-                                                                         password: password);
+                    Galaxy.ActionStatement = DataOps.LoadGame(name, password);
                     // look for save file with matching creds and load.
                 } 
                 while (Galaxy.Player == null);
@@ -328,9 +326,14 @@ namespace ConsoleUI
                         // TODO add case for DROP command.
 
                         case "save":
-                            Galaxy.ActionStatement = FileOps.SaveCharacter($@"..\..\..\GalaxyWarsClassLibrary\PlayerSaves\{Galaxy.Player.Name}.json");
+                            Galaxy.ActionStatement = DataOps.SaveGame();
                             break;
                         // handle SAVE command.
+
+                        case "debug":
+                            CallDebugMenu();
+                            break;
+                        // handle DEBUG command.
 
                         case "help":
                             CallHelpMenu();
@@ -375,6 +378,19 @@ namespace ConsoleUI
                 // display dynamic menu and wait for ENTER.
             }
             // display help menu & wait for response.
+
+            void CallDebugMenu()
+			{
+                CallDynamicMenu(line1: $"Planet Source: {DataOps.PlanetSource}",
+                                line2: $"Alien Source: {DataOps.AlienSource}",
+                                line3: $"Weapon Source: {DataOps.WeaponSource}",
+                                line4: $"Potion Source: {DataOps.PotionSource}",
+                                line5: $"Treasure Source: {DataOps.TreasureSource}",
+                                line6: $"Item Source: {DataOps.ItemSource}",
+                                line7: $"Save Source: {DataOps.SaveSource}   Load Source: {DataOps.LoadSource}",
+                                prompt: "press [ENTER] to return.");
+			}
+            // display debug menu and wait for response.
 
             void CallCharCreationSequenceMenu()
             {

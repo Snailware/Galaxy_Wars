@@ -354,19 +354,30 @@ namespace GalaxyWarsClassLibrary
         /// </summary>
         /// <param name="filePath">path to character file.</param>
         /// <returns>save status message.</returns>
-        public static string SaveCharacter(string filePath)
+        public static string SaveGame(string filePath)
         {
             string status;
 
             try
             {
-                string characterJson = JsonSerializer.Serialize(Galaxy.Player);
-                // convert player data to json.
+                GameState gameState = new GameState(actionStatement: Galaxy.ActionStatement,
+                                                    player: Galaxy.Player,
+                                                    weapons: Galaxy.Weapons,
+                                                    potions: Galaxy.Potions,
+                                                    treasures: Galaxy.Treasures,
+                                                    items: Galaxy.Items,
+                                                    aliens: Galaxy.Aliens,
+                                                    planets: Galaxy.Planets,
+                                                    currentSystem: Galaxy.CurrentSystem);
+                // create gamestate based on galaxy.
 
-                File.WriteAllText(filePath, characterJson);
-                // create new file, write json char data then close.
+                string gameJson = JsonSerializer.Serialize(gameState);
+                // convert game data to json.
 
-                status = "CHARACTER SAVED SUCCESSFULLY.";
+                File.WriteAllText(filePath, gameJson);
+                // create new file, write json game data then close.
+
+                status = "success";
                 // set status for success.
             } 
             catch (Exception ex)
@@ -384,19 +395,30 @@ namespace GalaxyWarsClassLibrary
         /// </summary>
         /// <param name="filePath">path to character file.</param>
         /// <returns>load status message.</returns>
-        public static string LoadCharacter(string filePath)
+        public static string LoadGame(string filePath)
         {
             string status;
 
             try
             {
-                string characterJson = File.ReadAllText(filePath);
+                string gameJson = File.ReadAllText(filePath);
                 // open file, read all json text, then close.
+                    
+                GameState gameState = JsonSerializer.Deserialize<GameState>(gameJson);
+                // parse state from json. 
 
-                Galaxy.Player = JsonSerializer.Deserialize<Player>(characterJson);
-                // parse character from json and set to active player. 
+                Galaxy.ActionStatement = gameState.ActionStatement;
+                Galaxy.Player = gameState.Player;
+                Galaxy.Weapons = gameState.Weapons;
+                Galaxy.Potions = gameState.Potions;
+                Galaxy.Treasures = gameState.Treasures;
+                Galaxy.Items = gameState.Items;
+                Galaxy.Aliens = gameState.Aliens;
+                Galaxy.Planets = gameState.Planets;
+                Galaxy.CurrentSystem = gameState.CurrentSystem;
+                // load data to game. 
 
-                status = "CHARACTER LOADED SUCCESSFULLY.";
+                status = "success";
                 // set status for success.
             }
             catch (Exception ex)
@@ -416,7 +438,7 @@ namespace GalaxyWarsClassLibrary
         /// <param name="name">name of charater.</param>
         /// <param name="password">password of character.</param>
         /// <returns>file path of authorized file, or error message.</returns>
-        public static string AuthAndGetCharacter(string directory, string name, string password)
+        public static string AuthAndLoadGame(string directory, string name, string password)
         {
             string output = "NO SAVE MATCHING CREDENTIALS.";
 
@@ -426,17 +448,17 @@ namespace GalaxyWarsClassLibrary
 
                 foreach (string file in saveFiles)
                 {
-                    string characterJson = File.ReadAllText(file);
+                    string gameJson = File.ReadAllText(file);
                     // open file, read all json text, then close.
 
-                    Player character = JsonSerializer.Deserialize<Player>(characterJson);
+                    GameState gameState = JsonSerializer.Deserialize<GameState>(gameJson);
                     // parse character from json.
 
-                    if (name == character.Name &&
-                        password == character.Password)
+                    if (name == gameState.Player.Name &&
+                        password == gameState.Player.Password)
                     {
-                        output = $"{name} FOUND!";
-                        LoadCharacter(file);
+                        output = "success";
+                        LoadGame(file);
                         break;
                     }
                     // if match is found, set file path and stop search.
