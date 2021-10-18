@@ -266,6 +266,7 @@ namespace ConsoleUI
                         // handle GO commands.
 
                         case "attack":
+  //<<<<<<< Updated upstream
 							if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health > 0)
 							{
 								Galaxy.ActionStatement = Combat.StandardCombat();
@@ -302,12 +303,62 @@ namespace ConsoleUI
 										Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Weapons.Add(weapon);
 									}
 									Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon = new Weapon(name: "none",
-																																	 description: "unarmed",
-																																	 price: 0,
-																																	 quest: false,
-																																	 damageType: "none",
-																																	 amtOfDamage: 0);
-									Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory.Clear();
+
+
+                            if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health > 0)
+                                    {
+                                        Galaxy.ActionStatement = Combat.StandardCombat();
+                                        // perform combat.
+
+                                        if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
+                                        {
+                                            Galaxy.Player.Score++;
+                                            // increment score if player defeats alien.
+
+                                            foreach (Item item in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory)
+                                            {
+                                                Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Items.Add(item);
+                                            }
+                                            Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory.Clear();
+                                            // copy alien items to planet items then clear aliens item list.
+
+                                            foreach (Potion potion in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory)
+                                            {
+                                                Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Potions.Add(potion);
+                                            }
+                                            Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory.Clear();
+                                            // copy alien potions to planet potions then clear aliens potions list.
+
+                                            foreach (Treasure treasure in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory)
+                                            {
+                                                Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Treasures.Add(treasure);
+                                            }
+                                            Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory.Clear();
+                                            // copy alien treasures to planet treasures then clear aliens treasures list.
+
+                                            foreach (Weapon weapon in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory)
+                                            {
+                                                Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Weapons.Add(weapon);
+                                            }
+                                            Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon = new Weapon(name: "none",
+                                                                                                                                             description: "unarmed",
+                                                                                                                                             price: 0,
+                                                                                                                                             quest: false,
+                                                                                                                                             damageType: "none",
+                                                                                                                                             amtOfDamage: 0);
+                                            Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory.Clear();
+                                            // copy alien weapons to planet weapons then clear aliens weapon list and equipped weapon.
+                                        }
+                                        // transfer alien inventory to planet and icrement score if alien dies during combat.
+                                    }
+                                    else
+                                    {
+                                        Galaxy.ActionStatement = "ITS ALREADY DEAD. ONWARD!";
+                                    }
+                                    break;
+
+
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory.Clear();
 									// copy alien weapons to planet weapons then clear aliens weapon list and equipped weapon.
 								}
 								// transfer alien inventory to planet and icrement score if alien dies during combat.
@@ -316,6 +367,58 @@ namespace ConsoleUI
 							{
 								Galaxy.ActionStatement = "ITS ALREADY DEAD. ONWARD!";
 							}
+//=======
+                            if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health > 0)
+                            {
+                                Galaxy.ActionStatement = Combat.StandardCombat();
+                                // perform combat.
+
+                                if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
+                                {
+                                    Galaxy.Player.Score++;
+                                    // increment score if player defeats alien.
+
+                                    foreach (Item item in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory)
+                                    {
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Items.Add(item);
+                                    }
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory.Clear();
+                                    // copy alien items to planet items then clear aliens item list.
+
+                                    foreach (Potion potion in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory)
+                                    {
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Potions.Add(potion);
+                                    }
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory.Clear();
+                                    // copy alien potions to planet potions then clear aliens potions list.
+
+                                    foreach (Treasure treasure in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory)
+                                    {
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Treasures.Add(treasure);
+                                    }
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory.Clear();
+                                    // copy alien treasures to planet treasures then clear aliens treasures list.
+
+                                    foreach (Weapon weapon in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory)
+                                    {
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Weapons.Add(weapon);
+                                    }
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon = new Weapon(name: "none",
+                                                                                                                                    description: "unarmed",
+                                                                                                                                     price: 0,
+                                                                                                                                     quest: false,
+                                                                                                                                     damageType: "none",
+                                                                                                                                     amtOfDamage: 0);
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory.Clear();
+                                    // copy alien weapons to planet weapons then clear aliens weapon list and equipped weapon.
+                                }
+                                // transfer alien inventory to planet and icrement score if alien dies during combat.
+                            }
+                            else
+                            {
+                                Galaxy.ActionStatement = "ITS ALREADY DEAD. ONWARD!";
+                            }
+//>>>>>>> Stashed changes
                             break;
                         // handle ATTACK command.
 
