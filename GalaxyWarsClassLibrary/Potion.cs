@@ -19,7 +19,7 @@ namespace GalaxyWarsClassLibrary
             _quest = quest;
             _healthEffect = healthEffect;
             _damageEffect = damageEffect;
-        }   
+        }
         public int HealthEffect
         {
             get { return _healthEffect; }
