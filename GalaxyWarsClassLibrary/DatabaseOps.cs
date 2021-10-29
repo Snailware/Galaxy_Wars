@@ -124,7 +124,50 @@ namespace GalaxyWarsClassLibrary
         public static List<Weapon> ReadWeapons()
 		{
             // TODO write this method.
-		}
+            const string Query = "SELECT name, description, price, quest, damageType, amtOfDamage, FROM weapons ;";
+            // SQL query to execute.
+
+            List<Weapon> output = new List<Weapon>();
+            // list to hold resulting objects.
+
+            if (ConnectionString is null)
+            {
+                ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+            }
+            // get connection string if needed.
+
+            SqlConnection connection = new SqlConnection(ConnectionString);
+            // create connection using connection string.
+
+            connection.Open();
+            // open database connection. 
+
+            SqlCommand command = new SqlCommand(Query, connection);
+            // create command object.
+
+            SqlDataReader dataReader = command.ExecuteReader();
+            // execute command & create reader obj.
+
+            while (dataReader.Read())
+            {
+                output.Add(new Weapon(name: dataReader.GetString(0),
+                                      description: dataReader.GetString(1),
+                                      price: dataReader.GetInt32(2),
+                                      quest: dataReader.GetBoolean(3),
+                                      damageType: dataReader.GetString(4),
+                                      amtOfDamage: dataReader.GetInt32(5)));
+
+
+            }
+            // read all records in table and construct objects based on data. 
+
+            dataReader.Close();
+            command.Dispose();
+            connection.Close();
+            // close all objects.
+
+            return output;
+        }
 
         /// <summary>
         /// read potions table in database and create potions.
@@ -133,7 +176,48 @@ namespace GalaxyWarsClassLibrary
         public static List<Potion> ReadPotions()
 		{
             // TODO write this method.
-		}
+            const string Query = "SELECT name, description, price, quest, healthEffect, damageEffect FROM Potions;";
+            // SQL query to execute.
+
+            List<Potion> output = new List<Potion>();
+            // list to hold resulting objects.
+
+            if (ConnectionString is null)
+            {
+                ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+            }
+            // get connection string if needed.
+
+            SqlConnection connection = new SqlConnection(ConnectionString);
+            // create connection using connection string.
+
+            connection.Open();
+            // open database connection. 
+
+            SqlCommand command = new SqlCommand(Query, connection);
+            // create command object.
+
+            SqlDataReader dataReader = command.ExecuteReader();
+            // execute command & create reader obj.
+
+            while (dataReader.Read())
+            {
+                output.Add(new Potion(name: dataReader.GetString(0),
+                                      description: dataReader.GetString(1),
+                                      price: dataReader.GetInt32(2),
+                                      quest: dataReader.GetBoolean(3),
+                      healthEffect: dataReader.GetInt32(4),
+                      damageEffect: dataReader.GetInt32(5)));
+            }
+            // read all records in table and construct objects based on data. 
+
+            dataReader.Close();
+            command.Dispose();
+            connection.Close();
+            // close all objects.
+
+            return output;
+        }
 
         /// <summary>
         /// read treasures table in database and create treasures.
@@ -142,7 +226,46 @@ namespace GalaxyWarsClassLibrary
         public static List<Treasure> ReadTreasures()
 		{
             // TODO write this method.
-		}
+            const string Query = "SELECT name, description, price, quest FROM treasure;";
+            // SQL query to execute.
+
+            List<Treasure> output = new List<Treasure>();
+            // list to hold resulting objects.
+
+            if (ConnectionString is null)
+            {
+                ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+            }
+            // get connection string if needed.
+
+            SqlConnection connection = new SqlConnection(ConnectionString);
+            // create connection using connection string.
+
+            connection.Open();
+            // open database connection. 
+
+            SqlCommand command = new SqlCommand(Query, connection);
+            // create command object.
+
+            SqlDataReader dataReader = command.ExecuteReader();
+            // execute command & create reader obj.
+
+            while (dataReader.Read())
+            {
+                output.Add(new Treasure(name: dataReader.GetString(0),
+                                      description: dataReader.GetString(1),
+                                      price: dataReader.GetInt32(2),
+                                      quest: dataReader.GetBoolean(3)));
+            }
+            // read all records in table and construct objects based on data. 
+
+            dataReader.Close();
+            command.Dispose();
+            connection.Close();
+            // close all objects.
+
+            return output;
+        }
 
         /// <summary>
         /// read items table in database and create items.
@@ -151,7 +274,46 @@ namespace GalaxyWarsClassLibrary
         public static List<Item> ReadItems()
 		{
             // TODO write this method.
-		}
+            const string Query = "SELECT name, description, price, quest FROM items";
+            // SQL query to execute.
+
+            List<Item> output = new List<Item>();
+            // list to hold resulting objects.
+
+            if (ConnectionString is null)
+            {
+                ConnectionString = FileOps.GetConnectionString(@"..\..\..\GalaxyWarsClassLibrary\ConnectionString.txt");
+            }
+            // get connection string if needed.
+
+            SqlConnection connection = new SqlConnection(ConnectionString);
+            // create connection using connection string.
+
+            connection.Open();
+            // open database connection. 
+
+            SqlCommand command = new SqlCommand(Query, connection);
+            // create command object.
+
+            SqlDataReader dataReader = command.ExecuteReader();
+            // execute command & create reader obj.
+
+            while (dataReader.Read())
+            {
+                output.Add(new Item(name: dataReader.GetString(0),
+                                      description: dataReader.GetString(1),
+                                      price: dataReader.GetInt32(2),
+                                      quest: dataReader.GetBoolean(3)));
+            }
+            // read all records in table and construct objects based on data. 
+
+            dataReader.Close();
+            command.Dispose();
+            connection.Close();
+            // close all objects.
+
+            return output;
+        }
 
         /// <summary>
         /// check credentials against database records, and return gamestate 
