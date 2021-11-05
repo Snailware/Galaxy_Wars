@@ -276,41 +276,25 @@ namespace ConsoleUI
 									Galaxy.Player.Score++;
 									// increment score if player defeats alien.
 
-									foreach (Item item in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory)
+                                    foreach (IInventory gameObject in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Inventory)
 									{
-										Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Items.Add(item);
-									}
-									Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.ItemInventory.Clear();
-									// copy alien items to planet items then clear aliens item list.
+                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory.Add(gameObject);
+                                    }
+                                    // copy alien inv contents to planet inv.
 
-									foreach (Potion potion in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory)
-									{
-										Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Potions.Add(potion);
-									}
-									Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.PotionInventory.Clear();
-									// copy alien potions to planet potions then clear aliens potions list.
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Inventory.Clear();
+                                    // clear alien inv.
 
-									foreach (Treasure treasure in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory)
-									{
-										Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Treasures.Add(treasure);
-									}
-									Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.TreasureInventory.Clear();
-									// copy alien treasures to planet treasures then clear aliens treasures list.
+                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon = new Weapon(name: "none",
+                                                                                                                                     description: "unarmed",
+                                                                                                                                     price: 0,
+                                                                                                                                     quest: false,
+                                                                                                                                     damageType: "none",
+                                                                                                                                     amtOfDamage: 0);
+                                   // set weapon for dead alien.
 
-									foreach (Weapon weapon in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory)
-									{
-										Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Weapons.Add(weapon);
-									}
-									Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon = new Weapon(name: "none",
-																																	 description: "unarmed",
-																																	 price: 0,
-																																	 quest: false,
-																																	 damageType: "none",
-																																	 amtOfDamage: 0);
-									Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.WeaponInventory.Clear();
-									// copy alien weapons to planet weapons then clear aliens weapon list and equipped weapon.
-								}
-								// transfer alien inventory to planet and icrement score if alien dies during combat.
+                                }
+								// transfer alien inventory to planet and increment score if alien dies during combat.
 							}
 							else
 							{
@@ -467,10 +451,7 @@ namespace ConsoleUI
                                            locationY: 0,
                                            money: 0,
                                            score: 0,
-                                           weaponInventory: new List<Weapon> { Galaxy.Weapons[0] },
-                                           potionInventory: new List<Potion> { Galaxy.Potions[0] },
-                                           treasureInventory: new List<Treasure> {Galaxy.Treasures[0] },
-                                           itemInventory: new List<Item> { Galaxy.Items[0]});
+                                           inventory: new List<IInventory> {Galaxy.Weapons[0]});
                 // create and store character object based on user input.
             }
             // display character creation menu & store created character.
@@ -563,24 +544,19 @@ namespace ConsoleUI
                        playerHealth = Galaxy.Player.Health.ToString(),
                        alienHealth = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health.ToString(),
                        actionStatement = Galaxy.ActionStatement,
-                // get state info and convert to string if needed.
-
-                planetItems = ListOps.GetLimitedElements(items: Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Items,
-                                                         delimiter: Delimiter,
-                                                         maxLength: MaxLength),
-
-                planetWeapons = ListOps.GetLimitedElements(weapons: Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Weapons,
-                                                           delimiter: Delimiter,
-                                                           maxLength: MaxLength),
-
-                planetTreasures = ListOps.GetLimitedElements(treasures: Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Treasures,
-                                                             delimiter: Delimiter,
-                                                             maxLength: MaxLength),
-
-                planetPotions = ListOps.GetLimitedElements(potions: Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Potions,
-                                                           delimiter: Delimiter,
-                                                           maxLength: MaxLength);
-                // get display-ready lists.
+                       planetItems = ListOps.GetLimitedElements(InventoryOps.GetItems(Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory),
+                                                                Delimiter,
+                                                                MaxLength),
+                       planetWeapons = ListOps.GetLimitedElements(InventoryOps.GetWeapons(Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory),
+                                                                  Delimiter,
+                                                                  MaxLength),
+                       planetTreasures = ListOps.GetLimitedElements(InventoryOps.GetTreasures(Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory),
+                                                                    Delimiter,
+                                                                    MaxLength),
+                       planetPotions = ListOps.GetLimitedElements(InventoryOps.GetPotions(Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory),
+                                                                  Delimiter,
+                                                                  MaxLength);
+                // get state info and convert to formatted string if needed.
 
 
                 for (int rowIndex = 0; rowIndex < Galaxy.CurrentSystem.GetLength(0); rowIndex++)

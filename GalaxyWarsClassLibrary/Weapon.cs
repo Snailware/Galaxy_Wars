@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyWarsClassLibrary
 {
-    public class Weapon : Item
+    public class Weapon : Item, IInventory
     {
         private int _amtOfDamage;
         private string _damageType;

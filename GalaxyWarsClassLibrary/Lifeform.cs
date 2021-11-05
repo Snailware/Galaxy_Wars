@@ -16,10 +16,7 @@ namespace GalaxyWarsClassLibrary
         protected int _armor;
         protected int _money;
         protected Weapon _weapon;
-        protected List<Weapon> _weaponInventory;
-        protected List<Potion> _potionInventory;
-        protected List<Treasure> _treasureInventory;
-        protected List<Item> _itemInventory;
+        protected List<IInventory> _inventory;
         // fields.
 
         /// <summary>
@@ -78,36 +75,13 @@ namespace GalaxyWarsClassLibrary
         }
 
         /// <summary>
-        /// weapon inventory of character.
+        /// inventory of game objects.
         /// </summary>
-        public List<Weapon> WeaponInventory
-        {
-            get { return _weaponInventory; }
-        }
-
-        /// <summary>
-        /// potion inventory of life form.
-        /// </summary>
-        public List<Potion> PotionInventory
-        {
-            get { return _potionInventory; }
-        }
-
-        /// <summary>
-        /// treasure inventory of life form.
-        /// </summary>
-        public List<Treasure> TreasureInventory
-        {
-            get { return _treasureInventory; }
-        }
-
-        /// <summary>
-        /// item inventory of life form.
-        /// </summary>
-        public List<Item> ItemInventory
-        {
-            get { return _itemInventory; }
-        }
+        public List<IInventory> Inventory
+		{
+			get { return _inventory; }
+            set { _inventory = value; }
+		}
         // props.
     }
 }
