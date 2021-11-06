@@ -75,7 +75,7 @@ namespace GalaxyWarsClassLibrary
 			List<Treasure> treasures = new List<Treasure>();
 			foreach (IInventory gameObject in inventory)
 			{
-				if (gameObject.GetType() == typeof(Potion))
+				if (gameObject.GetType() == typeof(Treasure))
 				{
 					treasures.Add((Treasure)gameObject);
 				}
