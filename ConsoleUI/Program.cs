@@ -300,16 +300,44 @@ namespace ConsoleUI
 							{
 								Galaxy.ActionStatement = "ITS ALREADY DEAD. ONWARD!";
 							}
+							break;
+						// handle ATTACK command.
+
+						case "warp":
+                            Treasure warpDrive = null;
+                            foreach (Treasure treasure in Galaxy.Treasures)
+							{
+                                if (treasure.Name is "Warp Drive")
+								{
+                                    warpDrive = treasure;
+                                    break;
+								}
+							}
+                            // get warp drive data from treasure list.
+
+                            if (Galaxy.Player.Inventory.Contains(warpDrive))
+							{
+                                Galaxy.ActionStatement = "YOU WARPED TO A NEW SYSTEM!";
+                                Galaxy.LoadNewSystem();
+							}
+                            // if found, warp player to new system and update action statement.
+
+                            else
+							{
+                                Galaxy.ActionStatement = "NO WARP DRIVE IN INVENTORY.";
+							}
+                            // if not found, alert user.
+
                             break;
-                        // handle ATTACK command.
+                        // handle WARP command.
 
-                        // TODO add case for WARP command.
-                        // TODO add case for LOOK command.
-                        // TODO add case for USE command.
-                        // TODO add case for PICKUP command.
-                        // TODO add case for DROP command.
 
-                        case "save":
+						// TODO add case for LOOK command.
+						// TODO add case for USE command.
+						// TODO add case for PICKUP command.
+						// TODO add case for DROP command.
+
+						case "save":
                             Galaxy.ActionStatement = DataOps.SaveGame();
                             break;
                         // handle SAVE command.
