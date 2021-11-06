@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace GalaxyWarsClassLibrary
 {
-	// class for handling combat.
+	/// <summary>
+	/// class for handling combat.
+	/// </summary>
 	public static class Combat
 	{
 		/// <summary>
@@ -65,7 +67,7 @@ namespace GalaxyWarsClassLibrary
 			Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health -= damageTotal;
 			// player attacks enemy. 
 
-			string combatSummary = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} TAKES {alienStartingHealth - Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health} DMG.";
+			string combatSummary = $"ENEMY TAKES {alienStartingHealth - Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health} {Galaxy.Player.Weapon.DamageType} DMG.";
 			// add data to summary for player attack.
 
 			if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health > 0)
@@ -74,7 +76,7 @@ namespace GalaxyWarsClassLibrary
 										Galaxy.Player.Armor;
 				// alien attacks player.
 
-				combatSummary = $"{combatSummary} YOU TAKE {playerStartingHealth - Galaxy.Player.Health} DMG.";
+				combatSummary = $"{combatSummary} YOU TAKE {playerStartingHealth - Galaxy.Player.Health} {Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon.DamageType} DMG.";
 				// append info to combatSummary statement.
 			}
 			// if alien survives player attack, they will attack the player in return.
