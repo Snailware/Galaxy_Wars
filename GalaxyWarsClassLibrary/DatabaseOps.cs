@@ -123,7 +123,6 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of weapons.</returns>
         public static List<Weapon> ReadWeapons()
 		{
-            // TODO write this method.
             const string Query = "SELECT name, description, price, quest, damageType, amtOfDamage, FROM weapons ;";
             // SQL query to execute.
 
@@ -175,7 +174,6 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of potions.</returns>
         public static List<Potion> ReadPotions()
 		{
-            // TODO write this method.
             const string Query = "SELECT name, description, price, quest, healthEffect, damageEffect FROM Potions;";
             // SQL query to execute.
 
@@ -225,7 +223,6 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of treasures.</returns>
         public static List<Treasure> ReadTreasures()
 		{
-            // TODO write this method.
             const string Query = "SELECT name, description, price, quest FROM treasure;";
             // SQL query to execute.
 
@@ -273,7 +270,6 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of items.</returns>
         public static List<Item> ReadItems()
 		{
-            // TODO write this method.
             const string Query = "SELECT name, description, price, quest FROM items";
             // SQL query to execute.
 
