@@ -155,16 +155,24 @@ namespace GalaxyWarsClassLibrary
             Alien baseAlien = Galaxy.Aliens[LocalRandom.Next(0, Galaxy.Aliens.Count - 1)];
             // randomly select alien to copy.
 
-            Alien generatedAlien = new Alien(name: baseAlien.Name,
-                                             description: baseAlien.Description,
-                                             health: baseAlien.Health,
-                                             armor: baseAlien.Armor,
-                                             money: baseAlien.Money);
-            // manually create copy of base alien.
-
-            return generatedAlien;
-            // return randomly generated alien.
+            return Alien.Copy(baseAlien);
+            // create and return copy of alien.
         }
+
+        /// <summary>
+        /// create a copy of alien. 
+        /// </summary>
+        /// <param name="alien">alien to copy.</param>
+        /// <returns>copy of alien object.</returns>
+        public static Alien Copy(Alien alien)
+		{
+            return new Alien(name: alien.Name,
+                             description: alien.Description,
+                             health: alien.Health,
+                             armor: alien.Armor,
+                             money: alien.Money,
+                             inventory: alien.Inventory);
+		}
         // methods.
     }
 }

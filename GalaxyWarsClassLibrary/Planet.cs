@@ -97,14 +97,8 @@ namespace GalaxyWarsClassLibrary
             Planet basePlanet = Galaxy.Planets[LocalRandom.Next(0, Galaxy.Planets.Count - 1)];
             // randomly select planet to copy.
 
-            Planet generatedPlanet = new Planet(planetName: basePlanet.Name,
-                                                planetDescription: basePlanet.Description,
-                                                population: basePlanet.Population,
-                                                alien: basePlanet.Alien);
-            // manually create copy of planet.
-
-            return generatedPlanet;
-            // return generated planet.
+            return Planet.Copy(basePlanet);
+            // create and return copy of planet.
         }
 
         /// <summary>
@@ -122,6 +116,19 @@ namespace GalaxyWarsClassLibrary
                                         0,
                                         0));
         }
+
+        /// <summary>
+        /// create a copy of planet object. 
+        /// </summary>
+        /// <param name="planet">planet to copy.</param>
+        /// <returns>copy of planet object.</returns>
+        public static Planet Copy(Planet planet)
+		{
+            return new Planet(planetName: planet.Name,
+                              planetDescription: planet.Description,
+                              population: planet.Population,
+                              alien: Alien.Copy(planet.Alien));
+		}
         // methods.
     }
 }
