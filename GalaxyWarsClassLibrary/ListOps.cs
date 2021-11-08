@@ -96,6 +96,27 @@ namespace GalaxyWarsClassLibrary
         }
 
         /// <summary>
+        /// create a delimited string containing obj names, up to desired
+        /// length. if string length exceeds desired length, string will be
+        /// truncated and "..." will be appended.
+        /// </summary>
+        /// <param name="items">list of objs.</param>
+        /// <param name="delimiter">character to seperate obj names.</param>
+        /// <param name="maxLength">max length of string.</param>
+        /// <returns>delimited string of obj names.</returns>
+        public static string GetLimitedElements(List<IInventory> gameObjects, char delimiter, int maxLength)
+		{
+            List<string> nameList = new List<string>();
+            foreach (IInventory gameObject in gameObjects)
+			{
+                nameList.Add(gameObject.Name);
+			}
+            // create and fill list with obj names.
+
+            return GetStrings(nameList, delimiter, maxLength);
+		}
+
+        /// <summary>
         /// create a delimited string containing names, up to desired length.
         /// if string length exceeds desired length, string will be
         /// truncated and "..." will be appended.

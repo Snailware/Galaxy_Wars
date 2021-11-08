@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyWarsClassLibrary
 {
-    public class Treasure : Item
+    public class Treasure : Item, IInventory
     {
         public Treasure(string name, string description,int price, bool quest)
             : base(name, description, price, quest)

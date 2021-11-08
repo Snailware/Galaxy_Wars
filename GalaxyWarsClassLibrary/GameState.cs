@@ -11,17 +11,6 @@ namespace GalaxyWarsClassLibrary
 	/// </summary>
 	public class GameState
 	{
-		public string ActionStatement { get; }
-		public Player Player { get; }
-		public List<Weapon> Weapons { get; }
-		public List<Potion> Potions { get; }
-		public List<Treasure> Treasures { get; }
-		public List<Item> Items { get; }
-		public List<Alien> Aliens { get; }
-		public List<Planet> Planets { get; }
-		public Planet[,] CurrentSystem { get; }
-		// auto props.
-
 		public GameState(string actionStatement,
 						 Player player,
 						 List<Weapon> weapons,
@@ -30,7 +19,7 @@ namespace GalaxyWarsClassLibrary
 						 List<Item> items,
 						 List<Alien> aliens,
 						 List<Planet> planets,
-						 Planet[,] currentSystem)
+						 Planet[] currentSystem)
 		{
 			ActionStatement = actionStatement;
 			Player = player;
@@ -43,5 +32,16 @@ namespace GalaxyWarsClassLibrary
 			CurrentSystem = currentSystem;
 		}
 		// constructors.
+
+		public string ActionStatement { get; }
+		public Player Player { get; }
+		public List<Weapon> Weapons { get; }
+		public List<Potion> Potions { get; }
+		public List<Treasure> Treasures { get; }
+		public List<Item> Items { get; }
+		public List<Alien> Aliens { get; }
+		public List<Planet> Planets { get; }
+		public Planet[] CurrentSystem { get; }
+		// props.
 	}
 }

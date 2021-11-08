@@ -123,7 +123,6 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of weapons.</returns>
         public static List<Weapon> ReadWeapons()
 		{
-            // TODO write this method.
             const string Query = "SELECT name, description, price, quest, damageType, amtOfDamage, FROM weapons ;";
             // SQL query to execute.
 
@@ -175,7 +174,6 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of potions.</returns>
         public static List<Potion> ReadPotions()
 		{
-            // TODO write this method.
             const string Query = "SELECT name, description, price, quest, healthEffect, damageEffect FROM Potions;";
             // SQL query to execute.
 
@@ -225,7 +223,6 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of treasures.</returns>
         public static List<Treasure> ReadTreasures()
 		{
-            // TODO write this method.
             const string Query = "SELECT name, description, price, quest FROM treasure;";
             // SQL query to execute.
 
@@ -273,7 +270,6 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of items.</returns>
         public static List<Item> ReadItems()
 		{
-            // TODO write this method.
             const string Query = "SELECT name, description, price, quest FROM items";
             // SQL query to execute.
 
@@ -365,7 +361,7 @@ namespace GalaxyWarsClassLibrary
                         Galaxy.Weapons = output.Weapons;
                         Galaxy.Aliens = output.Aliens;
                         Galaxy.Planets = output.Planets;
-                        Galaxy.CurrentSystem = output.CurrentSystem;
+                        Galaxy.CurrentSystem = ArrayOps.ExpandArray(output.CurrentSystem);
                         // load data to galaxy.
 
                         break;
@@ -404,7 +400,7 @@ namespace GalaxyWarsClassLibrary
                                                     items: Galaxy.Items,
                                                     aliens: Galaxy.Aliens,
                                                     planets: Galaxy.Planets,
-                                                    currentSystem: Galaxy.CurrentSystem);
+                                                    currentSystem: ArrayOps.FlattenArray(Galaxy.CurrentSystem));
                 // create save state based on Galaxy.
 
                 string name = saveState.Player.Name;

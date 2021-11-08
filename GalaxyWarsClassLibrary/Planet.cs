@@ -15,10 +15,7 @@ namespace GalaxyWarsClassLibrary
                        _description;
         private int _population;
         private Alien _alien;
-        private List<Weapon> _weapons;
-        private List<Potion> _potions;
-        private List<Item> _items;
-        private List<Treasure> _treasures;
+        private List<IInventory> _inventory;
         // fields.
 
         /// <summary>
@@ -38,10 +35,7 @@ namespace GalaxyWarsClassLibrary
 
             _alien = alien;
 
-            _weapons = new List<Weapon>();
-            _potions = new List<Potion>();
-            _items = new List<Item>();
-            _treasures = new List<Treasure>();
+            _inventory = new List<IInventory>();
         }
         // constructors.
 
@@ -80,40 +74,13 @@ namespace GalaxyWarsClassLibrary
         }
 
         /// <summary>
-        /// list of local weapons.
+        /// local inventory of planet.
         /// </summary>
-        public List<Weapon> Weapons
-        {
-            get { return _weapons; }
-            set { _weapons = value; }
-        }
-
-        /// <summary>
-        /// list of local potions.
-        /// </summary>
-        public List<Potion> Potions
-        {
-            get { return _potions; }
-            set { _potions = value; }
-        }
-
-        /// <summary>
-        /// list of local items.
-        /// </summary>
-        public List<Item> Items
-        {
-            get { return _items; }
-            set { _items = value; }
-        }
-
-        /// <summary>
-        /// list of local treasures.
-        /// </summary>
-        public List<Treasure> Treasures
-        {
-            get { return _treasures; }
-            set { _treasures = value; }
-        }
+        public List<IInventory> Inventory
+		{
+            get { return _inventory; }
+            set { _inventory = value; }
+		}
 
         /// <summary>
         /// random number generator. placed here to initialize with seed and avoid repeating 1 value.
@@ -130,14 +97,8 @@ namespace GalaxyWarsClassLibrary
             Planet basePlanet = Galaxy.Planets[LocalRandom.Next(0, Galaxy.Planets.Count - 1)];
             // randomly select planet to copy.
 
-            Planet generatedPlanet = new Planet(planetName: basePlanet.Name,
-                                                planetDescription: basePlanet.Description,
-                                                population: basePlanet.Population,
-                                                alien: basePlanet.Alien);
-            // manually create copy of planet.
-
-            return generatedPlanet;
-            // return generated planet.
+            return Planet.Copy(basePlanet);
+            // create and return copy of planet.
         }
 
         /// <summary>
@@ -155,6 +116,19 @@ namespace GalaxyWarsClassLibrary
                                         0,
                                         0));
         }
+
+        /// <summary>
+        /// create a copy of planet object. 
+        /// </summary>
+        /// <param name="planet">planet to copy.</param>
+        /// <returns>copy of planet object.</returns>
+        public static Planet Copy(Planet planet)
+		{
+            return new Planet(planetName: planet.Name,
+                              planetDescription: planet.Description,
+                              population: planet.Population,
+                              alien: Alien.Copy(planet.Alien));
+		}
         // methods.
     }
 }

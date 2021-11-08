@@ -368,7 +368,7 @@ namespace GalaxyWarsClassLibrary
                                                     items: Galaxy.Items,
                                                     aliens: Galaxy.Aliens,
                                                     planets: Galaxy.Planets,
-                                                    currentSystem: Galaxy.CurrentSystem);
+                                                    currentSystem: ArrayOps.FlattenArray(Galaxy.CurrentSystem));
                 // create gamestate based on galaxy.
 
                 string gameJson = JsonSerializer.Serialize(gameState);
@@ -415,7 +415,7 @@ namespace GalaxyWarsClassLibrary
                 Galaxy.Items = gameState.Items;
                 Galaxy.Aliens = gameState.Aliens;
                 Galaxy.Planets = gameState.Planets;
-                Galaxy.CurrentSystem = gameState.CurrentSystem;
+                Galaxy.CurrentSystem = ArrayOps.ExpandArray(gameState.CurrentSystem);
                 // load data to game. 
 
                 status = "success";

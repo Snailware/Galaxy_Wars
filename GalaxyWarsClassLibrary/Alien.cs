@@ -31,21 +31,23 @@ namespace GalaxyWarsClassLibrary
                      int health,
                      int armor,
                      int money,
-                     List<Weapon> weaponInventory,
-                     List<Potion> potionInventory,
-                     List<Treasure> treasureInventory,
-                     List<Item> itemInventory)
+                     List<IInventory> inventory)
         {
             _name = name;
             _description = description;
             _health = health;
             _armor = armor;
             _money = money;
-            _weaponInventory = weaponInventory;
-            _weapon = _weaponInventory[0];
-            _potionInventory = potionInventory;
-            _treasureInventory = treasureInventory;
-            _itemInventory = itemInventory;
+            _inventory = inventory;
+            foreach (IInventory gameObject in _inventory)
+            {
+                if (gameObject.GetType() == typeof(Weapon))
+                {
+                    _weapon = (Weapon)gameObject;
+                    break;
+                }
+            }
+            // get first weapon from inventory and set as equipped weapon.
         }
 
         /// <summary>
@@ -68,10 +70,7 @@ namespace GalaxyWarsClassLibrary
             _armor = armor;
             _money = money;
 
-            _weaponInventory = new List<Weapon>();
-            _potionInventory = new List<Potion>();
-            _treasureInventory = new List<Treasure>();
-            _itemInventory = new List<Item>();
+            _inventory = new List<IInventory>();
             // create default lists.
 
             int weaponSeed = LocalRandom.Next(0, Galaxy.Weapons.Count);
@@ -81,8 +80,16 @@ namespace GalaxyWarsClassLibrary
                                            quest: Galaxy.Weapons[weaponSeed].Quest,
                                            damageType: Galaxy.Weapons[weaponSeed].DamageType,
                                            amtOfDamage: Galaxy.Weapons[weaponSeed].AmtOfDamage);
-            _weaponInventory.Add(weaponCopy);
-            _weapon = _weaponInventory[0];
+            _inventory.Add(weaponCopy);
+            foreach (IInventory gameObject in _inventory)
+            {
+                if (gameObject.GetType() == typeof(Weapon))
+                {
+                    _weapon = (Weapon)gameObject;
+                    break;
+                }
+            }
+            // get first weapon from inventory and set as equipped weapon.
             // give alien copy of random weapon and equip it.
 
             int lootSeed = LocalRandom.Next(0, 4);
@@ -90,7 +97,7 @@ namespace GalaxyWarsClassLibrary
             {
                 case 0:
                     lootSeed = LocalRandom.Next(0, Galaxy.Potions.Count);
-                    _potionInventory.Add(new Potion(name: Galaxy.Potions[lootSeed].Name,
+                    _inventory.Add(new Potion(name: Galaxy.Potions[lootSeed].Name,
                                                     description: Galaxy.Potions[lootSeed].Description,
                                                     price: Galaxy.Potions[lootSeed].Price,
                                                     quest: Galaxy.Potions[lootSeed].Quest,
@@ -101,7 +108,7 @@ namespace GalaxyWarsClassLibrary
 
                 case 1:
                     lootSeed = LocalRandom.Next(0, Galaxy.Treasures.Count);
-                    _treasureInventory.Add(new Treasure(name: Galaxy.Treasures[lootSeed].Name,
+                    _inventory.Add(new Treasure(name: Galaxy.Treasures[lootSeed].Name,
                                                         description: Galaxy.Treasures[lootSeed].Description,
                                                         price: Galaxy.Treasures[lootSeed].Price,
                                                         quest: Galaxy.Treasures[lootSeed].Quest));
@@ -110,7 +117,7 @@ namespace GalaxyWarsClassLibrary
 
                 case 2:
                     lootSeed = LocalRandom.Next(0, Galaxy.Items.Count);
-                    _itemInventory.Add(new Item(name: Galaxy.Items[lootSeed].Name,
+                    _inventory.Add(new Item(name: Galaxy.Items[lootSeed].Name,
                                                 description: Galaxy.Items[lootSeed].Description,
                                                 price: Galaxy.Items[lootSeed].Price,
                                                 quest: Galaxy.Items[lootSeed].Quest));
@@ -148,16 +155,24 @@ namespace GalaxyWarsClassLibrary
             Alien baseAlien = Galaxy.Aliens[LocalRandom.Next(0, Galaxy.Aliens.Count - 1)];
             // randomly select alien to copy.
 
-            Alien generatedAlien = new Alien(name: baseAlien.Name,
-                                             description: baseAlien.Description,
-                                             health: baseAlien.Health,
-                                             armor: baseAlien.Armor,
-                                             money: baseAlien.Money);
-            // manually create copy of base alien.
-
-            return generatedAlien;
-            // return randomly generated alien.
+            return Alien.Copy(baseAlien);
+            // create and return copy of alien.
         }
+
+        /// <summary>
+        /// create a copy of alien. 
+        /// </summary>
+        /// <param name="alien">alien to copy.</param>
+        /// <returns>copy of alien object.</returns>
+        public static Alien Copy(Alien alien)
+		{
+            return new Alien(name: alien.Name,
+                             description: alien.Description,
+                             health: alien.Health,
+                             armor: alien.Armor,
+                             money: alien.Money,
+                             inventory: alien.Inventory);
+		}
         // methods.
     }
 }

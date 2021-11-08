@@ -50,10 +50,7 @@ namespace GalaxyWarsClassLibrary
                       int money,
                       int locationX,
                       int locationY,
-                      List<Weapon> weaponInventory,
-                      List<Potion> potionInventory,
-                      List<Treasure> treasureInventory,
-                      List<Item> itemInventory)
+                      List<IInventory> inventory)
         {
             _name = name;
             _race = race;
@@ -65,11 +62,17 @@ namespace GalaxyWarsClassLibrary
             _money = money;
             _locationX = locationX;
             _locationY = locationY;
-            _weaponInventory = weaponInventory;
-            _potionInventory = potionInventory;
-            _treasureInventory = treasureInventory;
-            _itemInventory = itemInventory;
-            _weapon = _weaponInventory[0];
+            _inventory = inventory;
+
+            foreach (IInventory gameObject in _inventory)
+			{
+                if (gameObject.GetType() == typeof(Weapon))
+				{
+                    _weapon = (Weapon)gameObject;
+                    break;
+				}
+			}
+            // get first weapon from inventory and set as equipped weapon.
         }
         // constructors.
 

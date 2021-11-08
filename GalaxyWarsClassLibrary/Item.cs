@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyWarsClassLibrary
 {
-    public class Item
+    public class Item : IInventory
     {
         protected string _name,
                          _description;

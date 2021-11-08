@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyWarsClassLibrary
 {
-    public class Potion : Item
+    public class Potion : Item, IInventory
     {
         private int _healthEffect;
         private int _damageEffect;
