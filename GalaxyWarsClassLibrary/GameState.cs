@@ -19,7 +19,7 @@ namespace GalaxyWarsClassLibrary
 						 List<Item> items,
 						 List<Alien> aliens,
 						 List<Planet> planets,
-						 Planet[,] currentSystem)
+						 Planet[] currentSystem)
 		{
 			ActionStatement = actionStatement;
 			Player = player;
@@ -41,7 +41,7 @@ namespace GalaxyWarsClassLibrary
 		public List<Item> Items { get; }
 		public List<Alien> Aliens { get; }
 		public List<Planet> Planets { get; }
-		public Planet[,] CurrentSystem { get; }
-		// auto props.
+		public Planet[] CurrentSystem { get; }
+		// props.
 	}
 }
