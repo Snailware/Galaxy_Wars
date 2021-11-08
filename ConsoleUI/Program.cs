@@ -317,6 +317,7 @@ namespace ConsoleUI
 
                             if (Galaxy.Player.Inventory.Contains(warpDrive))
 							{
+                                Galaxy.Player.Inventory.Remove(warpDrive); // TODO double ccheck this
                                 Galaxy.ActionStatement = "YOU WARPED TO A NEW SYSTEM!";
                                 Galaxy.LoadNewSystem();
 							}
