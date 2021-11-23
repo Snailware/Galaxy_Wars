@@ -123,7 +123,7 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of weapons.</returns>
         public static List<Weapon> ReadWeapons()
 		{
-            const string Query = "SELECT name, description, price, quest, damageType, amtOfDamage, FROM weapons ;";
+            const string Query = "SELECT name, description, price, quest, damageType, amtOfDamage FROM weapons ;";
             // SQL query to execute.
 
             List<Weapon> output = new List<Weapon>();
@@ -174,7 +174,7 @@ namespace GalaxyWarsClassLibrary
         /// <returns>list of potions.</returns>
         public static List<Potion> ReadPotions()
 		{
-            const string Query = "SELECT name, description, price, quest, healthEffect, damageEffect FROM Potions;";
+            const string Query = "SELECT name, description, price, quest, healthEffect, damageEffect FROM potion;";
             // SQL query to execute.
 
             List<Potion> output = new List<Potion>();
