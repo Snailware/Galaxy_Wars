@@ -87,6 +87,7 @@
     <Compile Include="Alien.cs" />
     <Compile Include="ArrayOps.cs" />
     <Compile Include="Combat.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="DatabaseOps.cs" />
     <Compile Include="DataOps.cs" />
     <Compile Include="FileOps.cs" />

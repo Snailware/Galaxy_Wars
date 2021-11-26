@@ -11,7 +11,19 @@ namespace ConsoleUI
     {
         static void Main()
         {
-            void StartGame()
+            SetupConsole();
+            Controller.StartGame();
+            StyleFrame(Controller.CallFrame(), (int)Controller.Context);
+            // prep.
+
+            while (true)
+            {
+                Controller.Update(Console.ReadLine());
+                StyleFrame(Controller.CallFrame(), (int)Controller.Context);
+            }
+            // gameplay loop. game closes using exit codes via Controller.
+
+            void SetupConsole()
             {
                 const int Width = 79,
                           Height = 28;
@@ -20,774 +32,105 @@ namespace ConsoleUI
                 Console.Title = "Galaxy Wars";
                 Console.SetWindowSize(Width, Height);
                 Console.SetBufferSize(Width, Height);
-                // set console title & window size for proper viewing. 
-
-                RunStartMenuLoop();
+                // set console title & window size for proper viewing.
             }
-            // setup console window & start game.
+            // setup console window.
 
-            void CreateNewGameState()
-            {
-                Galaxy.ActionStatement = "ONLY YOU CAN SAVE THE GALAXY!";
-                // set intro action statement. 
-
-                Galaxy.Treasures = DataOps.GetTreasures();
-                Galaxy.Items = DataOps.GetItems();
-                Galaxy.Potions = DataOps.GetPotions();
-                Galaxy.Weapons = DataOps.GetWeapons();
-                Galaxy.Aliens = DataOps.GetAliens();
-                Galaxy.Planets = DataOps.GetPlanets();
-                // load object data.
-
-                Galaxy.LoadNewSystem();
-                // load new system.
-            }
-            // generate game objects for new game.
-            
-            void RunStartMenuLoop()
-            {
-                string choice;
-                // var for user input. 
-
-                do
-                {
-                    choice = CallStartMenu().ToLower();
-                } while (choice != "new" &&
-                         choice != "load" &&
-                         choice != "help" &&
-                         choice != "about" &&
-                         choice != "exit");
-                // call main menu and get valid use input. 
-
-                switch (choice)
-                {
-                    case "new":
-                        CreateNewGameState();
-                        RunCharCreationMenuLoop();
-                        RunGameplayLoop();
-                        break;
-                        // create new game state, create character and start playing.
-
-                    case "load":
-                        CreateNewGameState();
-                        RunLoadCharMenuLoop();
-                        if (Galaxy.Player != null)
-						{
-                            RunGameplayLoop();
-                        }
-                        else
-						{
-                            RunStartMenuLoop();
-                        }
-                        break;
-                        // load character from storage & start playing.
-
-                    case "help":
-                        CallHelpMenu();
-                        RunStartMenuLoop();
-                        break;
-                        // display help menu then return here.
-
-                    case "about":
-                        CallAboutMenu();
-                        RunStartMenuLoop();
-                        break;
-                        // display about menu then return here.
-
-                    case "exit":
-                        Environment.Exit(0);
-                        break;
-                        // exit program.
-                }
-                // proceed according to user input.
-            }
-            // start menu loop & decision struct.
-
-            void RunCharCreationMenuLoop()
-            {
-                bool valid = false;
-                // var for user input. 
-
-                do
-                {
-                    try
-                    {
-                        CallCharCreationSequenceMenu();
-                        valid = true;
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                } while (!valid);
-                // call menu and validate user input. 
-            }
-            // char creation menu loop.
-
-            void RunLoadCharMenuLoop()
+            void StyleFrame(List<string> frame, int context)
 			{
+                if (context is 0)
+				{
+                    string titleChars = @"_\/|`-(<,'";
+                    // characters in title ascii art to be displayed in special color. 
 
-                do
-                {
-                    string name = "NAME: ",
-                           password;
-
-                    name = CallDynamicMenu(line1: name,
-                                           prompt: "ENTER CHARACTER NAME OR 'EXIT'");
-                    // get name input.
-
-                    if (name.ToLower() == "exit")
+                    for (int index = 0; index < frame.Count; index++)
                     {
-                        return;
-                    }
-                    // exit load menu if player enters exit.
+                        Console.Write("   ");
+                        // write whitespace buffer. 
 
-                    password = CallDynamicMenu(line1: $"NAME: {name}",
-                                               prompt: "ENTER PASSWORD FOR CHARACTER OR 'EXIT'");
-                    // get password input.
-
-                    if (password.ToLower() == "exit")
-                    {
-                        return;
-                    }
-                    // exit load menu if player enters exit.
-
-                    Galaxy.ActionStatement = DataOps.LoadGame(name, password);
-                    // look for save file with matching creds and load.
-                } 
-                while (Galaxy.Player == null);
-
-            }
-            // load char menu loop.
-
-            void RunGameplayLoop()
-            {
-                string[] tokenized_input;
-
-                do
-                {
-                    string input = CallGameplayFrame();
-                    // display frame & get input.
-
-                    tokenized_input = input.Split(null);
-                    // seperate input into array, delimited by white space.
-
-                    switch (tokenized_input[0])
-                    {
-                        case "go":
-                            switch (tokenized_input[1])
+                        foreach (char character in frame[index])
+                        {
+                            if (index < 6 &&
+                                titleChars.Contains(character))
                             {
-                                case "north":
-                                    if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
-                                    {
-                                        Galaxy.ActionStatement = "YOU GO NORTH.";
-                                        Galaxy.Player.LocationY++;
-                                    } 
-                                    else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
-                                             Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
-                                    {
-                                        Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
-                                    }
-                                    else
-                                    {
-                                        Galaxy.ActionStatement = "NO MORE PLANETS. GO SOUTH OR USE WARP TO TRAVEL FURTHER.";
-                                    }
-                                    break;
-                                // move character north if able. update
-                                // action statement accordingly.
-
-                                case "south":
-                                    if (Galaxy.Player.LocationY > Galaxy.CurrentSystem.GetLowerBound(0) &&
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
-                                    {
-                                        Galaxy.ActionStatement = "YOU GO SOUTH.";
-                                        Galaxy.Player.LocationY--;
-                                    }
-                                    else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
-                                             Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
-                                    {
-                                        Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
-                                    }
-                                    else
-                                    {
-                                        Galaxy.ActionStatement = "NO MORE PLANETS. GO NORTH OR USE WARP TO TRAVEL FURTHER.";
-                                    }
-                                    break;
-                                // move character south if able. update
-                                // action statement accordingly.
-
-                                case "east":
-                                    if (Galaxy.Player.LocationX < Galaxy.CurrentSystem.GetUpperBound(1) &&
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
-                                    {
-                                        Galaxy.ActionStatement = "YOU GO EAST.";
-                                        Galaxy.Player.LocationX++;
-                                    }
-                                    else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
-                                             Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
-                                    {
-                                        Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
-                                    }
-                                    else
-                                    {
-                                        Galaxy.ActionStatement = "NO MORE PLANETS. GO WEST OR USE WARP TO TRAVEL FURTHER.";
-                                    }
-                                    break;
-                                // move character east if able. update
-                                // action statement accordingly.
-
-                                case "west":
-                                    if (Galaxy.Player.LocationX > Galaxy.CurrentSystem.GetLowerBound(1) &&
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
-                                    {
-                                        Galaxy.ActionStatement = "YOU GO WEST.";
-                                        Galaxy.Player.LocationX--;
-                                    }
-                                    else if (Galaxy.Player.LocationY < Galaxy.CurrentSystem.GetUpperBound(0) &&
-                                             Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health != 0)
-                                    {
-                                        Galaxy.ActionStatement = $"{Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name} BLOCKS YOUR PATH.";
-                                    }
-                                    else
-                                    {
-                                        Galaxy.ActionStatement = "NO MORE PLANETS. GO EAST OR USE WARP TO TRAVEL FURTHER.";
-                                    }
-                                    break;
-                                // move character west if able. update
-                                // action statement accordingly.
-
-                                default:
-                                    Galaxy.ActionStatement = "INVALID DIRECTION COMMAND.";
-                                    break;
-                                // alert user to invalid direction input.
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                             }
-                            break;
-                        // handle GO commands.
+                            else if (character == '#')
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            }
+                            else if (character == '^')
+                            {
+                                Console.ForegroundColor = ConsoleColor.Magenta;
+                            }
 
-                        case "attack":
-							if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health > 0)
-							{
-								Galaxy.ActionStatement = Combat.StandardCombat();
-								// perform combat.
+                            Console.Write(character);
+                            Console.ResetColor();
+                        }
+                        // display characters in different colors.
 
-								if (Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health == 0)
-								{
-									Galaxy.Player.Score++;
-									// increment score if player defeats alien.
-
-                                    foreach (IInventory gameObject in Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Inventory)
-									{
-                                        Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory.Add(gameObject);
-                                    }
-                                    // copy alien inv contents to planet inv.
-
-                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Inventory.Clear();
-                                    // clear alien inv.
-
-                                    Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Weapon = new Weapon(name: "none",
-                                                                                                                                     description: "unarmed",
-                                                                                                                                     price: 0,
-                                                                                                                                     quest: false,
-                                                                                                                                     damageType: "none",
-                                                                                                                                     amtOfDamage: 0);
-                                   // set weapon for dead alien.
-
-                                }
-								// transfer alien inventory to planet and increment score if alien dies during combat.
-							}
-							else
-							{
-								Galaxy.ActionStatement = "ITS ALREADY DEAD. ONWARD!";
-							}
-							break;
-						// handle ATTACK command.
-
-						case "warp":
-                            Treasure warpDrive = null;
-                            foreach (Treasure treasure in Galaxy.Treasures)
-							{
-                                if (treasure.Name is "Warp Drive")
-								{
-                                    warpDrive = treasure;
-                                    break;
-								}
-							}
-                            // get warp drive data from treasure list.
-
-                            if (Galaxy.Player.Inventory.Contains(warpDrive))
-							{
-                                Galaxy.Player.Inventory.Remove(warpDrive); // TODO double ccheck this
-                                Galaxy.ActionStatement = "YOU WARPED TO A NEW SYSTEM!";
-                                Galaxy.LoadNewSystem();
-							}
-                            // if found, warp player to new system and update action statement.
-
-                            else
-							{
-                                Galaxy.ActionStatement = "NO WARP DRIVE IN INVENTORY.";
-							}
-                            // if not found, alert user.
-
-                            break;
-                        // handle WARP command.
-
-
-						// TODO add case for LOOK command.
-						// TODO add case for USE command.
-						// TODO add case for PICKUP command.
-						// TODO add case for DROP command.
-
-						case "save":
-                            Galaxy.ActionStatement = DataOps.SaveGame();
-                            break;
-                        // handle SAVE command.
-
-                        case "debug":
-                            CallDebugMenu();
-                            break;
-                        // handle DEBUG command.
-
-                        case "help":
-                            CallHelpMenu();
-                            break;
-                        // handle HELP command.
-
-                        case "exit":
-                            RunStartMenuLoop();
-                            break;
-                        // handle EXIT command.
-
-                        default:
-                            Galaxy.ActionStatement = "INVALID COMMAND.";
-                            break;
-                        // handle invalid commands.
+                        Console.WriteLine();
+                        // write eol.
                     }
-                    // decision struct.
-
-                } while (tokenized_input[0] != "exit");
-            }
-            // main gameplay loop & decision struct.
-
-            void CallAboutMenu()
-            {
-                CallDynamicMenu(line1: "Fight hostile aliens to liberate occupied planets. Save",
-                                line2: "as many worlds as possible to earn a high score!",
-                                line6: "made by Adam Lancaster, Tracey Pinckney, Clarence Dews",
-                                prompt: "press [ENTER] to return");
-                // display dynamic menu and wait for ENTER.
-            }
-            // display about menu & wait for response.
-
-            void CallHelpMenu()
-            {
-                CallDynamicMenu(line1: "NAVIGATION: 'go <north/east/south/west>'",
-                                line2: "INSPECT OBJECT: 'look <object name>'",
-                                line3: "USE/PICKUP/DROP OBJECT: '<use/pickup/drop> <object name>'",
-                                line4: "ATTACK: 'attack'",
-                                line5: "WARP (if player has warp drive): 'warp'",
-                                line7: "SAVE: 'save'          EXIT: 'exit'          HELP: 'help'",
-                                prompt: "press [ENTER] to return");
-                // display dynamic menu and wait for ENTER.
-            }
-            // display help menu & wait for response.
-
-            void CallDebugMenu()
-			{
-                CallDynamicMenu(line1: $"Planet Source: {DataOps.PlanetSource}",
-                                line2: $"Alien Source: {DataOps.AlienSource}",
-                                line3: $"Weapon Source: {DataOps.WeaponSource}",
-                                line4: $"Potion Source: {DataOps.PotionSource}",
-                                line5: $"Treasure Source: {DataOps.TreasureSource}",
-                                line6: $"Item Source: {DataOps.ItemSource}",
-                                line7: $"Save Source: {DataOps.SaveSource}   Load Source: {DataOps.LoadSource}",
-                                prompt: "press [ENTER] to return.");
-			}
-            // display debug menu and wait for response.
-
-            void CallCharCreationSequenceMenu()
-            {
-                string charName = "",
-                       charPassword = "",
-                       charRace = "",
-                       charClass = "";
-                // character attribute vars.
-
-                bool containsCapital = false,
-                     containsLowercase = false,
-                     containsSpecialChar = false;
-                // valid password flags.
-
-                charName = CallDynamicMenu(line1: $"NAME: {charName}",
-                                           line2: $"PASSWORD: {charPassword}",
-                                           line3: $"RACE: {charRace}",
-                                           line4: $"CLASS: {charClass}",
-                                           prompt: "enter NAME");
-                // get name input.
-
-                do
-                {
-                    charPassword = CallDynamicMenu(line1: $"NAME: {charName}",
-                                                   line2: $"PASSWORD: {charPassword}",
-                                                   line3: $"RACE: {charRace}",
-                                                   line4: $"CLASS: {charClass}",
-                                                   prompt: "enter PASSWORD with 1 cap, 1 lowercase, & 1 special.");
-                    // get password input.
-
-                    foreach (char character in charPassword)
-                    {
-                        if (char.IsUpper(character))
-                        {
-                            containsCapital = true;
-                        }
-                        else if (char.IsLower(character))
-                        {
-                            containsLowercase = true;
-                        }
-                        else if (!char.IsLetterOrDigit(character))
-                        {
-                            containsSpecialChar = true;
-                        }
-                    }
-                    // check password for validity and set flags accordingly.
-
-                } while (!containsCapital ||
-                         !containsLowercase ||
-                         !containsSpecialChar);
-                // get validated password input.
-
-                charRace = CallDynamicMenu(line1: $"NAME: {charName}",
-                                           line2: $"PASSWORD: {charPassword}",
-                                           line3: $"RACE: {charRace}",
-                                           line4: $"CLASS: {charClass}",
-                                           prompt: "enter RACE");
-                // get race input.
-
-                charClass = CallDynamicMenu(line1: $"NAME: {charName}",
-                                            line2: $"PASSWORD: {charPassword}",
-                                            line3: $"RACE: {charRace}",
-                                            line4: $"CLASS: {charClass}",
-                                            prompt: "enter CLASS");
-                // get class input.
-
-                Galaxy.Player = new Player(name: charName,
-                                           race: charRace,
-                                           playerClass: charClass,
-                                           password: charPassword,
-                                           health: 50,
-                                           armor: 5,
-                                           locationX: 3,
-                                           locationY: 0,
-                                           money: 0,
-                                           score: 0,
-                                           inventory: new List<IInventory> {Galaxy.Weapons[0]});
-                // create and store character object based on user input.
-            }
-            // display character creation menu & store created character.
-
-            string CallStartMenu()
-            {
-                string[] startMenu =
-                {
-                    @"                   ___      _          .     __      __       .               ",
-                    @"      *   .       / __|__ _| |__ ___ ___  _  \ \    / /_ _ _ _ ___   .        ",
-                    @"   .         .   | (_ / _` | / _` \ \ / || |  \ \/\/ / _` | '_(_-<            ",
-                    @"           o      \___\__,_|_\__,_/_\_\\_, |   \_/\_/\__,_|_| /__/      .     ",
-                    @"            .              .           |__/           .                       ",
-                    @"             0     .                                                          ",
-                    @"       ,      .                 ,                ,    .             ,         ",
-                    @"    .          \          .                         .                         ",
-                    @"        .       \   ,                                                         ",
-                    @"      .          o     .                 .                   .            .   ",
-                    @"             .    \                 ,             .                .          ",
-                    @"                  #\##\#      .                              .        .       ",
-                    @"                #  #O##\###                .                        .         ",
-                    @"      .        #*#  #\##\###                       .                     ,    ",
-                    @"           .   ##*#  #\##\##               .                     .            ",
-                    @"         .      ##*#  #o##\#         .                             ,       .  ",
-                    @"             .     *#  #\#     .                    .             .          ,",
-                    @"                         \          .                         .               ",
-                    @"   ____^/\___^--____/\____O______________/\/\---/\___________---______________",
-                    @"      /\^   ^  ^    ^                  ^^ ^  '\ ^          ^       ---        ",
-                    @"          --           -            --  -      -         ---  __       ^      ",
-                    @"      --  __                      ___--  ^  ^                         --  __  ",
-                    @"   +-------------------------------------------------------------------------+",
-                    @"   |                                                                         |",
-                    @"   |      NEW           LOAD          HELP          ABOUT          EXIT      |",
-                    @"   |                                                                         |",
-                    @"   +-------------------------------------------------------------------------+"
-                };
-                // menu to display.
-
-                string titleChars = @"_\/|`-(<,'";
-                // characters in title ascii art to be displayed in special color. 
-
-                for (int index = 0; index < startMenu.Length; index++)
-                {
-                    foreach (char character in startMenu[index])
-                    {
-                        if (index < 6 && 
-                            titleChars.Contains(character))
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                        }
-                        else if (character == '#') 
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        }
-                        else if (character == '^')
-                        {
-                            Console.ForegroundColor = ConsoleColor.Magenta;
-                        }
-
-                        Console.Write(character);
-                        Console.ResetColor();
-                    }
-                    // display characters in different colors.
-
-                    Console.WriteLine();
-                    // write eol.
+                    // print styled frame.
                 }
-                // print start menu and with styling. 
-
-                return Console.ReadLine().ToLower();
-                // get user input and return.
-            }
-            // display start menu & return user input.
-
-            string CallGameplayFrame()
-            {
-                const int MaxLength = 30;
-                const char Delimiter = ',';
-                // consts.
-
-                string[] map = new string[9];
-                // map array for course visualization.
-
-                string planetName = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Name,
-                       playerName = Galaxy.Player.Name,
-                       playerClass = Galaxy.Player.PlayerClass,
-                       alienName = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Name,
-                       score = Galaxy.Player.Score.ToString(),
-                       planetPopulation = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Population.ToString(),
-                       playerHealth = Galaxy.Player.Health.ToString(),
-                       alienHealth = Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Alien.Health.ToString(),
-                       actionStatement = Galaxy.ActionStatement,
-                       planetItems = ListOps.GetLimitedElements(InventoryOps.GetItems(Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory),
-                                                                Delimiter,
-                                                                MaxLength),
-                       planetWeapons = ListOps.GetLimitedElements(InventoryOps.GetWeapons(Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory),
-                                                                  Delimiter,
-                                                                  MaxLength),
-                       planetTreasures = ListOps.GetLimitedElements(InventoryOps.GetTreasures(Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory),
-                                                                    Delimiter,
-                                                                    MaxLength),
-                       planetPotions = ListOps.GetLimitedElements(InventoryOps.GetPotions(Galaxy.CurrentSystem[Galaxy.Player.LocationY, Galaxy.Player.LocationX].Inventory),
-                                                                  Delimiter,
-                                                                  MaxLength);
-                // get state info and convert to formatted string if needed.
-
-
-                for (int rowIndex = 0; rowIndex < Galaxy.CurrentSystem.GetLength(0); rowIndex++)
-                {
-                    string result = "";
-                    // var for resulting string of symbols.
-
-                    for (int columnIndex = 0; columnIndex < Galaxy.CurrentSystem.GetLength(1); columnIndex++)
+                // display stylized start frame.
+                else if (context is 3)
+				{
+                    foreach (string line in frame)
                     {
+                        Console.Write("   ");
+                        // write whitespace buffer.
 
-                        if (Galaxy.Player.LocationX == columnIndex &&
-                                 Galaxy.Player.LocationY == rowIndex)
+                        foreach (char character in line)
                         {
-                            result = $"{result}^";
+                            if (character == '*')
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            }
+                            else if (character == '^')
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                            }
+                            Console.Write(character);
+                            Console.ResetColor();
                         }
-                        else if (Galaxy.CurrentSystem[rowIndex, columnIndex].Name == "Space")
-                        {
-                            result = $"{result} ";
-                        }
-                        else if (Galaxy.CurrentSystem[rowIndex, columnIndex].Alien.Health > 0) 
-                        {
-                            result = $"{result}O";
-                        }
-                        else if (Galaxy.CurrentSystem[rowIndex, columnIndex].Alien.Health == 0) 
-                        {
-                            result = $"{result}0";
-                        }
-                        // display appropriate character based on object locations.
-                    }
-                    // create string of symbols representing object positions.
-
-                    map[rowIndex] = result;
-                    // insert resulting string into map array at correct position.
+                        Console.WriteLine();
+                    } 
                 }
-                // fill map array with appropriate symbols.
-
-                score = String.Format("{0, 3}", score);							//
-                planetName = String.Format("{0, -30}", planetName);				//
-                planetPopulation = String.Format("{0, -18}", planetPopulation);	//
-                planetItems = String.Format("{0, -30}", planetItems);			//
-                planetWeapons = String.Format("{0, -30}", planetWeapons);		//
-                planetTreasures = String.Format("{0, -30}", planetTreasures);	//
-                planetPotions = String.Format("{0, -30}", planetPotions);		//
-                actionStatement = String.Format("{0, -75}", actionStatement);	//
-                playerName = String.Format("{0, -75}", playerName);				//
-                playerClass = String.Format("{0, -18}", playerClass);			//
-                playerHealth = String.Format("{0, -14}", playerHealth);			//					
-                alienHealth = String.Format("{0, 13}", alienHealth);			//
-                alienName = String.Format("{0, 30}", alienName);				//
-                // format strings for proper display. 
-
-                string[] mainGameFrame =
-                {
-                    @"                                   GALAXY WARS                                ",		// 1
-                    $"        .                           SCORE: {score}       ,                        ",
-                    @"               *                          ,                      .            ",
-                    @"   PLANET    ,              .                      .                     ALIEN",
-                    $"   {planetName}       ,       {alienName}",											// 5
-                    $"   {planetPopulation}    ,                            *          {alienHealth}",
-                    @"      .                                                      .                ",
-                    @"   LOCAL ITEMS    ,                               .                        ,  ",
-                    $"   {planetItems}                                        MAP",
-                    $"                           *                                ,          {map[8]}",	// 10
-                    $"   LOCAL WEAPONS    .                  .                               {map[7]}",
-                    $"   {planetWeapons}                                      {map[6]}",
-                    $"    ,                                       ,      .                   {map[5]}",
-                    $"   LOCAL TREASURES          .                                 .        {map[4]}",
-                    $"   {planetTreasures}                                      {map[3]}",					// 15
-                    $"             .                        .             *                  {map[2]}",
-                    $"   LOCAL POTIONS               ,                         .             {map[1]}",
-                    $"   {planetPotions}                                      {map[0]}",
-                    @"   .                                 *                             ,          ",
-                    @"                  ,                             .         .                   ",		// 20
-                    @"   ---------------------------------------------------------------------------",
-                    $"   {actionStatement}",
-                    @"   ---------------------------------------------------------------------------",
-                    $"   {playerName}",
-                    $"   {playerClass}  ENTER A COMMAND, OR 'HELP' FOR INFO                    ",			// 25
-                    $"   {playerHealth}                                                             ",
-                    @"   ---------------------------------------------------------------------------"		// 27
-                };
-                // main gameplay frame.
-
-                foreach (string line in mainGameFrame)
-                {
-                    foreach (char character in line)
+                // display stylized game frame.
+                else
+				{
+                    foreach (string line in frame)
                     {
-                        if (character == '*')
+                        Console.Write("   ");
+                        // write whitespace buffer.
+
+                        foreach (char character in line)
                         {
-                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            if (char.IsLetterOrDigit(character))
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                            }
+                            else if (character == '*')
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            }
+                            // set color for character.
+
+                            Console.Write(character);
+                            Console.ResetColor();
+                            // write character and reset color for next iter.
                         }
-                        else if (character == '^')
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        }
-                        Console.Write(character);
-                        Console.ResetColor();
+                        // write styled line of menu.
+
+                        Console.WriteLine();
+                        // write eol.
                     }
-                    Console.WriteLine();
                 }
-                // display frame with styling.
-
-                return Console.ReadLine().ToLower();
-                // get input and convert to lowercase. 
+                // display stylized dynamic frame.
             }
-            // display gameplay frame & get user input.
-            
-            string CallDynamicMenu(string line1 = "",
-                                   string line2 = "",
-                                   string line3 = "",
-                                   string line4 = "",
-                                   string line5 = "",
-                                   string line6 = "",
-                                   string line7 = "",
-                                   string prompt = "")
-            { 
-                if (line1.Length > 57 || 
-                    line2.Length > 57 ||
-                    line3.Length > 57 ||
-                    line4.Length > 57 ||
-                    line5.Length > 57 ||
-                    line6.Length > 57 ||
-                    line7.Length > 57 ||
-                    prompt.Length > 57)
-                {
-                    throw new Exception("an arg exceeds char limit of 57.");
-                }
-                // throw exception if any args exceed intended length.
-
-                line1 = String.Format("{0, -57}", line1);
-                line2 = String.Format("{0, -57}", line2);
-                line3 = String.Format("{0, -57}", line3);
-                line4 = String.Format("{0, -57}", line4);
-                line5 = String.Format("{0, -57}", line5);
-                line6 = String.Format("{0, -57}", line6);
-                line7 = String.Format("{0, -57}", line7);
-                prompt = String.Format("{0, -57}", prompt);
-                // format all strings for appropriate viewing.
-
-                string[] dynamicMenu =
-                {
-                    @"                          .                                           ,       ", // 1
-                    @"           .                         ,            .              .            ",
-                    @"    ,                .                 .                                      ",
-                    @"            .                 *                ,          .                   ",
-                    @"                 ,                                                     .      ", // 5
-                    $"       *    {line1}         ",
-                    @"     .                   .       ,                 .                     .    ",
-                    $"         .  {line2}         ",
-                    @"          ,                                 ,                       .         ",
-                    $"            {line3}      *  ",													// 10
-                    @"       .                    .         .                   ,             ,     ",
-                    $"            {line4}         ",
-                    @"   ,                .                    ,                     .           .  ",
-                    $"            {line5}         ",
-                    @"           .                         ,            .       *      .            ", // 15
-                    $"    ,       {line6}   ,     ",
-                    @"            .                 *                ,          .                   ",
-                    $"            {line7}     ,   ",
-                    @"          .                                           ,                       ",
-                    @"                                   .                            .             ", // 20
-                    @"                .        ,                    .                               ",
-                    @"       ,                                             ,                  ,     ",
-                    @"   +-------------------------------------------------------------------------+",
-                    @"   |                                                                         |",
-                    $"   |        {prompt}        |",													// 25
-                    @"   |                                                                         |",
-                    @"   +-------------------------------------------------------------------------+"  // 27
-                };
-                // menu to display. 
-
-                foreach (string line in dynamicMenu)
-                {
-                    foreach (char character in line)
-                    {
-                        if (char.IsLetterOrDigit(character))
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        }
-                        else if (character == '*')
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        }
-                        // set color for character.
-
-                        Console.Write(character);
-                        Console.ResetColor();
-                        // write character and reset color for next iter.
-                    }
-                    // write styled line of menu.
-
-                    Console.WriteLine();
-                    // write eol.
-                }
-                // display dynamic menu with styling.
-
-                return Console.ReadLine();
-                // get input, format as lowercase and return.
-            }
-            // display dynamic menu with desired info and prompt.
-
-            StartGame();
+            // write stylized frame to console. 
         }
     }
 }
