@@ -74,6 +74,32 @@ namespace GalaxyWarsClassLibrary
 			}
             // get first weapon from inventory and set as equipped weapon.
         }
+
+        public Player(string name)
+		{
+            _name = name;
+
+            _race = null;
+            _playerClass = null;
+            _password = null;
+            _health = 50;
+            _armor = 5;
+            _score = 0;
+            _money = 0;
+            _locationX = 3;
+            _locationY = 0;
+            _inventory = new List<IInventory> { Galaxy.Weapons[0] };
+
+            foreach (IInventory gameObject in _inventory)
+            {
+                if (gameObject.GetType() == typeof(Weapon))
+                {
+                    _weapon = (Weapon)gameObject;
+                    break;
+                }
+            }
+            // get first weapon from inventory and set as equipped weapon.
+        }
         // constructors.
 
         /// <summary>
@@ -82,6 +108,7 @@ namespace GalaxyWarsClassLibrary
         public string Race
         {
             get { return _race; }
+            set { _race = value; }
         }
 
         /// <summary>
@@ -90,6 +117,7 @@ namespace GalaxyWarsClassLibrary
         public string PlayerClass
         {
             get { return _playerClass; }
+            set { _playerClass = value; }
         }
 
         /// <summary>
@@ -98,6 +126,7 @@ namespace GalaxyWarsClassLibrary
         public string Password
         {
             get { return _password; }
+            set { _password = value; }
         }
 
         /// <summary>
