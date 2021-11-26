@@ -94,5 +94,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\space3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GalaxyWarsClassLibrary\GalaxyWarsClassLibrary.csproj">
+      <Project>{79a91f22-de92-48c0-a337-548360b095af}</Project>
+      <Name>GalaxyWarsClassLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
