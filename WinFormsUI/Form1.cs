@@ -25,10 +25,14 @@ namespace WinFormsUI
         }
         private void playSubmitButton_Click_1(object sender, EventArgs e)
         {
-            OutputDisplay(Controller.CallFrame());
-
+            if(playSubmitButton.Text is "Play")
+            {
+                playSubmitButton.Text = "Submit";
+            }
             Controller.Update(userInputTextBox.Text);
             // get input and update game state. 
+
+            OutputDisplay(Controller.CallFrame());
 
             ClearInput();
             // clear text box in prep for next entry.
