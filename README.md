@@ -35,5 +35,5 @@ collect powerful weapons and artifacts.
 
 ## About
 
-This project was made by Adam Lancaster, Tracey Pinckney, and Clarence Dews.
+This project was made by Adam Lancaster and Tracey Pinckney.
 No aliens were harmed in the production of this game.
