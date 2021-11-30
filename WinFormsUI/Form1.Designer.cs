@@ -42,9 +42,10 @@ namespace WinFormsUI
             // playSubmitButton
             // 
             this.playSubmitButton.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.playSubmitButton.Location = new System.Drawing.Point(518, 432);
+            this.playSubmitButton.Location = new System.Drawing.Point(388, 351);
+            this.playSubmitButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.playSubmitButton.Name = "playSubmitButton";
-            this.playSubmitButton.Size = new System.Drawing.Size(107, 36);
+            this.playSubmitButton.Size = new System.Drawing.Size(80, 29);
             this.playSubmitButton.TabIndex = 0;
             this.playSubmitButton.Text = "Play";
             this.playSubmitButton.UseVisualStyleBackColor = true;
@@ -53,9 +54,10 @@ namespace WinFormsUI
             // clearButton
             // 
             this.clearButton.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.clearButton.Location = new System.Drawing.Point(518, 474);
+            this.clearButton.Location = new System.Drawing.Point(388, 385);
+            this.clearButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(107, 36);
+            this.clearButton.Size = new System.Drawing.Size(80, 29);
             this.clearButton.TabIndex = 1;
             this.clearButton.Text = "Clear";
             this.clearButton.UseVisualStyleBackColor = true;
@@ -64,9 +66,10 @@ namespace WinFormsUI
             // exitButton
             // 
             this.exitButton.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.exitButton.Location = new System.Drawing.Point(518, 516);
+            this.exitButton.Location = new System.Drawing.Point(388, 419);
+            this.exitButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(107, 36);
+            this.exitButton.Size = new System.Drawing.Size(80, 29);
             this.exitButton.TabIndex = 2;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = true;
@@ -76,10 +79,11 @@ namespace WinFormsUI
             // 
             this.userInputTextBox.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.userInputTextBox.ForeColor = System.Drawing.SystemColors.Control;
-            this.userInputTextBox.Location = new System.Drawing.Point(12, 432);
+            this.userInputTextBox.Location = new System.Drawing.Point(9, 351);
+            this.userInputTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.userInputTextBox.Multiline = true;
             this.userInputTextBox.Name = "userInputTextBox";
-            this.userInputTextBox.Size = new System.Drawing.Size(500, 126);
+            this.userInputTextBox.Size = new System.Drawing.Size(376, 103);
             this.userInputTextBox.TabIndex = 3;
             // 
             // displayOutputTextBox
@@ -88,23 +92,28 @@ namespace WinFormsUI
             this.displayOutputTextBox.Enabled = false;
             this.displayOutputTextBox.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.displayOutputTextBox.HideSelection = false;
-            this.displayOutputTextBox.Location = new System.Drawing.Point(12, 12);
+            this.displayOutputTextBox.Location = new System.Drawing.Point(9, 10);
+            this.displayOutputTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.displayOutputTextBox.Multiline = true;
             this.displayOutputTextBox.Name = "displayOutputTextBox";
-            this.displayOutputTextBox.Size = new System.Drawing.Size(617, 414);
+            this.displayOutputTextBox.Size = new System.Drawing.Size(464, 337);
             this.displayOutputTextBox.TabIndex = 4;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(645, 568);
+            this.ClientSize = new System.Drawing.Size(484, 462);
             this.Controls.Add(this.displayOutputTextBox);
             this.Controls.Add(this.userInputTextBox);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.playSubmitButton);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
+            this.ShowIcon = false;
             this.Text = "GalaxyWars";
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
