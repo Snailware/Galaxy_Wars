@@ -33,6 +33,19 @@ collect powerful weapons and artifacts.
 <br>
 <br>
 
+## Quick Start Guide
+
+To play the game, the user must first create the database to be used for
+program. 
+1. First, select the class library and Add a service based database using 
+built in VS tools, and name it "GalaxyWarsDB.mdf".
+2. Then repeat the first step, but this time make a text file called
+"ConnectionString.txt". 
+3. copy the text from the connection string property of GalaxyWarsDB
+and paste it into the ConnectionString.txt file. 
+4. Run script at https://github.com/TraceyP89/Master-Script to fill 
+database.
+
 ## About
 
 This project was made by Adam Lancaster and Tracey Pinckney.
